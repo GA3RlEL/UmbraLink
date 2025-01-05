@@ -2,9 +2,11 @@ nav {
   padding-top: 1rem;
   padding: 0 1rem;
   width: 100%;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: space-around;
   align-items: center;
+  justify-items: center;
 }
 
 .left {
