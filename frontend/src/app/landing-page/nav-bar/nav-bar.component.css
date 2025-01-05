@@ -1,5 +1,5 @@
 nav {
-  margin-top: 1rem;
+  padding-top: 1rem;
   padding: 0 1rem;
   width: 100%;
   display: flex;
@@ -28,6 +28,8 @@ nav {
 ul {
   list-style: none;
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 2rem;
   font-size: 1.8rem;
 }
@@ -44,6 +46,7 @@ a {
   border-radius: 9999px;
   border: 1px solid white;
   transition: all ease-in-out 0.3s;
+  font-size: 1.8rem;
 }
 
 .btn:hover {
@@ -64,6 +67,15 @@ a {
   width: 0%;
   height: 2px;
   transition: all 0.3s ease-in-out;
+}
+
+.nav-link {
+  display: block;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-link:hover {
+  transform: translateY(-5px);
 }
 
 .nav-element::after {
