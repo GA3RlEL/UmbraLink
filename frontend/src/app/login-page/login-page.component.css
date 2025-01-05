@@ -1,0 +1,119 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  color: black;
+  background-color: white;
+  border-radius: 6px;
+  max-width: 70%;
+  overflow: hidden;
+}
+
+.input-container {
+  position: relative;
+  width: 100%;
+}
+
+.input-container input {
+  width: 100%;
+}
+
+form a {
+  align-self: center;
+  cursor: pointer;
+}
+form p {
+  color: gray;
+  text-decoration: underline;
+}
+
+.btn-submit {
+  border: none;
+  background-color: #1a1a1a;
+  width: 50%;
+  margin: auto;
+  color: white;
+  padding: 2rem 3rem;
+  border-radius: 99999px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.btn-signup {
+  border: 1px solid #1a1a1a;
+  width: 50%;
+  margin: 0 auto;
+  color: white;
+  padding: 2rem 3rem;
+  border-radius: 999999px;
+  background-color: transparent;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.icon {
+  width: 2rem;
+  height: 2rem;
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+}
+
+.input {
+  border: none;
+  padding: 2rem 3rem;
+  background-color: #f3f7f6;
+}
+
+.login {
+  display: grid;
+  grid-template-columns: 70fr 30fr;
+  gap: 4rem;
+}
+
+.left,
+.right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.right {
+  background-color: #767676;
+  padding: 0rem 5rem;
+  color: white;
+}
+
+.right p {
+  text-align: center;
+}
+
+.left {
+  padding: 6rem 5rem;
+}
+
+h2 {
+  font-size: 2rem;
+  text-align: center;
+}
+
+p {
+  font-size: 1.25rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  /* align-items: center; */
+  gap: 2rem;
+}
+
+.normal-weight {
+  font-weight: normal;
+}

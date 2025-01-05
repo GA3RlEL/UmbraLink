@@ -6,7 +6,7 @@
   <div class="middle">
     <ul>
       <li class="nav-element">
-        <a class="nav-link" href="#">Home</a>
+        <a class="nav-link" [routerLink]="['/']">Home</a>
       </li>
       <li class="nav-element">
         <a class="nav-link" href="#">About us</a>
@@ -20,6 +20,6 @@
     </ul>
   </div>
   <div class="right">
-    <a href="#" class="btn">Login</a>
+    <a [routerLink]="['/login']" class="btn">Login</a>
   </div>
 </nav>
