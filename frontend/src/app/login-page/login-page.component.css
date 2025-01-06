@@ -5,8 +5,9 @@
 }
 
 .container {
-  color: black;
-  background-color: white;
+  color: white;
+  border: 2px solid white;
+  box-shadow: 0px 2px 5px rgba(255, 255, 255, 0.8);
   border-radius: 6px;
   max-width: 70%;
   overflow: hidden;
@@ -32,18 +33,23 @@ form p {
 
 .btn-submit {
   border: none;
-  background-color: #1a1a1a;
+  background-color: white;
   width: 50%;
   margin: auto;
-  color: white;
+  color: black;
   padding: 2rem 3rem;
   border-radius: 99999px;
   cursor: pointer;
   text-transform: uppercase;
 }
 
+.btn-submit:disabled {
+  cursor: not-allowed;
+  opacity: 50%;
+}
+
 .btn-signup {
-  border: 1px solid #1a1a1a;
+  border: 1px solid white;
   width: 50%;
   margin: 0 auto;
   color: white;
@@ -73,6 +79,8 @@ form p {
   display: grid;
   grid-template-columns: 70fr 30fr;
   gap: 4rem;
+  position: relative;
+  width: 100%;
 }
 
 .left,
@@ -84,9 +92,10 @@ form p {
 }
 
 .right {
-  background-color: #767676;
+  border-left: 1px solid white;
   padding: 0rem 5rem;
   color: white;
+  right: 0;
 }
 
 .right p {
@@ -109,11 +118,13 @@ p {
 form {
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  /* align-items: center; */
   gap: 2rem;
 }
 
 .normal-weight {
   font-weight: normal;
+}
+
+input.ng-invalid.ng-touched.ng-dirty {
+  border: 1px solid red;
 }

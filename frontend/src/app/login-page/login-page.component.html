@@ -1,29 +1,94 @@
 <div class="container">
   <div class="login">
     <div class="left">
+      @if (isLoginForm) {
       <h2>Sign in to Umbra<span class="normal-weight">Link</span></h2>
-      <form>
+      <form [formGroup]="loginFrom" (submit)="submitLoginForm()">
         <div class="input-container">
           <img class="icon" src="email.svg" />
-          <input class="input" type="email" placeholder="Email" />
+          <input
+            formControlName="email"
+            class="input"
+            type="email"
+            placeholder="Email"
+            required
+          />
         </div>
 
         <div class="input-container">
           <img class="icon" src="password.svg" />
-          <input class="input" type="password" placeholder="Password" />
+          <input
+            formControlName="password"
+            class="input"
+            type="password"
+            placeholder="Password"
+            required
+          />
         </div>
 
         <a><p>Forgot your password?</p></a>
 
-        <input type="submit" class="btn-submit" value="Sign In" />
+        <input
+          [disabled]="loginFrom.invalid"
+          type="submit"
+          class="btn-submit"
+          value="Sign In"
+        />
       </form>
+      }@else {
+      <h2>Sign up to Umbra<span class="normal-weight">Link</span></h2>
+      <form [formGroup]="registerForm" (submit)="submitRegisterForm()">
+        <div class="input-container">
+          <img class="icon" src="user.svg" />
+          <input
+            formControlName="userName"
+            class="input"
+            type="text"
+            placeholder="Username"
+          />
+        </div>
+
+        <div class="input-container">
+          <img class="icon" src="email.svg" />
+          <input
+            formControlName="email"
+            class="input"
+            type="email"
+            placeholder="Email"
+          />
+        </div>
+
+        <div class="input-container">
+          <img class="icon" src="password.svg" />
+          <input
+            formControlName="password"
+            class="input"
+            type="password"
+            placeholder="Password"
+          />
+        </div>
+
+        <input
+          [disabled]="registerForm.invalid"
+          type="submit"
+          class="btn-submit"
+          value="Sign In"
+        />
+      </form>
+      }
     </div>
     <div class="right">
+      @if (isLoginForm) {
       <h2>Hello, Friend</h2>
       <p>Join the UmbraLink community: Your chat journey begins here.</p>
 
-      <button class="btn-signup">Sign up</button>
+      <button (click)="changeForm()" class="btn-signup">Sign up</button>
+      }@else{
+      <h2>Have an account?</h2>
+      <p>Log in to UmbraLink: Continue your chat journey.</p>
+
+      <button (click)="changeForm()" class="btn-signup">Sign in</button>
+      }
     </div>
   </div>
-  <div class="register"></div>
 </div>
