@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CssSelector } from '@angular/compiler';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -7,6 +8,17 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
   imports: [ReactiveFormsModule],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css',
+  animations: [
+    trigger('changeVisibility', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('1s ease-in', style({ opacity: 1 }))
+      ]),
+      transition(':leave', [
+        style({ opacity: 0, position: 'absolute' })
+      ])
+    ])
+  ]
 })
 export class LoginPageComponent {
   isLoginForm = true;

@@ -3,7 +3,11 @@
     <div class="left">
       @if (isLoginForm) {
       <h2>Sign in to Umbra<span class="normal-weight">Link</span></h2>
-      <form [formGroup]="loginFrom" (submit)="submitLoginForm()">
+      <form
+        @changeVisibility
+        [formGroup]="loginFrom"
+        (submit)="submitLoginForm()"
+      >
         <div class="input-container">
           <img class="icon" src="email.svg" />
           <input
@@ -37,7 +41,11 @@
       </form>
       }@else {
       <h2>Sign up to Umbra<span class="normal-weight">Link</span></h2>
-      <form [formGroup]="registerForm" (submit)="submitRegisterForm()">
+      <form
+        @changeVisibility
+        [formGroup]="registerForm"
+        (submit)="submitRegisterForm()"
+      >
         <div class="input-container">
           <img class="icon" src="user.svg" />
           <input
@@ -79,15 +87,20 @@
     </div>
     <div class="right">
       @if (isLoginForm) {
-      <h2>Hello, Friend</h2>
-      <p>Join the UmbraLink community: Your chat journey begins here.</p>
+      <div @changeVisibility class="right-container">
+        <h2>Hello, Friend</h2>
+        <p>Join the UmbraLink community: Your chat journey begins here.</p>
+        <button (click)="changeForm()" class="btn-signup">Sign up</button>
+      </div>
 
-      <button (click)="changeForm()" class="btn-signup">Sign up</button>
       }@else{
-      <h2>Have an account?</h2>
-      <p>Log in to UmbraLink: Continue your chat journey.</p>
+      <div @changeVisibility class="right-container">
+        <h2>Have an account?</h2>
+        <p>Log in to UmbraLink: Continue your chat journey.</p>
 
-      <button (click)="changeForm()" class="btn-signup">Sign in</button>
+        <button (click)="changeForm()" class="btn-signup">Sign in</button>
+      </div>
+
       }
     </div>
   </div>

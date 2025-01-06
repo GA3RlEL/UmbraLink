@@ -90,6 +90,12 @@ form p {
   justify-content: center;
   gap: 2rem;
 }
+.right-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+}
 
 .right {
   border-left: 1px solid white;
