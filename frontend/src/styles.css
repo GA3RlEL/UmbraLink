@@ -11,3 +11,13 @@ html {
   color: white;
   font-family: sans-serif;
 }
+
+::-webkit-scrollbar {
+  background-color: transparent;
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #313131;
+  border-radius: 9999px;
+}

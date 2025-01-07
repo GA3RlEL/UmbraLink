@@ -1,0 +1,57 @@
+<div class="top-bar">
+  <div class="user">
+    <div class="profile-picture">
+      <img class="avatar" src="user.jpg" alt="profile pictore" />
+      <div [style.background-color]="dotColor" class="dot profile-dot"></div>
+    </div>
+    <div class="user-info">
+      <h2>Test</h2>
+      <div class="user-status">
+        <select [(ngModel)]="dotColor" class="status" name="status" id="status">
+          <option value="green">Online</option>
+          <option value="yellow">Be right back</option>
+          <option value="red">Busy</option>
+          <option value="transparent">Offline</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="searchbar">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 512 512">
+      <path
+        d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
+        fill="none"
+        stroke="currentColor"
+        stroke-miterlimit="10"
+        stroke-width="32"
+      />
+      <path
+        fill="none"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-miterlimit="10"
+        stroke-width="32"
+        d="M338.29 338.29L448 448"
+      />
+    </svg>
+    <input
+      type="text"
+      class="search-people"
+      placeholder="Search for people or group"
+    />
+  </div>
+  <hr />
+</div>
+<div class="bottom-bar">
+  <a href="#" class="conversation">
+    <div class="conversation-picture-container">
+      <img class="avatar" src="profile.jpg" alt="profile picture" />
+      <div class="dot profile-dot"></div>
+    </div>
+
+    <div class="message-container">
+      <h3>John Doe</h3>
+      <p>Hey, how are you?</p>
+    </div>
+  </a>
+</div>

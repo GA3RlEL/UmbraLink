@@ -1,0 +1,147 @@
+:host {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  overflow: hidden;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.user {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+
+.user-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.status {
+  background-color: transparent;
+  border: none;
+  color: white;
+}
+
+.user-status {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.dot {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
+  border: 1px solid white;
+}
+
+option {
+  color: black;
+}
+
+.user-info {
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+}
+
+.avatar {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 9999px;
+}
+
+.search-people {
+  background-color: transparent;
+  color: white;
+  border: none;
+  padding: 1rem 2.5rem;
+  background-color: #767676;
+  border-radius: 9999999px;
+}
+
+.icon {
+  width: 2rem;
+  height: 2rem;
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  transform: translateY(-50%);
+}
+
+.searchbar {
+  position: relative;
+}
+
+::placeholder {
+  color: white;
+}
+
+hr {
+  width: 70%;
+  border: none;
+  border-top: 2px solid white;
+  border-radius: 99999px;
+  opacity: 50%;
+  margin: 0 auto;
+}
+
+.bottom-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: scroll;
+}
+
+.conversation {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 3rem;
+}
+
+.message-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-direction: column;
+}
+
+a:link,
+a:visited,
+a:active {
+  text-decoration: none;
+  color: white;
+}
+
+a {
+  transition: all 0.3s ease-in-out;
+}
+
+a:hover {
+  background-color: #767676;
+  border-radius: 99999px;
+}
+
+.profile-picture {
+  position: relative;
+}
+
+.conversation-picture-container {
+  position: relative;
+}
+
+.profile-dot {
+  position: absolute;
+  right: 5px;
+  background-color: green;
+  bottom: 5px;
+}
