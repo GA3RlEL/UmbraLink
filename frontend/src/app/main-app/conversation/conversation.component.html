@@ -1,1 +1,35 @@
-<p>conversation works!</p>
+<div class="conversation">
+  @for (message of messages; track $index; ) { @if(message.receiver_id ===
+  user_id) {
+  <div class="receiver-field">
+    <div class="message-container">
+      <div class="message-block">
+        <p>{{ message.message }}</p>
+      </div>
+    </div>
+  </div>
+  }@else {
+  <div class="sender-field">
+    <div class="message-container">
+      @if(isLastMessageFromSender($index)) {
+      <img class="avatar" src="profile.jpg" alt="profile picture" />
+      }
+      <div class="message-block">
+        <p>{{ message.message }}</p>
+      </div>
+    </div>
+  </div>
+
+  } }
+</div>
+
+<div class="message-input">
+  <div class="message">
+    <input [(ngModel)]="message" type="text" name="message" id="message" />
+    @if(message.length > 0){
+    <button @sendButton class="send-button">
+      <img src="send.svg" alt="send" class="send" />
+    </button>
+    }
+  </div>
+</div>
