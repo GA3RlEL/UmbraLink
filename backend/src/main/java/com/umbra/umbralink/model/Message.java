@@ -22,11 +22,11 @@ public class Message {
 
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "receiver_id")
-  private User receiver;
+  private UserEntity receiver;
 
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "sender_id")
-  private User sender;
+  private UserEntity sender;
 
   private String message;
 

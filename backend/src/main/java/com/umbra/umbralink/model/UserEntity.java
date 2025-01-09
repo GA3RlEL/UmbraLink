@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 @Data
 @NoArgsConstructor
-public class User {
+public class UserEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -23,6 +23,7 @@ public class User {
   private String username;
   private String email;
   private String password;
+  private String roles;
 
   @OneToMany(mappedBy = "sender")
   private List<Message> sentMessages;
