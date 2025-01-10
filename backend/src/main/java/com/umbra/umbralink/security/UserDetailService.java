@@ -1,4 +1,4 @@
-package com.umbra.umbralink.service;
+package com.umbra.umbralink.security;
 
 import java.util.Optional;
 
@@ -21,17 +21,17 @@ public class UserDetailService implements UserDetailsService {
   }
 
   @Override
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    Optional<UserEntity> userOptional = userRepository.findByUsername(username);
+  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    Optional<UserEntity> userOptional = userRepository.findByEmail(email);
     if (userOptional.isPresent()) {
       UserEntity user = userOptional.get();
       return User.builder()
-          .username(username)
+          .username(user.getUsername())
           .password(user.getPassword())
           .roles(getRoles(user))
           .build();
     } else {
-      throw new UsernameNotFoundException(username);
+      throw new UsernameNotFoundException(email);
     }
   }
 

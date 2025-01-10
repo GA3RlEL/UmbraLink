@@ -3,7 +3,7 @@ package com.umbra.umbralink.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.umbra.umbralink.jwt.JwtService;
-import com.umbra.umbralink.service.UserDetailService;
+import com.umbra.umbralink.security.UserDetailService;
 
 @RestController
 public class LoginController {
