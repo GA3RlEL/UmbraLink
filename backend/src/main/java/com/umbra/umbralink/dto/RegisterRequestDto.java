@@ -3,7 +3,7 @@ package com.umbra.umbralink.dto;
 import lombok.Data;
 
 @Data
-public class RegisterRequest {
+public class RegisterRequestDto {
   private String email;
   private String username;
   private String password;

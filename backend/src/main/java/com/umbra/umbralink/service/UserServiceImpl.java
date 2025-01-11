@@ -1,13 +1,12 @@
 package com.umbra.umbralink.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.umbra.umbralink.dto.RegisterRequest;
-import com.umbra.umbralink.model.Role;
+import com.umbra.umbralink.dto.RegisterRequestDto;
+
 import com.umbra.umbralink.model.UserEntity;
 import com.umbra.umbralink.repository.UserRepository;
 
@@ -28,7 +27,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public UserEntity register(RegisterRequest registerRequest) {
+  public UserEntity register(RegisterRequestDto registerRequest) {
     if (userRepository.existsByEmail(registerRequest.getEmail())) {
       throw new RuntimeException("User with email: " + registerRequest.getEmail() + " already exists");
     }

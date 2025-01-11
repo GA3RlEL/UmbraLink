@@ -1,10 +1,7 @@
 package com.umbra.umbralink.model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,8 +23,7 @@ public class UserEntity {
   private String username;
   private String email;
   private String password;
-  @ElementCollection
-  private List<Role> roles = new ArrayList<>(List.of(new Role("USER")));
+  private String role = "USER";
 
   @OneToMany(mappedBy = "sender")
   private List<Message> sentMessages;

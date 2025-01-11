@@ -26,7 +26,7 @@ public class UserDetailService implements UserDetailsService {
     if (userOptional.isPresent()) {
       UserEntity user = userOptional.get();
       return User.builder()
-          .username(user.getUsername())
+          .username(user.getEmail())
           .password(user.getPassword())
           .roles(getRoles(user))
           .build();
@@ -35,8 +35,12 @@ public class UserDetailService implements UserDetailsService {
     }
   }
 
-  private String getRoles(UserEntity user) {
-    return "";
+  private String[] getRoles(UserEntity user) {
+    if (user.getRole().isEmpty()) {
+      return new String[] { "USER" };
+    } else {
+      return user.getRole().split(",");
+    }
   }
 
 }
