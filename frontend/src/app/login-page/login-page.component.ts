@@ -2,6 +2,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { CssSelector } from '@angular/compiler';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '../service/auth.service';
+import { loginRequest } from '../model/auth';
 
 @Component({
   selector: 'app-login-page',
@@ -32,6 +34,8 @@ export class LoginPageComponent {
     password: new FormControl('', [Validators.required]),
   })
 
+  constructor(private auth: AuthService) { }
+
 
   changeForm() {
     this.isLoginForm = !this.isLoginForm
@@ -40,9 +44,11 @@ export class LoginPageComponent {
   }
 
   submitLoginForm() {
-    console.log(this.loginFrom.value);
-    console.log(this.loginFrom.errors);
-    console.log(this.loginFrom);
+    const loginData: loginRequest = {
+      email: this.loginFrom.value['email']!,
+      password: this.loginFrom.value['password']!
+    }
+    this.auth.login(loginData);
   }
 
   submitRegisterForm() {

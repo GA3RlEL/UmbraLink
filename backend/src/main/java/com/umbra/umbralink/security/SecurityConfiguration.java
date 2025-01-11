@@ -38,6 +38,7 @@ public class SecurityConfiguration {
     });
 
     http.csrf((csrf) -> csrf.disable());
+    http.cors(cors -> cors.disable());
     http.httpBasic(Customizer.withDefaults());
     http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
