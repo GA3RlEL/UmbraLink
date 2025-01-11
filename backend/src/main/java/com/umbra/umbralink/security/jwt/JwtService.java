@@ -1,11 +1,13 @@
 package com.umbra.umbralink.security.jwt;
 
 import java.time.Instant;
-import java.util.Base64;
-import java.util.Date;
+import java.util.*;
 
 import javax.crypto.SecretKey;
 
+import com.umbra.umbralink.model.UserEntity;
+import com.umbra.umbralink.repository.UserRepository;
+import com.umbra.umbralink.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -17,40 +19,59 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 
-  private final long expiration = 15 * 60 * 1000;
-  private final Date expirationTime = new Date(System.currentTimeMillis() + expiration);
+    private final long expiration = 120 * 60 * 1000;
+    private final Date expirationTime = new Date(System.currentTimeMillis() + expiration);
 
-  @Value("${SECRET_KEY}")
-  private String secretKey;
+    private final UserRepository userRepository;
 
-  public String generateToken(UserDetails user) {
-    return Jwts.builder()
-        .issuer("UmbraLink Dev Team")
-        .subject(user.getUsername())
-        .issuedAt(new Date())
-        .expiration(expirationTime)
-        .signWith(generateKey())
-        .compact();
-  }
+    @Value("${SECRET_KEY}")
+    private String secretKey;
 
-  private SecretKey generateKey() {
-    byte[] key = Base64.getDecoder().decode(secretKey);
-    return Keys.hmacShaKeyFor(key);
-  }
+    public JwtService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
-  public String extractEmail(String jwt) {
-    Claims claims = getClaims(jwt);
-    return claims.getSubject();
-  }
 
-  private Claims getClaims(String jwt) {
-    Claims claims = Jwts.parser().verifyWith(generateKey()).build().parseSignedClaims(jwt).getPayload();
-    return claims;
-  }
+    public String generateToken(UserDetails user) {
+        Optional<UserEntity> userFound = userRepository.findByEmail(user.getUsername());
+        Map<String, Long> claims = new HashMap<>();
+        if (userFound.isPresent()) {
+            UserEntity userTaken = userFound.get();
+            claims.put("id", userTaken.getId());
+        }
+        return Jwts.builder()
+                .issuer("UmbraLink Dev Team")
+                .subject(user.getUsername())
+                .issuedAt(new Date())
+                .expiration(expirationTime)
+                .signWith(generateKey())
+                .claims(claims)
+                .compact();
+    }
 
-  public boolean isTokenValid(String jwt) {
-    Claims claims = getClaims(jwt);
-    return claims.getExpiration().after(Date.from(Instant.now()));
-  }
+    private SecretKey generateKey() {
+        byte[] key = Base64.getDecoder().decode(secretKey);
+        return Keys.hmacShaKeyFor(key);
+    }
+
+    public String extractEmail(String jwt) {
+        Claims claims = getClaims(jwt);
+        return claims.getSubject();
+    }
+
+    private Claims getClaims(String jwt) {
+        Claims claims = Jwts.parser().verifyWith(generateKey()).build().parseSignedClaims(jwt).getPayload();
+        return claims;
+    }
+
+    public boolean isTokenValid(String jwt) {
+        Claims claims = getClaims(jwt);
+        return claims.getExpiration().after(Date.from(Instant.now()));
+    }
+
+    public Long extractId(String jwt) {
+        Claims claims = getClaims(jwt);
+        return claims.get("id", Long.class);
+    }
 
 }

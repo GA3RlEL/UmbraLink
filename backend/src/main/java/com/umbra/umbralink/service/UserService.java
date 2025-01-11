@@ -6,8 +6,9 @@ import com.umbra.umbralink.dto.RegisterRequestDto;
 import com.umbra.umbralink.model.UserEntity;
 
 public interface UserService {
-  public List<UserEntity> getAllUsers();
+    List<UserEntity> getAllUsers();
 
-  public UserEntity register(RegisterRequestDto registerRequest);
+    UserEntity register(RegisterRequestDto registerRequest);
 
+    UserEntity findByToken(String token);
 }

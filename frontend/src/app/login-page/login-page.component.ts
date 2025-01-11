@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../service/auth.service';
 import { loginRequest } from '../model/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',

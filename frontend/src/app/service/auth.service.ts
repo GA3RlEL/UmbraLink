@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { loginRequest } from '../model/auth';
+import { inject, Injectable } from '@angular/core';
+import { loginRequest, tokenResponse } from '../model/auth';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -8,16 +9,21 @@ import { loginRequest } from '../model/auth';
 export class AuthService {
   private BASEURL: string = "http://localhost:8080/api/v1"
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   login(loginRequest: loginRequest) {
-    this.http.post(this.BASEURL + "/login", loginRequest).subscribe({
-      next(value) {
-        console.log(value);
+    this.http.post<tokenResponse>(this.BASEURL + "/login", loginRequest).subscribe({
+      next: (response) => {
+        const token = response.token;
+        localStorage.setItem('authToken', token);
+        console.log("Token saved: " + token);
+        this.router.navigate(['/app'])
       },
-      error(err) {
+      error: (err) => {
         console.error(err)
       },
     })
   }
+
+
 }

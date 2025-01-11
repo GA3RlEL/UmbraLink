@@ -1,7 +1,10 @@
 package com.umbra.umbralink.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.umbra.umbralink.security.jwt.JwtService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,30 +16,45 @@ import com.umbra.umbralink.repository.UserRepository;
 @Service
 public class UserServiceImpl implements UserService {
 
-  private UserRepository userRepository;
-  private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-  public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-    this.userRepository = userRepository;
-    this.passwordEncoder = passwordEncoder;
-  }
-
-  @Override
-  public List<UserEntity> getAllUsers() {
-    return userRepository.findAll();
-  }
-
-  @Override
-  public UserEntity register(RegisterRequestDto registerRequest) {
-    if (userRepository.existsByEmail(registerRequest.getEmail())) {
-      throw new RuntimeException("User with email: " + registerRequest.getEmail() + " already exists");
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
-    UserEntity user = new UserEntity();
-    user.setEmail(registerRequest.getEmail());
-    user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-    user.setUsername(registerRequest.getUsername());
 
-    return userRepository.save(user);
-  }
+    @Override
+    public List<UserEntity> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public UserEntity register(RegisterRequestDto registerRequest) {
+        if (userRepository.existsByEmail(registerRequest.getEmail())) {
+            throw new RuntimeException("User with email: " + registerRequest.getEmail() + " already exists");
+        }
+        UserEntity user = new UserEntity();
+        user.setEmail(registerRequest.getEmail());
+        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        user.setUsername(registerRequest.getUsername());
+
+        return userRepository.save(user);
+    }
+
+    @Override
+    public UserEntity findByToken(String token) {
+        Long id = jwtService.extractId(token);
+        Optional<UserEntity> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            return user.get();
+        } else {
+            throw new UsernameNotFoundException("" + id);
+        }
+
+    }
+
 
 }

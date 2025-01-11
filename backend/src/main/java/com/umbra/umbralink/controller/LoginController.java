@@ -20,29 +20,28 @@ import com.umbra.umbralink.security.jwt.JwtService;
 @RestController
 public class LoginController {
 
-  private JwtService jwtService;
-  private UserDetailService userDetailService;
-  private AuthenticationManager authenticationManager;
+    private JwtService jwtService;
+    private UserDetailService userDetailService;
+    private AuthenticationManager authenticationManager;
 
-  public LoginController(JwtService jwtService, UserDetailService userDetailService,
-      AuthenticationManager authenticationManager) {
-    this.jwtService = jwtService;
-    this.userDetailService = userDetailService;
-    this.authenticationManager = authenticationManager;
-  }
-
-  @CrossOrigin(origins = "http://localhost:4200")
-  @PostMapping("/login")
-  public ResponseEntity<AuthResponseDto> login(@RequestBody LoginRequestDto loginRequest) {
-    Authentication authentication = authenticationManager
-        .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-    if (authentication.isAuthenticated()) {
-      UserDetails userDetails = userDetailService.loadUserByUsername(loginRequest.getEmail());
-      return new ResponseEntity<>(new AuthResponseDto(jwtService.generateToken(userDetails)), HttpStatus.OK);
-    } else {
-      throw new UsernameNotFoundException(loginRequest.getEmail());
+    public LoginController(JwtService jwtService, UserDetailService userDetailService,
+                           AuthenticationManager authenticationManager) {
+        this.jwtService = jwtService;
+        this.userDetailService = userDetailService;
+        this.authenticationManager = authenticationManager;
     }
+  
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponseDto> login(@RequestBody LoginRequestDto loginRequest) {
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+        if (authentication.isAuthenticated()) {
+            UserDetails userDetails = userDetailService.loadUserByUsername(loginRequest.getEmail());
+            return new ResponseEntity<>(new AuthResponseDto(jwtService.generateToken(userDetails)), HttpStatus.OK);
+        } else {
+            throw new UsernameNotFoundException(loginRequest.getEmail());
+        }
 
-  }
+    }
 
 }
