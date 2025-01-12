@@ -20,9 +20,9 @@ import com.umbra.umbralink.security.jwt.JwtService;
 @RestController
 public class LoginController {
 
-    private JwtService jwtService;
-    private UserDetailService userDetailService;
-    private AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
+    private final UserDetailService userDetailService;
+    private final AuthenticationManager authenticationManager;
 
     public LoginController(JwtService jwtService, UserDetailService userDetailService,
                            AuthenticationManager authenticationManager) {
@@ -30,7 +30,7 @@ public class LoginController {
         this.userDetailService = userDetailService;
         this.authenticationManager = authenticationManager;
     }
-  
+
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDto> login(@RequestBody LoginRequestDto loginRequest) {
         Authentication authentication = authenticationManager

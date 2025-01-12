@@ -16,7 +16,6 @@ export class AuthService {
       next: (response) => {
         const token = response.token;
         localStorage.setItem('authToken', token);
-        console.log("Token saved: " + token);
         this.router.navigate(['/app'])
       },
       error: (err) => {

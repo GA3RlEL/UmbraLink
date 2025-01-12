@@ -1,5 +1,6 @@
 package com.umbra.umbralink.controller;
 
+import com.umbra.umbralink.dto.UserResponseDto;
 import com.umbra.umbralink.model.UserEntity;
 import com.umbra.umbralink.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,13 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/{id}")
+    public UserEntity getUserById(@PathVariable Long id) {
+        return userService.findById(id);
+    }
+
     @GetMapping("/me")
-    public UserEntity findMe(@RequestHeader("Authorization") String token) {
+    public UserResponseDto findMe(@RequestHeader("Authorization") String token) {
         return userService.findByToken(token.substring(7));
     }
 

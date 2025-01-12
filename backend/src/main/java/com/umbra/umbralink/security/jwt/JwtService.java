@@ -19,9 +19,6 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 
-    private final long expiration = 120 * 60 * 1000;
-    private final Date expirationTime = new Date(System.currentTimeMillis() + expiration);
-
     private final UserRepository userRepository;
 
     @Value("${SECRET_KEY}")
@@ -43,7 +40,7 @@ public class JwtService {
                 .issuer("UmbraLink Dev Team")
                 .subject(user.getUsername())
                 .issuedAt(new Date())
-                .expiration(expirationTime)
+                .expiration(Date.from(Instant.now().plusMillis(3600000 * 72)))
                 .signWith(generateKey())
                 .claims(claims)
                 .compact();
@@ -60,8 +57,7 @@ public class JwtService {
     }
 
     private Claims getClaims(String jwt) {
-        Claims claims = Jwts.parser().verifyWith(generateKey()).build().parseSignedClaims(jwt).getPayload();
-        return claims;
+        return Jwts.parser().verifyWith(generateKey()).build().parseSignedClaims(jwt).getPayload();
     }
 
     public boolean isTokenValid(String jwt) {

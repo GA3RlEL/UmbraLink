@@ -18,6 +18,7 @@ export class SideBarComponent implements OnInit {
     this.appService.getUserDetails()?.subscribe({
       next: (value) => {
         this.user = value;
+        console.log(this.user);
       },
       error: (err) => {
         console.error(err);
