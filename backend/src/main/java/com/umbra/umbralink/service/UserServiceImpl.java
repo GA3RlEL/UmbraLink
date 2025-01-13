@@ -68,7 +68,6 @@ public class UserServiceImpl implements UserService {
             if (base64String.contains(",")) {
                 try {
                     byte[] decodedPhoto = Base64.getDecoder().decode(base64String.split(",")[1]);
-                    decodedPhoto = resizeImage(decodedPhoto, 200, 200);
                     Photo photo = new Photo();
                     photo.setUser(user);
                     photo.setPhoto(decodedPhoto);
@@ -81,22 +80,7 @@ public class UserServiceImpl implements UserService {
 
         return userRepository.save(user);
     }
-
-    private byte[] resizeImage(byte[] decodedPhoto, int width, int height) throws IOException {
-        ByteArrayInputStream bais = new ByteArrayInputStream(decodedPhoto);
-        BufferedImage originalImage = ImageIO.read(bais);
-
-        Image scaledImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2d = resizedImage.createGraphics();
-        g2d.drawImage(scaledImage, 0, 0, null);
-        g2d.dispose();
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(resizedImage, "jpg", baos);
-        baos.flush();
-        return baos.toByteArray();
-    }
+    
 
     @Override
     public UserResponseDto findByToken(String token) {
