@@ -1,8 +1,10 @@
 package com.umbra.umbralink.model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -13,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 @Data
 @NoArgsConstructor
-public class UserEntity {
+public class UserEntity extends BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,19 +24,14 @@ public class UserEntity {
     private String email;
     private String password;
     private String role = "USER";
-    private String status = "online";
+    private LocalDateTime lastSeen;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private Photo photo;
-
-    @ManyToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "sender")
     @JsonManagedReference
-    private List<Conversation> conversations = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Conversation> chatsAsSender;
+    @OneToMany(mappedBy = "recipient")
     @JsonManagedReference
-    private List<Message> messages = new ArrayList<>();
+    private List<Conversation> chatsAsRecipient;
 
 
 }

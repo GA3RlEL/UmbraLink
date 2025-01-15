@@ -1,20 +1,22 @@
-export interface user {
+export interface User {
   username: string;
-  photo: string;
   email: string;
-  conversations: conversation[]
-  messages: message[]
+  chatAsSender: Conversation[]
+  chatAsRecipeint: Conversation[]
 }
 
-export interface conversation {
+export interface Conversation {
   id: number;
-  messages: message[]
-  users: user[]
+  sender: User;
+  recipient: User;
+  messages: Message[]
 }
 
-export interface message {
+export interface Message {
   id: number;
-  message: string;
-  sentAt: number;
-  user: user;
+  content: string;
+  messageState: "SENT" | "SEEN"
+  messageType: "TEXT" | "AUDIO" | "PHOTO" | "VOICE"
+  senderId: string;
+  receiverId: string;
 }

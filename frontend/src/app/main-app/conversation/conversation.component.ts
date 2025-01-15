@@ -1,6 +1,8 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { WebsocketService } from '../../service/websocket.service';
+import { Subscription } from 'rxjs';
 
 
 
@@ -33,7 +35,8 @@ interface message {
 })
 
 
-export class ConversationComponent implements OnInit {
+export class ConversationComponent implements OnInit, OnDestroy {
+  private wsSub!: Subscription;
 
   message: string = "";
   user_id: number = 1;
@@ -106,8 +109,32 @@ export class ConversationComponent implements OnInit {
     }
   ];
 
+
+  constructor(private websocket: WebsocketService) { }
+  ngOnDestroy(): void {
+    this.websocket.disconnect();
+  }
+
   ngOnInit(): void {
+    this.websocket.connect();
+
+    this.wsSub = this.websocket.onMessage().subscribe({
+      next: (value) => {
+        console.log(value);
+        this.messages.push(value);
+      },
+      error: (error) => {
+        console.error("Websocket error: " + error);
+      }
+    })
     this.messages.sort((a, b) => a.timestamp - b.timestamp);
+  }
+
+
+  sendMessage() {
+    this.websocket.sendMessage(this.message);
+    console.log(this.messages);
+    this.message = '';
   }
 
   isLastMessageFromSender(messageIndex: number): boolean {

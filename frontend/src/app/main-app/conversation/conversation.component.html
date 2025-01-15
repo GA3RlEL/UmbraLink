@@ -25,11 +25,13 @@
 
 <div class="message-input">
   <div class="message">
-    <input [(ngModel)]="message" type="text" name="message" id="message" />
-    @if(message.length > 0){
-    <button @sendButton class="send-button">
-      <img src="send.svg" alt="send" class="send" />
-    </button>
-    }
+    <form (submit)="sendMessage()">
+      <input [(ngModel)]="message" type="text" name="message" id="message" />
+      @if(message.length > 0){
+      <button @sendButton class="send-button">
+        <img src="send.svg" alt="send" class="send" />
+      </button>
+      }
+    </form>
   </div>
 </div>

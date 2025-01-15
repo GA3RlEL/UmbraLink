@@ -14,4 +14,6 @@ public interface UserService {
     UserEntity register(RegisterRequestDto registerRequest);
 
     UserResponseDto findByToken(String token);
+
+    UserEntity findByTokenUserEntity(String email);
 }

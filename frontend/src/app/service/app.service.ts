@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { tokenResponse } from '../model/auth';
-import { user } from '../model/user';
+import { User } from '../model/user';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class AppService {
   getUserDetails() {
     const token = localStorage.getItem("authToken");
     if (token) {
-      return this.http.get<user>(this.BASEURL + "/user/me", {
+      return this.http.get<User>(this.BASEURL + "/user/me", {
         headers: {
           'Authorization': `Bearer ${token}`
         }

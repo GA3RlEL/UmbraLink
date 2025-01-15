@@ -1,20 +1,10 @@
 package com.umbra.umbralink.service;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
 import com.umbra.umbralink.dto.UserResponseDto;
-import com.umbra.umbralink.model.Photo;
 import com.umbra.umbralink.security.jwt.JwtService;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,8 +13,6 @@ import com.umbra.umbralink.dto.RegisterRequestDto;
 
 import com.umbra.umbralink.model.UserEntity;
 import com.umbra.umbralink.repository.UserRepository;
-
-import javax.imageio.ImageIO;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -63,24 +51,9 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setUsername(registerRequest.getUsername());
 
-        if (registerRequest.getPhoto() != null) {
-            String base64String = registerRequest.getPhoto();
-            if (base64String.contains(",")) {
-                try {
-                    byte[] decodedPhoto = Base64.getDecoder().decode(base64String.split(",")[1]);
-                    Photo photo = new Photo();
-                    photo.setUser(user);
-                    photo.setPhoto(decodedPhoto);
-                    user.setPhoto(photo);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-
         return userRepository.save(user);
     }
-    
+
 
     @Override
     public UserResponseDto findByToken(String token) {
@@ -90,16 +63,24 @@ public class UserServiceImpl implements UserService {
             UserEntity userEntity = user.get();
             UserResponseDto userResponseDto = new UserResponseDto();
             userResponseDto.setUsername(userEntity.getUsername());
-            userResponseDto.setConversations(userEntity.getConversations());
-            userResponseDto.setPhoto(userEntity.getPhoto());
             userResponseDto.setEmail(userEntity.getEmail());
-            userResponseDto.setMessages(userEntity.getMessages());
 
             return userResponseDto;
         } else {
             throw new UsernameNotFoundException("" + id);
         }
 
+    }
+
+    @Override
+    public UserEntity findByTokenUserEntity(String token) {
+        Long id = jwtService.extractId(token);
+        Optional<UserEntity> userEntity = userRepository.findById(id);
+        if (userEntity.isPresent()) {
+            return userEntity.get();
+        } else {
+            throw new UsernameNotFoundException(token);
+        }
     }
 
 

@@ -1,41 +1,36 @@
 package com.umbra.umbralink.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.umbra.umbralink.model.enums.MessageType;
+import com.umbra.umbralink.model.enums.MessageState;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.userdetails.User;
-
-import java.util.Date;
 
 @Entity
 @Table(name = "messages")
 @Data
 @NoArgsConstructor
-public class Message {
+public class Message extends BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String message;
+    private String content;
+    @Enumerated(EnumType.STRING)
+    private MessageState state;
+    @Enumerated(EnumType.STRING)
+    private MessageType type;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "chat_id")
     @JsonBackReference
     private Conversation conversation;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonBackReference
-    private UserEntity user;
-
-    private Date sentAt;
-
+    @Column(nullable = false, name = "sender_id")
+    private String senderId;
+    @Column(nullable = false, name = "receiver_id")
+    private String receiverId;
 
 }

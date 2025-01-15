@@ -19,4 +19,5 @@ public class ConversationServiceImpl implements ConversationService {
     public List<Conversation> getAllConversation() {
         return conversationRepository.findAll();
     }
+
 }
