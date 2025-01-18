@@ -145,3 +145,11 @@ a:hover {
   background-color: green;
   bottom: 5px;
 }
+
+.bottom-bar h3 {
+  font-size: 1.5rem;
+}
+
+.bottom-bar p {
+  font-size: 1.25rem;
+}

@@ -24,14 +24,14 @@ public class UserEntity extends BaseModel {
     private String email;
     private String password;
     private String role = "USER";
-    private LocalDateTime lastSeen;
 
     @OneToMany(mappedBy = "sender")
     @JsonManagedReference
-    private List<Conversation> chatsAsSender;
-    @OneToMany(mappedBy = "recipient")
+    private List<Message> sentMessages;
+
+    @OneToMany(mappedBy = "receiver")
     @JsonManagedReference
-    private List<Conversation> chatsAsRecipient;
+    private List<Message> receivedMessages;
 
 
 }

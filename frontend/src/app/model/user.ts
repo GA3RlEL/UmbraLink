@@ -1,22 +1,11 @@
 export interface User {
   username: string;
   email: string;
-  chatAsSender: Conversation[]
-  chatAsRecipeint: Conversation[]
+  conversations: Conversation[];
 }
 
 export interface Conversation {
-  id: number;
-  sender: User;
-  recipient: User;
-  messages: Message[]
+  otherUser: string;
+  lastMessage: string;
 }
 
-export interface Message {
-  id: number;
-  content: string;
-  messageState: "SENT" | "SEEN"
-  messageType: "TEXT" | "AUDIO" | "PHOTO" | "VOICE"
-  senderId: string;
-  receiverId: string;
-}

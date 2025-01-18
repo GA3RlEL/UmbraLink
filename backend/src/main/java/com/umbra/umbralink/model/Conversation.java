@@ -1,13 +1,10 @@
 package com.umbra.umbralink.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.core.annotation.Order;
 
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -19,18 +16,12 @@ public class Conversation extends BaseModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "sender_id")
-    @JsonBackReference
-    private UserEntity sender;
-    @ManyToOne
-    @JoinColumn(name = "recipient_id")
-    @JsonBackReference
-    private UserEntity recipient;
-
     @OneToMany(mappedBy = "conversation")
-    @OrderBy("createdAt DESC")
     @JsonManagedReference
+    @OrderBy("createdAt DESC")
     private List<Message> messages;
+
+    private Long user1;
+    private Long user2;
 
 }

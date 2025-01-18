@@ -11,5 +11,6 @@ import java.util.List;
 public class UserResponseDto {
     private String username;
     private String email;
+    private List<ConversationDto> conversations;
 }
 

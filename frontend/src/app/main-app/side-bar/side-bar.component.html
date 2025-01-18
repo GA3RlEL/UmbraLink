@@ -43,6 +43,7 @@
   <hr />
 </div>
 <div class="bottom-bar">
+  @for (conv of user?.conversations; track $index) {
   <a href="#" class="conversation">
     <div class="conversation-picture-container">
       <img class="avatar" src="profile.jpg" alt="profile picture" />
@@ -50,8 +51,9 @@
     </div>
 
     <div class="message-container">
-      <h3>John Doe</h3>
-      <p>Hey, how are you?</p>
+      <h3>{{ conv.otherUser }}</h3>
+      <p>{{ conv.lastMessage }}</p>
     </div>
   </a>
+  }
 </div>

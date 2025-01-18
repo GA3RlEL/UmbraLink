@@ -34,48 +34,53 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if (conversationRepository.findAll().isEmpty() && messageRepository.findAll().isEmpty() && userRepository.findAll().isEmpty()) {
             UserEntity user1 = new UserEntity();
-            user1.setUsername("john_doe");
-            user1.setEmail("test1@test.com");
+            user1.setEmail("test@test.com");
             user1.setPassword(passwordEncoder.encode("dupa"));
-            user1.setLastSeen(LocalDateTime.now());
-            user1.setCreatedAt(LocalDateTime.now());
+            user1.setUsername("test");
 
             UserEntity user2 = new UserEntity();
-            user2.setUsername("jane_smith");
-            user2.setEmail("test2test.com");
+            user2.setEmail("test1@test.com");
             user2.setPassword(passwordEncoder.encode("dupa"));
-            user2.setLastSeen(LocalDateTime.now());
-            user2.setCreatedAt(LocalDateTime.now());
+            user2.setUsername("test1");
 
-            userRepository.saveAll(List.of(user1, user2));
+            UserEntity user3 = new UserEntity();
+            user3.setEmail("test2@test.com");
+            user3.setPassword(passwordEncoder.encode("dupa"));
+            user3.setUsername("test2");
 
+            userRepository.saveAll(List.of(user1, user2, user3));
 
             Conversation conversation = new Conversation();
-            conversation.setSender(user1);
-            conversation.setRecipient(user2);
-            conversation.setCreatedAt(LocalDateTime.now());
+            conversation.setUser1(user1.getId());
+            conversation.setUser2(user2.getId());
 
-            conversationRepository.save(conversation);
+            Conversation conversation2 = new Conversation();
+            conversation2.setUser1(user3.getId());
+            conversation2.setUser2(user1.getId());
+
+            conversationRepository.saveAll(List.of(conversation, conversation2));
 
             Message message1 = new Message();
-            message1.setContent("Hello, Jane!");
-            message1.setState(MessageState.SENT);
-            message1.setType(MessageType.TEXT);
+            message1.setSender(user1);
+            message1.setReceiver(user2);
             message1.setConversation(conversation);
-            message1.setSenderId(user1.getId().toString());
-            message1.setReceiverId(user2.getId().toString());
-            message1.setCreatedAt(LocalDateTime.now());
+            message1.setContent("Hi");
 
             Message message2 = new Message();
-            message2.setContent("Hi, John! How are you?");
-            message2.setState(MessageState.SENT);
-            message2.setType(MessageType.TEXT);
+            message2.setSender(user2);
+            message2.setReceiver(user1);
             message2.setConversation(conversation);
-            message2.setSenderId(user2.getId().toString());
-            message2.setReceiverId(user1.getId().toString());
-            message2.setCreatedAt(LocalDateTime.now());
+            message2.setContent("hello");
 
-            messageRepository.saveAll(List.of(message1, message2));
+            Message message3 = new Message();
+            message3.setSender(user3);
+            message3.setReceiver(user1);
+            message3.setConversation(conversation2);
+            message3.setContent("hello");
+
+            messageRepository.saveAll(List.of(message1, message2, message3));
+
+
         }
     }
 }

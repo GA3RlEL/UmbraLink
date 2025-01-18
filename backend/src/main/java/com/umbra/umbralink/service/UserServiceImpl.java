@@ -1,10 +1,16 @@
 package com.umbra.umbralink.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.umbra.umbralink.dto.ConversationDto;
 import com.umbra.umbralink.dto.UserResponseDto;
+import com.umbra.umbralink.model.Conversation;
+import com.umbra.umbralink.repository.ConversationRepository;
 import com.umbra.umbralink.security.jwt.JwtService;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,11 +26,13 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final ConversationRepository conversationRepository;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, ConversationRepository conversationRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.conversationRepository = conversationRepository;
     }
 
     @Override
@@ -61,10 +69,21 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> user = userRepository.findById(id);
         if (user.isPresent()) {
             UserEntity userEntity = user.get();
+            List<Conversation> conversations = conversationRepository.findAll().stream().filter(conversation ->
+                    conversation.getUser1().equals(userEntity.getId()) || conversation.getUser2().equals(userEntity.getId())
+            ).toList();
             UserResponseDto userResponseDto = new UserResponseDto();
             userResponseDto.setUsername(userEntity.getUsername());
             userResponseDto.setEmail(userEntity.getEmail());
-
+            List<ConversationDto> conversationDtos = conversations.stream().map(c -> {
+                ConversationDto dto = new ConversationDto();
+                dto.setLastMessage(c.getMessages().get(0).getContent());
+                dto.setOtherUser(Objects.equals(c.getUser1(), userEntity.getId()) ?
+                        userRepository.findById(c.getUser2()).get().getUsername() :
+                        userRepository.findById(c.getUser1()).get().getUsername());
+                return dto;
+            }).toList();
+            userResponseDto.setConversations(conversationDtos);
             return userResponseDto;
         } else {
             throw new UsernameNotFoundException("" + id);

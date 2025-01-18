@@ -24,13 +24,18 @@ public class Message extends BaseModel {
     private MessageType type;
 
     @ManyToOne
-    @JoinColumn(name = "chat_id")
+    @JoinColumn(name = "conversation_id")
     @JsonBackReference
     private Conversation conversation;
 
-    @Column(nullable = false, name = "sender_id")
-    private String senderId;
-    @Column(nullable = false, name = "receiver_id")
-    private String receiverId;
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    @JsonBackReference
+    private UserEntity sender;
+
+    @ManyToOne
+    @JoinColumn(name = "receiver_id")
+    @JsonBackReference
+    private UserEntity receiver;
 
 }

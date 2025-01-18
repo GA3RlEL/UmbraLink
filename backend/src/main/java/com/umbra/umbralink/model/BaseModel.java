@@ -18,7 +18,7 @@ public class BaseModel {
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column()
     @LastModifiedDate
