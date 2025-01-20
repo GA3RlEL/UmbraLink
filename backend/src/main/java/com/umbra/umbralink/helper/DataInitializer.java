@@ -65,20 +65,30 @@ public class DataInitializer implements CommandLineRunner {
             message1.setReceiver(user2);
             message1.setConversation(conversation);
             message1.setContent("Hi");
+            message1.setCreatedAt(LocalDateTime.now().minusDays(3));
 
             Message message2 = new Message();
             message2.setSender(user2);
             message2.setReceiver(user1);
             message2.setConversation(conversation);
-            message2.setContent("hello");
+            message2.setContent("Hello");
+            message2.setCreatedAt(LocalDateTime.now().minusDays(2));
 
             Message message3 = new Message();
-            message3.setSender(user3);
-            message3.setReceiver(user1);
-            message3.setConversation(conversation2);
-            message3.setContent("hello");
+            message3.setSender(user1);
+            message3.setReceiver(user2);
+            message3.setConversation(conversation);
+            message3.setContent("How are you?");
+            message3.setCreatedAt(LocalDateTime.now().minusHours(5));
 
-            messageRepository.saveAll(List.of(message1, message2, message3));
+            Message message4 = new Message();
+            message4.setSender(user3);
+            message4.setReceiver(user1);
+            message4.setConversation(conversation2);
+            message4.setContent("Hello from user3");
+            message4.setCreatedAt(LocalDateTime.now().minusDays(1));
+
+            messageRepository.saveAll(List.of(message1, message2, message3, message4));
 
 
         }

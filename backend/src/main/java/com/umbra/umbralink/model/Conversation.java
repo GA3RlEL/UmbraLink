@@ -18,7 +18,7 @@ public class Conversation extends BaseModel {
 
     @OneToMany(mappedBy = "conversation")
     @JsonManagedReference
-    @OrderBy("createdAt DESC")
+    @OrderBy("createdAt ASC")
     private List<Message> messages;
 
     private Long user1;

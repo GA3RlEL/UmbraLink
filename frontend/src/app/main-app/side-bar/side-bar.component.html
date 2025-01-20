@@ -44,7 +44,7 @@
 </div>
 <div class="bottom-bar">
   @for (conv of user?.conversations; track $index) {
-  <a href="#" class="conversation">
+  <a [routerLink]="[conv.conversationId]" class="conversation">
     <div class="conversation-picture-container">
       <img class="avatar" src="profile.jpg" alt="profile picture" />
       <div class="dot profile-dot"></div>

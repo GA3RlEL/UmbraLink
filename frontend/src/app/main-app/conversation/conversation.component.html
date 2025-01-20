@@ -1,10 +1,10 @@
 <div class="conversation">
-  @for (message of messages; track $index; ) { @if(message.receiver_id ===
-  user_id) {
+  @for (message of messages; track $index; ) { @if(message.senderId === user_id)
+  {
   <div class="receiver-field">
     <div class="message-container">
       <div class="message-block">
-        <p>{{ message.message }}</p>
+        <p>{{ message.content }}</p>
       </div>
     </div>
   </div>
@@ -15,7 +15,7 @@
       <img class="avatar" src="profile.jpg" alt="profile picture" />
       }
       <div class="message-block">
-        <p>{{ message.message }}</p>
+        <p>{{ message.content }}</p>
       </div>
     </div>
   </div>

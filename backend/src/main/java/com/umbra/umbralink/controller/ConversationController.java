@@ -1,11 +1,9 @@
 package com.umbra.umbralink.controller;
 
+import com.umbra.umbralink.dto.conversationData.ConversationDataDto;
 import com.umbra.umbralink.model.Conversation;
-import com.umbra.umbralink.model.UserEntity;
 import com.umbra.umbralink.service.ConversationService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +19,11 @@ public class ConversationController {
     @GetMapping
     public List<Conversation> getAllConversation() {
         return conversationService.getAllConversation();
+    }
+
+    @GetMapping("/{id}")
+    public ConversationDataDto getConversationById(@PathVariable int id) {
+        return conversationService.getConversationById(id);
     }
 
 }

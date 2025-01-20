@@ -6,4 +6,5 @@ import lombok.Data;
 public class ConversationDto {
     private String otherUser;
     private String lastMessage;
+    private int conversationId;
 }

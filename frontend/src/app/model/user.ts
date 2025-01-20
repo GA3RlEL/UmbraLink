@@ -7,5 +7,6 @@ export interface User {
 export interface Conversation {
   otherUser: string;
   lastMessage: string;
+  conversationId: number;
 }
 

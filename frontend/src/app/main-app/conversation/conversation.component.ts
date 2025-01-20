@@ -3,16 +3,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { WebsocketService } from '../../service/websocket.service';
 import { Subscription } from 'rxjs';
+import { AppService } from '../../service/app.service';
+import { ActivatedRoute } from '@angular/router';
+import { Conversation, Message } from '../../model/conversation';
 
 
 
-interface message {
-  id: number;
-  receiver_id: number;
-  sender_id: number;
-  message: string;
-  timestamp: number;
-}
+
 
 @Component({
   selector: 'app-conversation',
@@ -41,76 +38,10 @@ export class ConversationComponent implements OnInit, OnDestroy {
   message: string = "";
   user_id: number = 1;
   isLastMessage!: boolean;
-  messages: message[] = [
-    {
-      id: 1,
-      receiver_id: 1,
-      sender_id: 2,
-      message: "Hello",
-      timestamp: 123456709
-
-    },
-    {
-      id: 2,
-      receiver_id: 2,
-      sender_id: 1,
-      message: "Hi",
-      timestamp: 123456710
-    },
-    {
-      id: 3,
-      receiver_id: 1,
-      sender_id: 2,
-      message: "How are you?",
-      timestamp: 123456711
-    },
-    {
-      id: 4,
-      receiver_id: 2,
-      sender_id: 1,
-      message: "I am fine",
-      timestamp: 123456712
-    },
-    {
-      id: 5,
-      receiver_id: 1,
-      sender_id: 2,
-      message: "Good to hear",
-      timestamp: 123456713
-    },
-    {
-      id: 6,
-      receiver_id: 1,
-      sender_id: 2,
-      message: "What you doing?",
-      timestamp: 123456714
-    },
-    {
-      id: 7,
-      receiver_id: 1,
-      sender_id: 2,
-      message: "xd",
-      timestamp: 123456720
-    },
-
-    {
-      id: 8,
-      receiver_id: 2,
-      sender_id: 1,
-      message: "I am fine",
-      timestamp: 123456721
-    },
-    {
-      id: 9,
-      receiver_id: 1,
-      sender_id: 2,
-      message: "xd",
-      timestamp: 123456722
-    }
-  ];
+  messages: Message[] = [];
 
 
-  constructor(private websocket: WebsocketService) { }
+  constructor(private websocket: WebsocketService, private appService: AppService, private activatedRoute: ActivatedRoute) { }
   ngOnDestroy(): void {
     this.websocket.disconnect();
   }
@@ -127,7 +58,18 @@ export class ConversationComponent implements OnInit, OnDestroy {
         console.error("Websocket error: " + error);
       }
     })
-    this.messages.sort((a, b) => a.timestamp - b.timestamp);
+
+    this.activatedRoute.params.subscribe(param => {
+      this.appService.getConversationMessages(param['id'])?.subscribe({
+        next: value => {
+          console.log(value);
+          this.messages = value.messages;
+          console.log(this.messages);
+        }, error: error => {
+          console.error(error)
+        }
+      })
+    })
   }
 
 
@@ -139,7 +81,7 @@ export class ConversationComponent implements OnInit, OnDestroy {
 
   isLastMessageFromSender(messageIndex: number): boolean {
     if (messageIndex === this.messages.length - 1) return true;
-    return this.messages[messageIndex].sender_id !== this.messages[messageIndex + 1].sender_id;
+    return this.messages[messageIndex].senderId !== this.messages[messageIndex + 1].senderId;
   }
 
 
