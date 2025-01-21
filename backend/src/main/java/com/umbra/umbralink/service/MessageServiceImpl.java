@@ -1,7 +1,13 @@
 package com.umbra.umbralink.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.umbra.umbralink.dto.conversationData.ConversationMessageSaveDto;
+import com.umbra.umbralink.model.Conversation;
+import com.umbra.umbralink.model.UserEntity;
+import com.umbra.umbralink.repository.ConversationRepository;
+import com.umbra.umbralink.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import com.umbra.umbralink.error.MessageNotFoundException;
@@ -11,10 +17,14 @@ import com.umbra.umbralink.repository.MessageRepository;
 @Service
 public class MessageServiceImpl implements MessageService {
 
-    private MessageRepository messageRepository;
+    private final MessageRepository messageRepository;
+    private final ConversationRepository conversationRepository;
+    private final UserRepository userRepository;
 
-    public MessageServiceImpl(MessageRepository messageRepository) {
+    public MessageServiceImpl(MessageRepository messageRepository, ConversationRepository conversationRepository, UserRepository userRepository) {
         this.messageRepository = messageRepository;
+        this.conversationRepository = conversationRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -46,6 +56,22 @@ public class MessageServiceImpl implements MessageService {
         Message message = messageRepository.findById(id)
                 .orElseThrow(() -> new MessageNotFoundException("Message with id " + id + " not found"));
         messageRepository.delete(message);
+    }
+
+    @Override
+    public void saveMessageToDb(ConversationMessageSaveDto dto) {
+        Message message = new Message();
+        Optional<Conversation> conversation = conversationRepository.findById(dto.getConversationId());
+        Optional<UserEntity> sender = userRepository.findById(dto.getSenderId());
+        Optional<UserEntity> receiver = userRepository.findById(dto.getReceiverId());
+        if (conversation.isPresent() && sender.isPresent() && receiver.isPresent()) {
+            message.setConversation(conversation.get());
+            message.setSender(sender.get());
+            message.setReceiver(receiver.get());
+            message.setContent(dto.getContent());
+        }
+
+        messageRepository.save(message);
     }
 
 }

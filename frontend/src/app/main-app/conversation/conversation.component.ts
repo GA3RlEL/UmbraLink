@@ -52,14 +52,9 @@ export class ConversationComponent implements OnInit, OnDestroy {
     this.websocket.connect();
     this.user = this.appService.getUser();
 
-    this.wsSub = this.websocket.onMessage().subscribe({
-      next: (value) => {
-        console.log(value);
-        this.messages.push(value);
-      },
-      error: (error) => {
-        console.error("Websocket error: " + error);
-      }
+    this.websocket.getMessage().subscribe(message => {
+      console.log(message);
+      this.messages.push(JSON.parse(message));
     })
 
     this.activatedRoute.params.subscribe(param => {
@@ -89,7 +84,7 @@ export class ConversationComponent implements OnInit, OnDestroy {
         messageType: "TEXT",
       }
       // this.appService.saveMessageToDb(message);
-      this.websocket.sendMessage(message);
+      this.websocket.sendMessage("/app/topic", message);
       console.log(message);
       this.message = '';
     }

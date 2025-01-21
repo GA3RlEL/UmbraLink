@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { CompatClient, Stomp } from '@stomp/stompjs';
+import { Observable, Subject } from 'rxjs';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 
 @Injectable({
@@ -7,34 +8,47 @@ import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 })
 export class WebsocketService {
   private readonly WS_URL = 'ws://localhost:8080/api/v1/ws'
-  private socket$: WebSocketSubject<any> | null = null;
+  private stompClient: CompatClient | null = null;
+  private isConnected = false;
+  private messageSubject: Subject<any> = new Subject<any>();
   constructor() {
   }
 
-  connect() {
-    this.socket$ = webSocket(this.WS_URL)
-    console.log("Connected");
-    console.log(this.socket$);
+  connect(): void {
+    this.stompClient = Stomp.client(this.WS_URL);
+    this.stompClient.connect({}, () => {
+      console.log('WebSocket connected');
+      this.isConnected = true
+      this.subscribeToTopic();
+    });
   }
 
-  onMessage(): Observable<any> {
-    if (!this.socket$) {
-      console.error("The connection wasn't established")
+  subscribeToTopic() {
+    if (this.stompClient) {
+      this.stompClient.subscribe('/topic', (message) => {
+        this.messageSubject.next(message.body);
+      });
     }
-
-    return this.socket$ as Observable<any>
   }
 
-  sendMessage(message: any): void {
-    if (!this.socket$) {
-      console.error("The connection wasn't established")
+  getMessage(): Subject<any> {
+    return this.messageSubject;
+  }
+
+
+  sendMessage(destination: string, message: any): void {
+    if (this.stompClient && this.stompClient.connected && this.isConnected) {
+      this.stompClient.send(destination, {}, JSON.stringify(message))
     }
-    this.socket$?.next(message);
   }
 
 
-  disconnect() {
-    this.socket$?.complete();
-    this.socket$ = null;
+  disconnect(): void {
+    if (this.stompClient) {
+      this.stompClient.disconnect(() => {
+        console.log("Disconnected from websocket");
+        this.isConnected = false;
+      })
+    }
   }
 }
