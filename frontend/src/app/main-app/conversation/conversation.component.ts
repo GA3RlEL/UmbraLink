@@ -1,5 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, Input, OnDestroy, OnInit, signal } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, Input, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { WebsocketService } from '../../service/websocket.service';
 import { Subscription } from 'rxjs';
@@ -7,6 +7,7 @@ import { AppService } from '../../service/app.service';
 import { ActivatedRoute } from '@angular/router';
 import { Message, MessageToSend } from '../../model/conversation';
 import { User } from '../../model/user';
+import { Title } from '@angular/platform-browser';
 
 
 
@@ -33,7 +34,7 @@ import { User } from '../../model/user';
 })
 
 
-export class ConversationComponent implements OnInit, OnDestroy {
+export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecked {
   private wsSub!: Subscription;
   user = signal<User | null>(null)
   message: string = "";
@@ -41,20 +42,31 @@ export class ConversationComponent implements OnInit, OnDestroy {
   messages: Message[] = [];
   conversationId: number | null = null;
   receiverId: number | null = null;
+  @ViewChild("conversationElement", { static: true }) conversationElement!: ElementRef<HTMLDivElement>
 
 
-  constructor(private websocket: WebsocketService, private appService: AppService, private activatedRoute: ActivatedRoute) { }
+  constructor(private websocket: WebsocketService, private appService: AppService, private activatedRoute: ActivatedRoute, private title: Title) { }
+  ngAfterViewChecked(): void {
+    this.scrollToBottom();
+  }
   ngOnDestroy(): void {
     this.websocket.disconnect();
+  }
+
+  scrollToBottom() {
+    const scroll = this.conversationElement.nativeElement.scrollHeight
+
+    this.conversationElement.nativeElement.scrollTo({ top: scroll })
   }
 
   ngOnInit(): void {
     this.websocket.connect();
     this.user = this.appService.getUser();
 
+
     this.websocket.getMessage().subscribe(message => {
       console.log(message);
-      this.messages.push(JSON.parse(message));
+      this.messages.push(message);
     })
 
     this.activatedRoute.params.subscribe(param => {
@@ -64,10 +76,11 @@ export class ConversationComponent implements OnInit, OnDestroy {
           this.messages = value.messages;
           this.conversationId = value.conversationId;
           this.receiverId = value.receiverId;
+          this.title.setTitle("Umbralink | " + value.receiverName)
           console.log(this.messages);
         }, error: error => {
           console.error(error)
-        }
+        },
       })
     })
   }

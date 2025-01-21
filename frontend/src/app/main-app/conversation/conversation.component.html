@@ -1,4 +1,4 @@
-<div class="conversation">
+<div #conversationElement class="conversation">
   @for (message of messages; track $index; ) { @if(message.senderId ===
   user()?.id) {
   <div class="receiver-field">

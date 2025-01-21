@@ -8,6 +8,7 @@ export interface Conversation {
   messages: Message[];
   conversationId: number;
   receiverId: number;
+  receiverName: string;
 }
 
 export interface MessageToSend {

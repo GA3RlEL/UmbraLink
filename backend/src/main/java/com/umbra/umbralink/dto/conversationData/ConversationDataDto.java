@@ -9,4 +9,5 @@ public class ConversationDataDto {
     private List<ConversationMessageDto> messages;
     private int conversationId;
     private Long receiverId;
+    private String receiverName;
 }

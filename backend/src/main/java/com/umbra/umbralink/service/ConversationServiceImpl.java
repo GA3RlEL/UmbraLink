@@ -44,6 +44,9 @@ public class ConversationServiceImpl implements ConversationService {
                 conversationData.setConversationId(conversationFound.getId());
                 conversationData.setReceiverId(Objects.equals(conversationFound.getUser1(), senderId) ? conversationFound.getUser2() :
                         conversationFound.getUser1());
+                conversationData.setReceiverName(Objects.equals(conversationFound.getUser1(), senderId) ?
+                        userRepository.findById(conversationFound.getUser2()).get().getUsername() :
+                        userRepository.findById(conversationFound.getUser1()).get().getUsername());
                 List<ConversationMessageDto> messages = new ArrayList<>();
                 messages = conversationFound.getMessages().stream().map(mess -> {
                     ConversationMessageDto message = new ConversationMessageDto();

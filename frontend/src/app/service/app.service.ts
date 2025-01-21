@@ -42,25 +42,6 @@ export class AppService {
     }
   }
 
-  // saveMessageToDb(message: MessageToSend) {
-  //   const token = localStorage.getItem("authToken");
-  //   if (token) {
-  //     this.http.post(this.BASEURL + "/messages", message, {
-  //       headers: {
-  //         'Authorization': `Bearer ${token}`
-  //       }
-  //     }).subscribe({
-  //       next: value => {
-  //         console.log(value);
-  //       },
-  //       error: err => {
-  //         console.error(err);
-  //       }
-  //     })
-  //   }
-  // }
-
-
   setUser(user: User) {
     this.user.set(user);
   }

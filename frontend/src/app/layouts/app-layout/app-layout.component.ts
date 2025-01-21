@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { SideBarComponent } from "../../main-app/side-bar/side-bar.component";
 import { AppService } from '../../service/app.service';
 import { User } from '../../model/user';
+import { WebsocketService } from '../../service/websocket.service';
 
 @Component({
   selector: 'app-app-layout',
