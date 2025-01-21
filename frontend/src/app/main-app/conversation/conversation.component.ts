@@ -1,11 +1,12 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { WebsocketService } from '../../service/websocket.service';
 import { Subscription } from 'rxjs';
 import { AppService } from '../../service/app.service';
 import { ActivatedRoute } from '@angular/router';
-import { Conversation, Message } from '../../model/conversation';
+import { Message, MessageToSend } from '../../model/conversation';
+import { User } from '../../model/user';
 
 
 
@@ -34,11 +35,12 @@ import { Conversation, Message } from '../../model/conversation';
 
 export class ConversationComponent implements OnInit, OnDestroy {
   private wsSub!: Subscription;
-
+  user = signal<User | null>(null)
   message: string = "";
-  user_id: number = 1;
   isLastMessage!: boolean;
   messages: Message[] = [];
+  conversationId: number | null = null;
+  receiverId: number | null = null;
 
 
   constructor(private websocket: WebsocketService, private appService: AppService, private activatedRoute: ActivatedRoute) { }
@@ -48,6 +50,7 @@ export class ConversationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.websocket.connect();
+    this.user = this.appService.getUser();
 
     this.wsSub = this.websocket.onMessage().subscribe({
       next: (value) => {
@@ -64,6 +67,8 @@ export class ConversationComponent implements OnInit, OnDestroy {
         next: value => {
           console.log(value);
           this.messages = value.messages;
+          this.conversationId = value.conversationId;
+          this.receiverId = value.receiverId;
           console.log(this.messages);
         }, error: error => {
           console.error(error)
@@ -74,9 +79,22 @@ export class ConversationComponent implements OnInit, OnDestroy {
 
 
   sendMessage() {
-    this.websocket.sendMessage(this.message);
-    console.log(this.messages);
-    this.message = '';
+    if (this.user !== null && this.user !== undefined && this.user()?.id !== null && this.conversationId !== null && this.receiverId !== null) {
+      let message: MessageToSend = {
+        content: this.message,
+        senderId: this.user()!.id,
+        conversationId: this.conversationId,
+        receiverId: this.receiverId,
+        sentTime: new Date(),
+        messageType: "TEXT",
+      }
+      // this.appService.saveMessageToDb(message);
+      this.websocket.sendMessage(message);
+      console.log(message);
+      this.message = '';
+    }
+
+
   }
 
   isLastMessageFromSender(messageIndex: number): boolean {

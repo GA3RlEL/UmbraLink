@@ -22,8 +22,8 @@ public class ConversationController {
     }
 
     @GetMapping("/{id}")
-    public ConversationDataDto getConversationById(@PathVariable int id) {
-        return conversationService.getConversationById(id);
+    public ConversationDataDto getConversationById(@RequestHeader("Authorization") String token, @PathVariable int id) {
+        return conversationService.getConversationById(token, id);
     }
 
 }

@@ -5,7 +5,7 @@
       <div [style.background-color]="dotColor" class="dot profile-dot"></div>
     </div>
     <div class="user-info">
-      <h2>{{ user?.username }}</h2>
+      <h2>{{ user()?.username }}</h2>
       <div class="user-status">
         <select [(ngModel)]="dotColor" class="status" name="status" id="status">
           <option value="green">Online</option>
@@ -43,7 +43,7 @@
   <hr />
 </div>
 <div class="bottom-bar">
-  @for (conv of user?.conversations; track $index) {
+  @for (conv of user()?.conversations; track $index) {
   <a [routerLink]="[conv.conversationId]" class="conversation">
     <div class="conversation-picture-container">
       <img class="avatar" src="profile.jpg" alt="profile picture" />

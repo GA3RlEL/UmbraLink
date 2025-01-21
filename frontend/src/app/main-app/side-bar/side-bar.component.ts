@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Conversation, User } from '../../model/user';
 import { RouterLink } from '@angular/router';
 import { AppService } from '../../service/app.service';
+import { appConfig } from '../../app.config';
 
 @Component({
   selector: 'app-side-bar',
@@ -10,11 +11,19 @@ import { AppService } from '../../service/app.service';
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.css'
 })
-export class SideBarComponent {
+export class SideBarComponent implements AfterViewInit {
 
   dotColor: "red" | "yellow" | "green" | "transparent" = "green";
-  @Input({ required: true }) user: User | undefined;
+  user = signal<User | null>(null);
 
+  constructor(private appService: AppService) { }
+  ngAfterViewInit(): void {
+    this.user = this.appService.getUser();
+  }
+
+  ngOnInit(): void {
+
+  }
 
 
 }

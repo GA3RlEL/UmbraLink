@@ -1,6 +1,6 @@
 <div class="conversation">
-  @for (message of messages; track $index; ) { @if(message.senderId === user_id)
-  {
+  @for (message of messages; track $index; ) { @if(message.senderId ===
+  user()?.id) {
   <div class="receiver-field">
     <div class="message-container">
       <div class="message-block">

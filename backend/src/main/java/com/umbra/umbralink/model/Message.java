@@ -19,7 +19,7 @@ public class Message extends BaseModel {
 
     private String content;
     @Enumerated(EnumType.STRING)
-    private MessageState state;
+    private MessageState state = MessageState.SENT;
     @Enumerated(EnumType.STRING)
     private MessageType type;
 

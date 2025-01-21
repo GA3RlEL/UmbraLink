@@ -6,5 +6,7 @@ import java.util.List;
 
 @Data
 public class ConversationDataDto {
-    List<ConversationMessageDto> messages;
+    private List<ConversationMessageDto> messages;
+    private int conversationId;
+    private Long receiverId;
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SideBarComponent } from "../../main-app/side-bar/side-bar.component";
 import { AppService } from '../../service/app.service';
@@ -10,15 +10,13 @@ import { User } from '../../model/user';
   templateUrl: './app-layout.component.html',
   styleUrl: './app-layout.component.css'
 })
-export class AppLayoutComponent {
-  user!: User | undefined;
-
+export class AppLayoutComponent implements OnInit {
   constructor(private appService: AppService) { }
+
   ngOnInit(): void {
     this.appService.getUserDetails()?.subscribe({
-      next: (value) => {
-        this.user = value;
-        console.log(this.user);
+      next: (user) => {
+        this.appService.setUser(user);
       },
       error: (err) => {
         console.error(err);

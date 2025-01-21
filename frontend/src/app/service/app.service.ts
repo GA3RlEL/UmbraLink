@@ -1,19 +1,17 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { tokenResponse } from '../model/auth';
+import { Injectable, signal } from '@angular/core';
 import { User } from '../model/user';
-import { Conversation, Message } from '../model/conversation';
-import { Observable } from 'rxjs';
+import { Conversation, Message, MessageToSend } from '../model/conversation';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
   private BASEURL: string = "http://localhost:8080/api/v1"
+  private user = signal<User | null>(null);
 
   constructor(private http: HttpClient) {
   }
-
   getUserDetails() {
     const token = localStorage.getItem("authToken");
     if (token) {
@@ -44,4 +42,30 @@ export class AppService {
     }
   }
 
+  // saveMessageToDb(message: MessageToSend) {
+  //   const token = localStorage.getItem("authToken");
+  //   if (token) {
+  //     this.http.post(this.BASEURL + "/messages", message, {
+  //       headers: {
+  //         'Authorization': `Bearer ${token}`
+  //       }
+  //     }).subscribe({
+  //       next: value => {
+  //         console.log(value);
+  //       },
+  //       error: err => {
+  //         console.error(err);
+  //       }
+  //     })
+  //   }
+  // }
+
+
+  setUser(user: User) {
+    this.user.set(user);
+  }
+
+  getUser() {
+    return this.user;
+  }
 }

@@ -73,6 +73,7 @@ public class UserServiceImpl implements UserService {
                     conversation.getUser1().equals(userEntity.getId()) || conversation.getUser2().equals(userEntity.getId())
             ).toList();
             UserResponseDto userResponseDto = new UserResponseDto();
+            userResponseDto.setId(userEntity.getId());
             userResponseDto.setUsername(userEntity.getUsername());
             userResponseDto.setEmail(userEntity.getEmail());
             List<ConversationDto> conversationDtos = conversations.stream().map(c -> {
@@ -82,6 +83,9 @@ public class UserServiceImpl implements UserService {
                 dto.setOtherUser(Objects.equals(c.getUser1(), userEntity.getId()) ?
                         userRepository.findById(c.getUser2()).get().getUsername() :
                         userRepository.findById(c.getUser1()).get().getUsername());
+                dto.setOtherUserId(Objects.equals(c.getUser1(), userEntity.getId()) ?
+                        userRepository.findById(c.getUser2()).get().getId() :
+                        userRepository.findById(c.getUser1()).get().getId());
                 return dto;
             }).toList();
             userResponseDto.setConversations(conversationDtos);

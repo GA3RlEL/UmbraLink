@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class ConversationDto {
     private String otherUser;
+    private Long otherUserId;
     private String lastMessage;
     private int conversationId;
 }
