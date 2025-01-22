@@ -10,5 +10,7 @@ export interface Conversation {
   lastMessage: string;
   conversationId: number;
   otherUserId: number;
+  isLastMessageSender: boolean;
+  state: "SENT" | "SEEN"
 }
 

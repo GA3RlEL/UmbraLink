@@ -3,6 +3,7 @@ package com.umbra.umbralink.controller;
 import java.util.List;
 
 import com.umbra.umbralink.dto.conversationData.ConversationMessageSaveDto;
+import com.umbra.umbralink.dto.conversationData.ConversationWebsocketPayloadDto;
 import com.umbra.umbralink.repository.MessageRepository;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -26,9 +27,12 @@ public class MessageController {
 
     @MessageMapping("/topic")
     @SendTo("/topic")
-    public ConversationMessageSaveDto showMessage(ConversationMessageSaveDto dto) {
-        messageService.saveMessageToDb(dto);
-        return dto;
+    public ConversationMessageSaveDto showMessage(ConversationWebsocketPayloadDto dto) {
+        if (dto.getOperation().equals("SAVE")) {
+            messageService.saveMessageToDb(dto.getDto());
+        }
+
+        return dto.getDto();
     }
 
 

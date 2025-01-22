@@ -13,6 +13,8 @@
     <div class="message-container">
       @if(isLastMessageFromSender($index)) {
       <img class="avatar" src="profile.jpg" alt="profile picture" />
+      }@else {
+      <p class="avatar no-photo">xx</p>
       }
       <div class="message-block">
         <p>{{ message.content }}</p>
@@ -26,8 +28,15 @@
 <div class="message-input">
   <div class="message">
     <form (submit)="sendMessage()">
-      <input [(ngModel)]="message" type="text" name="message" id="message" />
+      <input
+        [maxlength]="maxLenght"
+        [(ngModel)]="message"
+        type="text"
+        name="message"
+        id="message"
+      />
       @if(message.length > 0){
+      <span class="count-word">{{ message.length }}/{{ maxLenght }}</span>
       <button @sendButton class="send-button">
         <img src="send.svg" alt="send" class="send" />
       </button>

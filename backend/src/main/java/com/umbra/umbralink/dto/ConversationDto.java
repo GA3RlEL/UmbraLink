@@ -1,5 +1,7 @@
 package com.umbra.umbralink.dto;
 
+import com.umbra.umbralink.model.enums.MessageState;
+import com.umbra.umbralink.model.enums.MessageType;
 import lombok.Data;
 
 @Data
@@ -8,4 +10,6 @@ public class ConversationDto {
     private Long otherUserId;
     private String lastMessage;
     private int conversationId;
+    private MessageState state;
+    private Boolean isLastMessageSender;
 }

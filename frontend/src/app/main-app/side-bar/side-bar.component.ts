@@ -17,6 +17,7 @@ export class SideBarComponent implements AfterViewInit {
   dotColor: "red" | "yellow" | "green" | "transparent" = "green";
   user = signal<User | null>(null);
 
+
   constructor(private appService: AppService, private webSocketService: WebsocketService) { }
   ngAfterViewInit(): void {
     this.user = this.appService.getUser();
@@ -27,6 +28,12 @@ export class SideBarComponent implements AfterViewInit {
           user.conversations = user.conversations.map(conv => {
             if (mess.conversationId == conv.conversationId) {
               conv.lastMessage = mess.content;
+              if (conv.otherUserId !== mess.senderId) {
+                conv.isLastMessageSender = true
+              } else {
+                conv.isLastMessageSender = false
+              }
+
             }
             return conv;
           });

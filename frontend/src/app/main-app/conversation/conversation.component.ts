@@ -5,7 +5,7 @@ import { WebsocketService } from '../../service/websocket.service';
 import { Subscription } from 'rxjs';
 import { AppService } from '../../service/app.service';
 import { ActivatedRoute } from '@angular/router';
-import { Message, MessageToSend } from '../../model/conversation';
+import { Message, MessageToSend, WebSocketPayload } from '../../model/conversation';
 import { User } from '../../model/user';
 import { Title } from '@angular/platform-browser';
 
@@ -43,6 +43,7 @@ export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecke
   conversationId: number | null = null;
   receiverId: number | null = null;
   @ViewChild("conversationElement", { static: true }) conversationElement!: ElementRef<HTMLDivElement>
+  maxLenght: number = 100;
 
 
   constructor(private websocket: WebsocketService, private appService: AppService, private activatedRoute: ActivatedRoute, private title: Title) { }
@@ -96,8 +97,12 @@ export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecke
         sentTime: new Date(),
         messageType: "TEXT",
       }
+      let payload: WebSocketPayload = {
+        operation: "SAVE",
+        dto: message
+      }
       // this.appService.saveMessageToDb(message);
-      this.websocket.sendMessage("/app/topic", message);
+      this.websocket.sendMessage("/app/topic", payload);
       console.log(message);
       this.message = '';
     }
