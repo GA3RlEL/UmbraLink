@@ -2,6 +2,7 @@ package com.umbra.umbralink.service;
 
 import java.util.List;
 
+import com.umbra.umbralink.dto.conversationData.ConversationMessageDto;
 import com.umbra.umbralink.dto.conversationData.ConversationMessageSaveDto;
 import com.umbra.umbralink.model.Message;
 
@@ -16,5 +17,5 @@ public interface MessageService {
 
     void deleteMessage(Long id);
 
-    void saveMessageToDb(ConversationMessageSaveDto dto);
+    ConversationMessageDto saveMessageToDb(ConversationMessageSaveDto dto);
 }

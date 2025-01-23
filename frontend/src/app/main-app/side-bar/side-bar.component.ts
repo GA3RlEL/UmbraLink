@@ -22,25 +22,6 @@ export class SideBarComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.user = this.appService.getUser();
     this.webSocketService.connect();
-    this.webSocketService.getMessage().subscribe(mess => {
-      this.user.update(user => {
-        if (user) {
-          user.conversations = user.conversations.map(conv => {
-            if (mess.conversationId == conv.conversationId) {
-              conv.lastMessage = mess.content;
-              if (conv.otherUserId !== mess.senderId) {
-                conv.isLastMessageSender = true
-              } else {
-                conv.isLastMessageSender = false
-              }
-
-            }
-            return conv;
-          });
-        }
-        return user;
-      });
-    })
   }
 
   ngOnInit(): void {

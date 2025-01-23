@@ -3,6 +3,7 @@ package com.umbra.umbralink.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.umbra.umbralink.dto.conversationData.ConversationMessageDto;
 import com.umbra.umbralink.dto.conversationData.ConversationMessageSaveDto;
 import com.umbra.umbralink.model.Conversation;
 import com.umbra.umbralink.model.UserEntity;
@@ -59,7 +60,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void saveMessageToDb(ConversationMessageSaveDto dto) {
+    public ConversationMessageDto saveMessageToDb(ConversationMessageSaveDto dto) {
         Message message = new Message();
         Optional<Conversation> conversation = conversationRepository.findById(dto.getConversationId());
         Optional<UserEntity> sender = userRepository.findById(dto.getSenderId());
@@ -70,8 +71,14 @@ public class MessageServiceImpl implements MessageService {
             message.setReceiver(receiver.get());
             message.setContent(dto.getContent());
         }
+        Message savedMessage = messageRepository.save(message);
+        ConversationMessageDto returnDto = new ConversationMessageDto();
+        returnDto.setContent(savedMessage.getContent());
+        returnDto.setSenderId(savedMessage.getSender().getId());
+        returnDto.setMessageId(savedMessage.getId());
+        returnDto.setSentTime(message.getCreatedAt());
+        return returnDto;
 
-        messageRepository.save(message);
     }
 
 }

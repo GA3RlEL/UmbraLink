@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CompatClient, Message, Stomp } from '@stomp/stompjs';
+import { CompatClient, Stomp } from '@stomp/stompjs';
 import { Observable, Subject } from 'rxjs';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
-import { MessageToSend } from '../model/conversation';
+import { Message } from '../model/conversation';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class WebsocketService {
   private readonly WS_URL = 'ws://localhost:8080/api/v1/ws'
   private stompClient: CompatClient | null = null;
   private isConnected = false;
-  private messageSubject: Subject<MessageToSend> = new Subject<MessageToSend>();
+  private messageSubject: Subject<Message> = new Subject<Message>();
   constructor() {
   }
 
@@ -30,13 +30,13 @@ export class WebsocketService {
   subscribeToTopic() {
     if (this.stompClient) {
       this.stompClient.subscribe('/topic', (message) => {
-        const parsedMessage: MessageToSend = JSON.parse(message.body);
+        const parsedMessage: Message = JSON.parse(message.body);
         this.messageSubject.next(parsedMessage);
       });
     }
   }
 
-  getMessage(): Subject<MessageToSend> {
+  getMessage(): Subject<Message> {
     return this.messageSubject;
   }
 

@@ -10,4 +10,5 @@ public class ConversationMessageDto {
     private String content;
     private Long senderId;
     private LocalDateTime sentTime;
+    private Long messageId;
 }

@@ -5,7 +5,7 @@ import { WebsocketService } from '../../service/websocket.service';
 import { Subscription } from 'rxjs';
 import { AppService } from '../../service/app.service';
 import { ActivatedRoute } from '@angular/router';
-import { Message, MessageToSend, WebSocketPayload } from '../../model/conversation';
+import { Message, MessageToSend } from '../../model/conversation';
 import { User } from '../../model/user';
 import { Title } from '@angular/platform-browser';
 
@@ -35,7 +35,6 @@ import { Title } from '@angular/platform-browser';
 
 
 export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecked {
-  private wsSub!: Subscription;
   user = signal<User | null>(null)
   message: string = "";
   isLastMessage!: boolean;
@@ -66,7 +65,6 @@ export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecke
 
 
     this.websocket.getMessage().subscribe(message => {
-      console.log(message);
       this.messages.push(message);
     })
 
@@ -88,7 +86,7 @@ export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecke
 
 
   sendMessage() {
-    if (this.user !== null && this.user !== undefined && this.user()?.id !== null && this.conversationId !== null && this.receiverId !== null) {
+    if (this.user !== null && this.user !== undefined && this.user()?.id !== null && this.conversationId !== null && this.receiverId !== null && this.message.length > 0) {
       let message: MessageToSend = {
         content: this.message,
         senderId: this.user()!.id,
@@ -97,12 +95,7 @@ export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecke
         sentTime: new Date(),
         messageType: "TEXT",
       }
-      let payload: WebSocketPayload = {
-        operation: "SAVE",
-        dto: message
-      }
-      // this.appService.saveMessageToDb(message);
-      this.websocket.sendMessage("/app/topic", payload);
+      this.websocket.sendMessage("/app/topic", message);
       console.log(message);
       this.message = '';
     }

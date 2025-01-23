@@ -11,10 +11,6 @@ export interface Conversation {
   receiverName: string;
 }
 
-export interface WebSocketPayload {
-  operation: string;
-  dto: MessageToSend;
-}
 
 export interface MessageToSend {
   messageType: "VIDEO" | "TEXT" | "AUDIO" | "PHOTO";
