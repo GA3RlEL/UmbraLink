@@ -1,7 +1,9 @@
 export interface Message {
+  messageId: number;
   content: string;
   senderId: number | null;
   sentTime: Date;
+  conversationId: number;
 }
 
 export interface Conversation {

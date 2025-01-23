@@ -1,9 +1,8 @@
-import { AfterViewInit, Component, Input, OnInit, signal } from '@angular/core';
+import { AfterViewInit, Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Conversation, User } from '../../model/user';
+import { User } from '../../model/user';
 import { RouterLink } from '@angular/router';
 import { AppService } from '../../service/app.service';
-import { appConfig } from '../../app.config';
 import { WebsocketService } from '../../service/websocket.service';
 
 @Component({
@@ -22,6 +21,20 @@ export class SideBarComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.user = this.appService.getUser();
     this.webSocketService.connect();
+    this.webSocketService.getMessage().subscribe(message => {
+
+      this.user.update(user => {
+        if (user) {
+          user?.conversations.map(conv => {
+            if (conv.conversationId === message.conversationId) {
+              conv.lastMessage = message.content
+              conv.otherUserId === message.senderId ? conv.isLastMessageSender = false : conv.isLastMessageSender = true;
+            }
+          })
+        }
+        return user;
+      })
+    })
   }
 
   ngOnInit(): void {

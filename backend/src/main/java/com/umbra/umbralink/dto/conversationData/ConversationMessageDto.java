@@ -7,8 +7,10 @@ import java.time.LocalDateTime;
 
 @Data
 public class ConversationMessageDto {
-    private String content;
-    private Long senderId;
-    private LocalDateTime sentTime;
     private Long messageId;
+    private int conversationId;
+    private Long senderId;
+
+    private String content;
+    private LocalDateTime sentTime;
 }
