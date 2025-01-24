@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { CompatClient, Stomp } from '@stomp/stompjs';
 import { Observable, Subject } from 'rxjs';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
-import { Message } from '../model/conversation';
+import { Message, ReadMessage } from '../model/conversation';
+import { JsonPipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class WebsocketService {
   private stompClient: CompatClient | null = null;
   private isConnected = false;
   private messageSubject: Subject<Message> = new Subject<Message>();
+  private readMessageSubject: Subject<ReadMessage> = new Subject<ReadMessage>();
   constructor() {
   }
 
@@ -22,6 +24,7 @@ export class WebsocketService {
         console.log('WebSocket connected');
         this.isConnected = true
         this.subscribeToTopic();
+        this.subscribeToReadMessage();
       });
     }
 
@@ -30,20 +33,37 @@ export class WebsocketService {
   subscribeToTopic() {
     if (this.stompClient) {
       this.stompClient.subscribe('/topic', (message) => {
+        console.log(message);
         const parsedMessage: Message = JSON.parse(message.body);
         this.messageSubject.next(parsedMessage);
       });
     }
   }
 
+  subscribeToReadMessage() {
+    console.log("adskgjareg'");
+    if (this.stompClient) {
+      console.log("xxxx");
+      this.stompClient.subscribe("/readMessage", (message) => {
+        this.readMessageSubject.next(JSON.parse(message.body))
+      })
+    }
+  }
+
+
   getMessage(): Subject<Message> {
     return this.messageSubject;
+  }
+
+  getReadMessages(): Subject<ReadMessage> {
+    return this.readMessageSubject;
   }
 
 
   sendMessage(destination: string, message: any): void {
     if (this.stompClient && this.stompClient.connected && this.isConnected) {
-      this.stompClient.send(destination, {}, JSON.stringify(message))
+      console.log(message);
+      this.stompClient.send(destination, {}, JSON.stringify(message));
     }
   }
 

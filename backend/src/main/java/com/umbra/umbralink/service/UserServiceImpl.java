@@ -36,11 +36,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserEntity> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    @Override
     public UserEntity findById(Long id) {
         Optional<UserEntity> user = userRepository.findById(id);
         if (user.isPresent()) {
@@ -96,17 +91,6 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("" + id);
         }
 
-    }
-
-    @Override
-    public UserEntity findByTokenUserEntity(String token) {
-        Long id = jwtService.extractId(token);
-        Optional<UserEntity> userEntity = userRepository.findById(id);
-        if (userEntity.isPresent()) {
-            return userEntity.get();
-        } else {
-            throw new UsernameNotFoundException(token);
-        }
     }
 
 

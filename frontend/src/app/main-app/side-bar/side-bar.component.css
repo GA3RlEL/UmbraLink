@@ -4,6 +4,12 @@
   flex-direction: column;
   gap: 3rem;
   overflow: hidden;
+  background-color: #1a1a1a;
+  background-color: #1a1a1a;
+  border-radius: 5px;
+  border: 1px solid #222;
+  margin: 1rem;
+  margin-left: 2rem;
 }
 
 .top-bar {

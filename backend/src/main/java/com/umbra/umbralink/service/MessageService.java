@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.umbra.umbralink.dto.conversationData.ConversationMessageDto;
 import com.umbra.umbralink.dto.conversationData.ConversationMessageSaveDto;
+import com.umbra.umbralink.dto.conversationData.ReadMessageDto;
 import com.umbra.umbralink.model.Message;
 
 public interface MessageService {
@@ -18,4 +19,6 @@ public interface MessageService {
     void deleteMessage(Long id);
 
     ConversationMessageDto saveMessageToDb(ConversationMessageSaveDto dto);
+
+    ReadMessageDto readMessage(Long messageId);
 }

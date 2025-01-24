@@ -1,3 +1,5 @@
+import { State } from "./conversation";
+
 export interface User {
   id: number;
   username: string;
@@ -11,6 +13,6 @@ export interface Conversation {
   conversationId: number;
   otherUserId: number;
   isLastMessageSender: boolean;
-  state: "SENT" | "SEEN"
+  state: State
 }
 

@@ -5,7 +5,7 @@ import { WebsocketService } from '../../service/websocket.service';
 import { Subscription } from 'rxjs';
 import { AppService } from '../../service/app.service';
 import { ActivatedRoute } from '@angular/router';
-import { Message, MessageToSend } from '../../model/conversation';
+import { Message, MessageToSend, ReadMessage, State } from '../../model/conversation';
 import { User } from '../../model/user';
 import { Title } from '@angular/platform-browser';
 
@@ -65,7 +65,6 @@ export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecke
     this.websocket.getMessage().subscribe(message => {
       this.messages.push(message);
     })
-
     this.activatedRoute.params.subscribe(param => {
       this.appService.getConversationMessages(param['id'])?.subscribe({
         next: value => {
@@ -80,6 +79,34 @@ export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecke
         },
       })
     })
+
+    this.websocket.getReadMessages().subscribe(message => {
+      console.log(message);
+      this.changeMessageToRead(message);
+    })
+
+  }
+  checkIfUneadMessages(messages: Message[]) {
+    const yourMessages = messages.filter(mess => mess.senderId !== this.user()?.id)
+
+    if (yourMessages.length === 0) return;
+
+    const unSeenMessages = yourMessages.filter(mess => mess.state !== State.SEEN);
+    unSeenMessages.map(message => {
+      let readPayload: ReadMessage = {
+        messageId: message.messageId,
+        state: message.state
+      }
+      this.websocket.sendMessage("/app/readMessage", readPayload)
+    })
+  }
+
+
+  changeMessageToRead(message: ReadMessage) {
+    let foundIndex = this.messages.findIndex(mess => mess.messageId === message.messageId)
+    if (foundIndex !== -1) {
+      this.messages[foundIndex].state = message.state;
+    }
   }
 
 
@@ -108,3 +135,4 @@ export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecke
 
 
 }
+

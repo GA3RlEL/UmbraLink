@@ -12,7 +12,7 @@ import { WebsocketService } from '../../service/websocket.service';
   styleUrl: './app-layout.component.css'
 })
 export class AppLayoutComponent implements OnInit {
-  constructor(private appService: AppService) { }
+  constructor(private appService: AppService, private websocket: WebsocketService) { }
 
   ngOnInit(): void {
     this.appService.getUserDetails()?.subscribe({

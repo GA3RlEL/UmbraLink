@@ -5,8 +5,10 @@ import java.util.Optional;
 
 import com.umbra.umbralink.dto.conversationData.ConversationMessageDto;
 import com.umbra.umbralink.dto.conversationData.ConversationMessageSaveDto;
+import com.umbra.umbralink.dto.conversationData.ReadMessageDto;
 import com.umbra.umbralink.model.Conversation;
 import com.umbra.umbralink.model.UserEntity;
+import com.umbra.umbralink.model.enums.MessageState;
 import com.umbra.umbralink.repository.ConversationRepository;
 import com.umbra.umbralink.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -78,8 +80,27 @@ public class MessageServiceImpl implements MessageService {
         returnDto.setMessageId(savedMessage.getId());
         returnDto.setSentTime(message.getCreatedAt());
         returnDto.setConversationId(message.getConversation().getId());
+        returnDto.setState(savedMessage.getState());
         return returnDto;
 
+    }
+
+    @Override
+    public ReadMessageDto readMessage(Long messageId) {
+        Optional<Message> oMessage = messageRepository.findById(messageId);
+        if (oMessage.isPresent()) {
+            Message message = oMessage.get();
+            message.setState(MessageState.SEEN);
+
+            Message savedMessage = messageRepository.save(message);
+
+            ReadMessageDto returnDto = new ReadMessageDto();
+            returnDto.setState(savedMessage.getState());
+            returnDto.setMessageId(savedMessage.getId());
+            return returnDto;
+        } else {
+            throw new MessageNotFoundException("Message with ID: " + messageId + " does not exist in database");
+        }
     }
 
 }

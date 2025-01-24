@@ -13,4 +13,5 @@ public class ConversationMessageDto {
 
     private String content;
     private LocalDateTime sentTime;
+    private MessageState state;
 }

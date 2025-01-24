@@ -1,10 +1,15 @@
-<div #conversationElement class="conversation">
+<div
+  (click)="checkIfUneadMessages(messages)"
+  #conversationElement
+  class="conversation"
+>
   @for (message of messages; track $index; ) { @if(message.senderId ===
   user()?.id) {
   <div class="receiver-field">
     <div class="message-container">
       <div class="message-block">
         <p>{{ message.content }}</p>
+        {{ message.state }}
       </div>
     </div>
   </div>
@@ -18,6 +23,7 @@
       }
       <div class="message-block">
         <p>{{ message.content }}</p>
+        {{ message.state }}
       </div>
     </div>
   </div>
@@ -34,6 +40,7 @@
         type="text"
         name="message"
         id="message"
+        placeholder="Type message..."
       />
       @if(message.length > 0){
       <span class="count-word">{{ message.length }}/{{ maxLenght }}</span>

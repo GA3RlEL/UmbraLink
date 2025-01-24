@@ -2,5 +2,5 @@
   display: grid;
   grid-template-columns: auto auto 1fr;
   height: 100vh;
-  gap: 2rem;
+  background-color: black;
 }

@@ -3,6 +3,13 @@
   grid-template-rows: 1fr auto;
   gap: 5rem;
   overflow-y: hidden;
+  background-color: #1a1a1a;
+  border-radius: 5px;
+  border: 1px solid #222;
+  margin: 1rem;
+  margin-right: 2rem;
+
+  padding: 1rem;
 }
 
 .conversation {

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.umbra.umbralink.dto.conversationData.ConversationMessageDto;
 import com.umbra.umbralink.dto.conversationData.ConversationMessageSaveDto;
+import com.umbra.umbralink.dto.conversationData.ReadMessageDto;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,12 @@ public class MessageController {
     @SendTo("/topic")
     public ConversationMessageDto showMessage(ConversationMessageSaveDto dto) {
         return messageService.saveMessageToDb(dto);
+    }
+
+    @MessageMapping("/readMessage")
+    @SendTo("/readMessage")
+    public ReadMessageDto readMessage(ReadMessageDto dto) {
+        return messageService.readMessage(dto.getMessageId());
     }
 
 

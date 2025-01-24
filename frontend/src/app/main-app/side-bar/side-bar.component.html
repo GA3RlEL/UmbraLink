@@ -55,16 +55,17 @@
       <p
         class="last-message"
         [style]="
-          conv.state === 'SENT' && !conv.isLastMessageSender
+          conv.state === State.SENT && !conv.isLastMessageSender
             ? 'font-weight: bold'
             : ''
         "
       >
         {{ conv.isLastMessageSender ? "You: " : ""
-        }}{{ conv.lastMessage.substring(0, 10) }} ...
+        }}{{ conv.lastMessage.substring(0, 10) }}
+        {{ conv.lastMessage.length > 10 ? "..." : "" }}
         <span
           [style]="
-            conv.state === 'SENT' && !conv.isLastMessageSender
+            conv.state === State.SENT && !conv.isLastMessageSender
               ? 'display: block'
               : 'display:none '
           "

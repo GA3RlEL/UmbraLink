@@ -4,6 +4,7 @@ export interface Message {
   senderId: number | null;
   sentTime: Date;
   conversationId: number;
+  state: State;
 }
 
 export interface Conversation {
@@ -21,4 +22,15 @@ export interface MessageToSend {
   content: string;
   conversationId: number;
   sentTime: Date;
+}
+
+
+export interface ReadMessage {
+  messageId: number;
+  state: State;
+}
+
+export enum State {
+  SENT = "SENT",
+  SEEN = "SEEN"
 }

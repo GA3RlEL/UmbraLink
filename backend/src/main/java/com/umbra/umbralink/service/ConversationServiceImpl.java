@@ -55,6 +55,7 @@ public class ConversationServiceImpl implements ConversationService {
                     message.setSentTime(mess.getCreatedAt());
                     message.setMessageId(mess.getId());
                     message.setConversationId(mess.getConversation().getId());
+                    message.setState(mess.getState());
                     return message;
                 }).toList();
                 conversationData.setMessages(messages);
