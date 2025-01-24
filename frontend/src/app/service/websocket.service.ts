@@ -21,7 +21,6 @@ export class WebsocketService {
     if (!this.stompClient?.connected) {
       this.stompClient = Stomp.client(this.WS_URL);
       this.stompClient.connect({}, () => {
-        console.log('WebSocket connected');
         this.isConnected = true
         this.subscribeToTopic();
         this.subscribeToReadMessage();
@@ -41,9 +40,7 @@ export class WebsocketService {
   }
 
   subscribeToReadMessage() {
-    console.log("adskgjareg'");
     if (this.stompClient) {
-      console.log("xxxx");
       this.stompClient.subscribe("/readMessage", (message) => {
         this.readMessageSubject.next(JSON.parse(message.body))
       })

@@ -9,7 +9,9 @@
     <div class="message-container">
       <div class="message-block">
         <p>{{ message.content }}</p>
+        @if(messages.length -1 === $index){
         {{ message.state }}
+        }
       </div>
     </div>
   </div>
@@ -23,7 +25,6 @@
       }
       <div class="message-block">
         <p>{{ message.content }}</p>
-        {{ message.state }}
       </div>
     </div>
   </div>

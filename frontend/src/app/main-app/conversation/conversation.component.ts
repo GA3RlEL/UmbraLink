@@ -1,17 +1,13 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { AfterViewChecked, Component, ElementRef, Input, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { WebsocketService } from '../../service/websocket.service';
-import { Subscription } from 'rxjs';
 import { AppService } from '../../service/app.service';
 import { ActivatedRoute } from '@angular/router';
 import { Message, MessageToSend, ReadMessage, State } from '../../model/conversation';
 import { User } from '../../model/user';
 import { Title } from '@angular/platform-browser';
-
-
-
-
+import { EventService } from '../../service/event.service';
 
 @Component({
   selector: 'app-conversation',
@@ -44,8 +40,7 @@ export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecke
   @ViewChild("conversationElement", { static: true }) conversationElement!: ElementRef<HTMLDivElement>
   maxLenght: number = 100;
 
-
-  constructor(private websocket: WebsocketService, private appService: AppService, private activatedRoute: ActivatedRoute, private title: Title) { }
+  constructor(private websocket: WebsocketService, private appService: AppService, private activatedRoute: ActivatedRoute, private title: Title, private eventService: EventService) { }
   ngAfterViewChecked(): void {
     this.scrollToBottom();
   }
@@ -55,7 +50,6 @@ export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecke
 
   scrollToBottom() {
     const scroll = this.conversationElement.nativeElement.scrollHeight
-
     this.conversationElement.nativeElement.scrollTo({ top: scroll })
   }
 
@@ -70,6 +64,7 @@ export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecke
         next: value => {
           console.log(value);
           this.messages = value.messages;
+          this.checkIfUneadMessages(this.messages);
           this.conversationId = value.conversationId;
           this.receiverId = value.receiverId;
           this.title.setTitle("Umbralink | " + value.receiverName)
@@ -81,8 +76,11 @@ export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecke
     })
 
     this.websocket.getReadMessages().subscribe(message => {
-      console.log(message);
       this.changeMessageToRead(message);
+    })
+
+    this.eventService.read$.subscribe(e => {
+      this.checkIfUneadMessages(this.messages);
     })
 
   }
@@ -95,6 +93,7 @@ export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecke
     unSeenMessages.map(message => {
       let readPayload: ReadMessage = {
         messageId: message.messageId,
+        conversationId: message.conversationId,
         state: message.state
       }
       this.websocket.sendMessage("/app/readMessage", readPayload)

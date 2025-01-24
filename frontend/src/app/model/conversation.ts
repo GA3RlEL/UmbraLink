@@ -27,6 +27,7 @@ export interface MessageToSend {
 
 export interface ReadMessage {
   messageId: number;
+  conversationId: number;
   state: State;
 }
 
