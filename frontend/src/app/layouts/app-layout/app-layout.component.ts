@@ -23,6 +23,11 @@ export class AppLayoutComponent implements OnInit {
         console.error(err);
       }
     });
+
+    if (localStorage.getItem('authToken')) {
+      this.websocket.connect({ "Authorization": localStorage.getItem("authToken") });
+    }
+
   }
 
 

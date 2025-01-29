@@ -54,7 +54,6 @@ export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecke
   }
 
   ngOnInit(): void {
-    this.websocket.connect();
     this.user = this.appService.getUser();
     this.websocket.getMessage().subscribe(message => {
       this.messages.push(message);

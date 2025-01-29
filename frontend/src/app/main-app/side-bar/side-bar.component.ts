@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { User } from '../../model/user';
+import { Status, User } from '../../model/user';
 import { RouterLink } from '@angular/router';
 import { AppService } from '../../service/app.service';
 import { WebsocketService } from '../../service/websocket.service';
@@ -24,10 +24,18 @@ export class SideBarComponent implements AfterViewInit {
     this.eventService.emitReadMessages();
   }
 
+  setDotColor(status: Status) {
+    switch (status) {
+      case Status.ONLINE:
+        return "green"
+      case Status.OFFLINE:
+        return "transparent"
+    }
+  }
+
 
   ngAfterViewInit(): void {
     this.user = this.appService.getUser();
-    this.webSocketService.connect();
     this.webSocketService.getMessage().subscribe(message => {
       this.user.update(user => {
         if (user) {
@@ -40,6 +48,16 @@ export class SideBarComponent implements AfterViewInit {
           })
         }
         return user;
+      })
+    })
+
+    this.webSocketService.getStatus().subscribe(value => {
+      this.user.update(user => {
+        if (user) {
+          user.conversations.map(conv => {
+            conv.otherUserId === value.id ? conv.status = value.status : conv.status
+          })
+        } return user;
       })
     })
 
@@ -62,9 +80,10 @@ export class SideBarComponent implements AfterViewInit {
     return State;
   }
 
-  ngOnInit(): void {
-
+  get Status() {
+    return Status;
   }
+
 
 
 }

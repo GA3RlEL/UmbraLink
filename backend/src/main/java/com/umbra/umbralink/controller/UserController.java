@@ -4,6 +4,7 @@ import com.umbra.umbralink.dto.UserResponseDto;
 import com.umbra.umbralink.model.UserEntity;
 import com.umbra.umbralink.service.ConversationService;
 import com.umbra.umbralink.service.UserService;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,6 +16,7 @@ public class UserController {
     public UserController(UserService userService, ConversationService conversationService) {
         this.userService = userService;
     }
+
 
     @GetMapping("/{id}")
     public UserEntity getUserById(@PathVariable Long id) {

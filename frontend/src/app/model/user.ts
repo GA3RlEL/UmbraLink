@@ -4,6 +4,7 @@ export interface User {
   id: number;
   username: string;
   email: string;
+  status: Status;
   conversations: Conversation[];
 }
 
@@ -13,6 +14,17 @@ export interface Conversation {
   conversationId: number;
   otherUserId: number;
   isLastMessageSender: boolean;
-  state: State
+  state: State;
+  status: Status;
+}
+
+export enum Status {
+  ONLINE = "ONLINE",
+  OFFLINE = "OFFLINE"
+}
+
+export interface StatusInterface {
+  id: number;
+  status: Status
 }
 

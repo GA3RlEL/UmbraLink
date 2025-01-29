@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 
 import com.umbra.umbralink.dto.ConversationDto;
 import com.umbra.umbralink.dto.UserResponseDto;
+import com.umbra.umbralink.dto.UserStatusDto;
 import com.umbra.umbralink.model.Conversation;
+import com.umbra.umbralink.model.enums.UserStatus;
 import com.umbra.umbralink.repository.ConversationRepository;
 import com.umbra.umbralink.security.jwt.JwtService;
 import org.springframework.data.domain.Sort;
@@ -71,6 +73,7 @@ public class UserServiceImpl implements UserService {
             userResponseDto.setId(userEntity.getId());
             userResponseDto.setUsername(userEntity.getUsername());
             userResponseDto.setEmail(userEntity.getEmail());
+            userResponseDto.setStatus(userEntity.getStatus());
             List<ConversationDto> conversationDtos = conversations.stream().map(c -> {
                 ConversationDto dto = new ConversationDto();
                 dto.setLastMessage(c.getMessages().getLast().getContent());
@@ -83,6 +86,9 @@ public class UserServiceImpl implements UserService {
                 dto.setOtherUserId(Objects.equals(c.getUser1(), userEntity.getId()) ?
                         userRepository.findById(c.getUser2()).get().getId() :
                         userRepository.findById(c.getUser1()).get().getId());
+                dto.setStatus(Objects.equals(c.getUser1(), userEntity.getId()) ?
+                        userRepository.findById(c.getUser2()).get().getStatus() :
+                        userRepository.findById(c.getUser1()).get().getStatus());
                 return dto;
             }).toList();
             userResponseDto.setConversations(conversationDtos);
@@ -91,6 +97,23 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("" + id);
         }
 
+    }
+
+    @Override
+    public UserStatusDto changeUserStatus(Long userId, UserStatus userStatus) {
+      Optional<UserEntity> oUser = userRepository.findById(userId);
+      if(oUser.isPresent())
+      {
+          UserEntity user = oUser.get();
+          user.setStatus(userStatus);
+          UserEntity savedUser = userRepository.save(user);
+          UserStatusDto dto = new UserStatusDto();
+          dto.setId(savedUser.getId());
+          dto.setStatus(savedUser.getStatus());
+          return dto;
+      }else{
+          throw new UsernameNotFoundException("User with id" + userId +" was not found in database");
+      }
     }
 
 

@@ -148,7 +148,7 @@ a:hover {
 .profile-dot {
   position: absolute;
   right: 5px;
-  background-color: green;
+  /* background-color: green; */
   bottom: 5px;
 }
 

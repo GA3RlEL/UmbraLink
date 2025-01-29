@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CompatClient, Stomp } from '@stomp/stompjs';
-import { Observable, Subject } from 'rxjs';
-import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
+import { Subject } from 'rxjs';
 import { Message, ReadMessage } from '../model/conversation';
+import { StatusInterface } from '../model/user';
 import { JsonPipe } from '@angular/common';
 
 @Injectable({
@@ -14,16 +14,18 @@ export class WebsocketService {
   private isConnected = false;
   private messageSubject: Subject<Message> = new Subject<Message>();
   private readMessageSubject: Subject<ReadMessage> = new Subject<ReadMessage>();
+  private statusSubject: Subject<StatusInterface> = new Subject<StatusInterface>();
   constructor() {
   }
 
-  connect(): void {
+  connect(headers: any): void {
     if (!this.stompClient?.connected) {
       this.stompClient = Stomp.client(this.WS_URL);
-      this.stompClient.connect({}, () => {
+      this.stompClient.connect(headers, () => {
         this.isConnected = true
         this.subscribeToTopic();
         this.subscribeToReadMessage();
+        this.subscribeToStatus();
       });
     }
 
@@ -47,6 +49,15 @@ export class WebsocketService {
     }
   }
 
+  subscribeToStatus() {
+    if (this.stompClient) {
+      this.stompClient.subscribe("/status", (status) => {
+        const parsedMessage = JSON.parse(status.body);
+        this.statusSubject.next(parsedMessage);
+      })
+    }
+  }
+
 
   getMessage(): Subject<Message> {
     return this.messageSubject;
@@ -54,6 +65,10 @@ export class WebsocketService {
 
   getReadMessages(): Subject<ReadMessage> {
     return this.readMessageSubject;
+  }
+
+  getStatus(): Subject<StatusInterface> {
+    return this.statusSubject;
   }
 
 
