@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SideBarComponent } from "../../main-app/side-bar/side-bar.component";
 import { AppService } from '../../service/app.service';
@@ -11,8 +11,9 @@ import { WebsocketService } from '../../service/websocket.service';
   templateUrl: './app-layout.component.html',
   styleUrl: './app-layout.component.css'
 })
-export class AppLayoutComponent implements OnInit {
+export class AppLayoutComponent implements OnInit, OnDestroy {
   constructor(private appService: AppService, private websocket: WebsocketService) { }
+
 
   ngOnInit(): void {
     this.appService.getUserDetails()?.subscribe({
@@ -28,6 +29,10 @@ export class AppLayoutComponent implements OnInit {
       this.websocket.connect({ "Authorization": localStorage.getItem("authToken") });
     }
 
+  }
+
+  ngOnDestroy(): void {
+    this.websocket.disconnect();
   }
 
 

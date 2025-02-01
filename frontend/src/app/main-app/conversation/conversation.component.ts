@@ -30,7 +30,7 @@ import { EventService } from '../../service/event.service';
 })
 
 
-export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class ConversationComponent implements OnInit, AfterViewChecked {
   user = signal<User | null>(null)
   message: string = "";
   isLastMessage!: boolean;
@@ -44,10 +44,6 @@ export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecke
   ngAfterViewChecked(): void {
     this.scrollToBottom();
   }
-  ngOnDestroy(): void {
-    this.websocket.disconnect();
-  }
-
   scrollToBottom() {
     const scroll = this.conversationElement.nativeElement.scrollHeight
     this.conversationElement.nativeElement.scrollTo({ top: scroll })
