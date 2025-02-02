@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { loginRequest, tokenResponse } from '../model/auth';
+import { loginRequest, registerRequest, tokenResponse } from '../model/auth';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -21,6 +21,19 @@ export class AuthService {
       error: (err) => {
         console.error(err)
       },
+    })
+  }
+
+  register(registerRequest: registerRequest) {
+    this.http.post<tokenResponse>(this.BASEURL + "/register", registerRequest).subscribe({
+      next: response => {
+        const token = response.token;
+        localStorage.setItem('authToken', token);
+        this.router.navigate(['/app'])
+      },
+      error: err => {
+        console.error(err);
+      }
     })
   }
 

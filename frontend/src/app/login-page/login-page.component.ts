@@ -3,7 +3,7 @@ import { CssSelector } from '@angular/compiler';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../service/auth.service';
-import { loginRequest } from '../model/auth';
+import { loginRequest, registerRequest } from '../model/auth';
 import { Router } from '@angular/router';
 
 @Component({
@@ -53,7 +53,12 @@ export class LoginPageComponent {
   }
 
   submitRegisterForm() {
-    console.log(this.registerForm.value);
+    const registerData: registerRequest = {
+      email: this.registerForm.value['email']!,
+      password: this.registerForm.value['password']!,
+      username: this.registerForm.value['userName']!
+    }
+    this.auth.register(registerData);
   }
 
 }
