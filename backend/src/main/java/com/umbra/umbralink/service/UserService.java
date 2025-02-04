@@ -2,6 +2,7 @@ package com.umbra.umbralink.service;
 
 import java.util.List;
 
+import com.umbra.umbralink.dto.FindUsersDto;
 import com.umbra.umbralink.dto.RegisterRequestDto;
 import com.umbra.umbralink.dto.UserResponseDto;
 import com.umbra.umbralink.dto.UserStatusDto;
@@ -16,4 +17,6 @@ public interface UserService {
     UserResponseDto findByToken(String token);
 
     UserStatusDto changeUserStatus(Long userId, UserStatus userStatus);
+
+    List<UserEntity> findUsers(String data);
 }

@@ -5,9 +5,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.umbra.umbralink.dto.ConversationDto;
-import com.umbra.umbralink.dto.UserResponseDto;
-import com.umbra.umbralink.dto.UserStatusDto;
+import com.umbra.umbralink.dto.*;
 import com.umbra.umbralink.model.Conversation;
 import com.umbra.umbralink.model.enums.UserStatus;
 import com.umbra.umbralink.repository.ConversationRepository;
@@ -16,8 +14,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import com.umbra.umbralink.dto.RegisterRequestDto;
 
 import com.umbra.umbralink.model.UserEntity;
 import com.umbra.umbralink.repository.UserRepository;
@@ -114,6 +110,11 @@ public class UserServiceImpl implements UserService {
       }else{
           throw new UsernameNotFoundException("User with id" + userId +" was not found in database");
       }
+    }
+
+    @Override
+    public List<UserEntity> findUsers(String data) {
+        return userRepository.findByEmailContainingIgnoreCaseOrUsernameContainingIgnoreCase(data,data);
     }
 
 

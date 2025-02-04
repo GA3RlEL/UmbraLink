@@ -7,6 +7,8 @@ import com.umbra.umbralink.service.UserService;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -26,6 +28,13 @@ public class UserController {
     @GetMapping("/me")
     public UserResponseDto findMe(@RequestHeader("Authorization") String token) {
         return userService.findByToken(token.substring(7));
+    }
+
+    @GetMapping("/findOther")
+    public List<UserEntity> findOtherUsersByEmailOrUsername(@RequestBody String data)
+    {
+        data = data.replaceAll("\"", "");
+        return userService.findUsers(data);
     }
 
 
