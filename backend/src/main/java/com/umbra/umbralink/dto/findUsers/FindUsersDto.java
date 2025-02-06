@@ -1,4 +1,4 @@
-package com.umbra.umbralink.dto;
+package com.umbra.umbralink.dto.findUsers;
 
 import lombok.Data;
 

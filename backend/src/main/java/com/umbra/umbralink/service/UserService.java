@@ -2,10 +2,10 @@ package com.umbra.umbralink.service;
 
 import java.util.List;
 
-import com.umbra.umbralink.dto.FindUsersDto;
 import com.umbra.umbralink.dto.RegisterRequestDto;
 import com.umbra.umbralink.dto.UserResponseDto;
 import com.umbra.umbralink.dto.UserStatusDto;
+import com.umbra.umbralink.dto.findUsers.FindUsersDto;
 import com.umbra.umbralink.model.UserEntity;
 import com.umbra.umbralink.model.enums.UserStatus;
 
@@ -18,5 +18,5 @@ public interface UserService {
 
     UserStatusDto changeUserStatus(Long userId, UserStatus userStatus);
 
-    List<UserEntity> findUsers(String data);
+    List<FindUsersDto> findUsers(String data);
 }

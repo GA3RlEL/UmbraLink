@@ -88,6 +88,15 @@ option {
   position: relative;
 }
 
+.users-found {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #767676;
+  z-index: 5;
+}
+
 ::placeholder {
   color: white;
 }

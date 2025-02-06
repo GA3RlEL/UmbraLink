@@ -1,6 +1,7 @@
 package com.umbra.umbralink.controller;
 
 import com.umbra.umbralink.dto.UserResponseDto;
+import com.umbra.umbralink.dto.findUsers.FindUsersDto;
 import com.umbra.umbralink.model.UserEntity;
 import com.umbra.umbralink.service.ConversationService;
 import com.umbra.umbralink.service.UserService;
@@ -31,7 +32,7 @@ public class UserController {
     }
 
     @GetMapping("/findOther")
-    public List<UserEntity> findOtherUsersByEmailOrUsername(@RequestBody String data)
+    public List<FindUsersDto> findOtherUsersByEmailOrUsername(@RequestParam String data)
     {
         data = data.replaceAll("\"", "");
         return userService.findUsers(data);

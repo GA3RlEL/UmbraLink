@@ -3,6 +3,7 @@ package com.umbra.umbralink.repository;
 import java.util.List;
 import java.util.Optional;
 
+import com.umbra.umbralink.dto.findUsers.FindUsersDto;
 import org.apache.catalina.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

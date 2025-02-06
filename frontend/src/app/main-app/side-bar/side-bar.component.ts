@@ -6,6 +6,7 @@ import { AppService } from '../../service/app.service';
 import { WebsocketService } from '../../service/websocket.service';
 import { State } from '../../model/conversation';
 import { EventService } from '../../service/event.service';
+import { FindOther } from '../../model/findOther';
 
 @Component({
   selector: 'app-side-bar',
@@ -18,11 +19,29 @@ export class SideBarComponent implements AfterViewInit {
   dotColor: "red" | "yellow" | "green" | "transparent" = "green";
   user = signal<User | null>(null);
 
+  findUsers: FindOther[] = [];
+  userText = '';
+
   constructor(private appService: AppService, private webSocketService: WebsocketService, private eventService: EventService) { }
 
   emitRead() {
     this.eventService.emitReadMessages();
   }
+
+  searchUsers(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const value = target?.value?.trim();
+    if (value.length > 2 && value) {
+      console.log(target.value);
+      this.appService.findUsers(value)?.subscribe(value => {
+        this.findUsers = value
+        console.log(this.findUsers);
+
+      });
+    }
+  }
+
+
 
   setDotColor(status: Status) {
     switch (status) {

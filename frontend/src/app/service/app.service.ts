@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { User } from '../model/user';
 import { Conversation, Message, MessageToSend } from '../model/conversation';
+import { FindOther } from '../model/findOther';
 
 @Injectable({
   providedIn: 'root'
@@ -48,5 +49,22 @@ export class AppService {
 
   getUser() {
     return this.user;
+  }
+
+  findUsers(data: string) {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      return this.http.get<FindOther[]>(this.BASEURL + "/user/findOther", {
+        params: {
+          'data': data
+        },
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+    }
+    console.error('Token was not found');
+    return null;
+
   }
 }

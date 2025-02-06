@@ -35,10 +35,23 @@
       />
     </svg>
     <input
+      (input)="searchUsers($event)"
+      [(ngModel)]="userText"
       type="text"
       class="search-people"
-      placeholder="Search for people or group"
+      placeholder="Search for people"
     />
+    @if (true) {
+    <div class="users-found">
+      <ul>
+        @for (user of findUsers; track $index) {
+        <li>
+          {{ user.username }}
+        </li>
+        }
+      </ul>
+    </div>
+    }
   </div>
   <hr />
 </div>

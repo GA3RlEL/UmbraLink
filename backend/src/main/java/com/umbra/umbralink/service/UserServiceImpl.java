@@ -1,11 +1,13 @@
 package com.umbra.umbralink.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.umbra.umbralink.dto.*;
+import com.umbra.umbralink.dto.findUsers.FindUsersDto;
 import com.umbra.umbralink.model.Conversation;
 import com.umbra.umbralink.model.enums.UserStatus;
 import com.umbra.umbralink.repository.ConversationRepository;
@@ -113,8 +115,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserEntity> findUsers(String data) {
-        return userRepository.findByEmailContainingIgnoreCaseOrUsernameContainingIgnoreCase(data,data);
+    public List<FindUsersDto> findUsers(String data) {
+        List<UserEntity> usersFound = userRepository.findByEmailContainingIgnoreCaseOrUsernameContainingIgnoreCase(data,data);
+        List<FindUsersDto> dto = new ArrayList<>();
+        if(usersFound.isEmpty()){
+            return dto;
+        }
+        usersFound.forEach(user->{
+            FindUsersDto findUser = new FindUsersDto();
+            findUser.setId(user.getId());
+            findUser.setUsername(user.getUsername());
+            dto.add(findUser);
+        });
+        return dto;
     }
 
 
