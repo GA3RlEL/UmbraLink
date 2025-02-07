@@ -18,7 +18,7 @@ export class SideBarComponent implements AfterViewInit {
 
   dotColor: "red" | "yellow" | "green" | "transparent" = "green";
   user = signal<User | null>(null);
-
+  // findUsers: FindOther[] = [{ id: 1, username: "test" }, { id: 1, username: "test" }, { id: 1, username: "test" }];
   findUsers: FindOther[] = [];
   userText = '';
 
@@ -30,18 +30,20 @@ export class SideBarComponent implements AfterViewInit {
 
   searchUsers(event: Event) {
     const target = event.target as HTMLInputElement;
+
     const value = target?.value?.trim();
+    if (value.length < 2) {
+      this.findUsers = [];
+    }
+
     if (value.length > 2 && value) {
       console.log(target.value);
       this.appService.findUsers(value)?.subscribe(value => {
         this.findUsers = value
         console.log(this.findUsers);
-
       });
     }
   }
-
-
 
   setDotColor(status: Status) {
     switch (status) {
@@ -51,7 +53,6 @@ export class SideBarComponent implements AfterViewInit {
         return "transparent"
     }
   }
-
 
   ngAfterViewInit(): void {
     this.user = this.appService.getUser();

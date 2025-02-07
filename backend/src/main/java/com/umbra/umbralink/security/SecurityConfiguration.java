@@ -28,7 +28,7 @@ import java.util.List;
 public class SecurityConfiguration {
 
     private final UserDetailService userDetailService;
-    private final JwtAuthenticationFilter authenticationFilter;
+    private final JwtAuthenticationFilter  authenticationFilter;
 
     public SecurityConfiguration(UserDetailService userDetailService, JwtAuthenticationFilter authenticationFilter) {
         this.userDetailService = userDetailService;

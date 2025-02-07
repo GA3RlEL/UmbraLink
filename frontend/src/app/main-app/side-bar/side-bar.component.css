@@ -90,11 +90,31 @@ option {
 
 .users-found {
   position: absolute;
-  top: 40px;
+  top: 50px;
   left: 50%;
   transform: translateX(-50%);
   background-color: #767676;
   z-index: 5;
+  width: 100%;
+  border-radius: 5px;
+  display: flex;
+  cursor: pointer;
+  border: none;
+  flex-direction: column;
+}
+
+.user-found {
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  padding: 1rem;
+  gap: 2rem;
+  border-bottom: 1px solid #222;
+}
+
+.user-found img {
+  width: 4rem;
+  height: 4rem;
 }
 
 ::placeholder {
