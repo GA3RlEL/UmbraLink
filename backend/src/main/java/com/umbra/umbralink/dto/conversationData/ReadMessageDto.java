@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReadMessageDto {
     private Long messageId;
-    private int conversationId;
+    private Long conversationId;
     private MessageState state;
 }

@@ -9,7 +9,7 @@ public class ConversationDto {
     private String otherUser;
     private Long otherUserId;
     private String lastMessage;
-    private int conversationId;
+    private Long conversationId;
     private MessageState state;
     private Boolean isLastMessageSender;
     private UserStatus status;

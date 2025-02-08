@@ -73,4 +73,14 @@ public class ConversationServiceImpl implements ConversationService {
         return null;
     }
 
+    @Override
+    public Long findConversation(Long user1, Long user2) {
+        Optional<Conversation> conversation = conversationRepository.findConversation(user1,user2);
+        if(conversation.isPresent()){
+            return conversation.get().getId();
+        }
+
+        return null;
+    }
+
 }

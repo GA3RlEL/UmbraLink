@@ -44,7 +44,7 @@
     @if (true) {
     <button class="users-found">
       @for (user of findUsers; track $index) {
-      <div class="user-found">
+      <div (click)="showChat(user.id)" class="user-found">
         <img class="avatar" src="user.jpg" alt="profile pictore" />
         {{ user.username }}
       </div>

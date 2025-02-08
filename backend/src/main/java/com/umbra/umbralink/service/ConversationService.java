@@ -5,6 +5,7 @@ import com.umbra.umbralink.dto.conversationData.ConversationMessageSaveDto;
 import com.umbra.umbralink.model.Conversation;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ConversationService {
     List<Conversation> getAllConversation();
@@ -13,4 +14,5 @@ public interface ConversationService {
 
     Conversation saveConversation(ConversationMessageSaveDto dto);
 
+    Long findConversation(Long user1, Long user2);
 }

@@ -1,12 +1,13 @@
 import { AfterViewInit, Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Status, User } from '../../model/user';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AppService } from '../../service/app.service';
 import { WebsocketService } from '../../service/websocket.service';
 import { State } from '../../model/conversation';
 import { EventService } from '../../service/event.service';
 import { FindOther } from '../../model/findOther';
+import { routes } from '../../app.routes';
 
 @Component({
   selector: 'app-side-bar',
@@ -22,10 +23,28 @@ export class SideBarComponent implements AfterViewInit {
   findUsers: FindOther[] = [];
   userText = '';
 
-  constructor(private appService: AppService, private webSocketService: WebsocketService, private eventService: EventService) { }
+  constructor(private appService: AppService, private webSocketService: WebsocketService, private eventService: EventService, private router: Router) { }
 
   emitRead() {
     this.eventService.emitReadMessages();
+  }
+
+  showChat(id: number) {
+    const user = this.appService.getUser();
+    if (user) {
+      this.appService.getConversationId(user()!.id, id)?.subscribe({
+        next: value => {
+          this.router.navigate([`/app/${value}`])
+        },
+        error: err => {
+          console.error(err);
+        }
+      });
+    }
+    this.findUsers = [];
+    this.userText = '';
+
+
   }
 
   searchUsers(event: Event) {

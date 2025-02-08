@@ -14,7 +14,7 @@ import java.util.List;
 public class Conversation extends BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @OneToMany(mappedBy = "conversation")
     @JsonManagedReference

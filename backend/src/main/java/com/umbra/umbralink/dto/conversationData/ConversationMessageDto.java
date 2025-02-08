@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Data
 public class ConversationMessageDto {
     private Long messageId;
-    private int conversationId;
+    private Long conversationId;
     private Long senderId;
 
     private String content;

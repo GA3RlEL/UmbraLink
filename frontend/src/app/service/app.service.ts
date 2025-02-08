@@ -65,6 +65,20 @@ export class AppService {
     }
     console.error('Token was not found');
     return null;
+  }
+
+
+  getConversationId(user: number, user2: number) {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      return this.http.post(this.BASEURL + "/conversation/findConversation", { user1: user, user2: user2 }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+    }
+
+    return null;
 
   }
 }
