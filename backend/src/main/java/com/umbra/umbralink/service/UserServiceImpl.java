@@ -74,10 +74,17 @@ public class UserServiceImpl implements UserService {
             userResponseDto.setStatus(userEntity.getStatus());
             List<ConversationDto> conversationDtos = conversations.stream().map(c -> {
                 ConversationDto dto = new ConversationDto();
-                dto.setLastMessage(c.getMessages().getLast().getContent());
+
+                if(!c.getMessages().isEmpty()){
+                    dto.setLastMessage(c.getMessages().getLast().getContent());
+                    dto.setState(c.getMessages().getLast().getState());
+                    dto.setIsLastMessageSender(Objects.equals(c.getMessages().getLast().getSender().getId(), userEntity.getId()));
+                }else{
+                    dto.setLastMessage("");
+                    dto.setState(null);
+                    dto.setIsLastMessageSender(false);
+                }
                 dto.setConversationId(c.getId());
-                dto.setState(c.getMessages().getLast().getState());
-                dto.setIsLastMessageSender(Objects.equals(c.getMessages().getLast().getSender().getId(), userEntity.getId()));
                 dto.setOtherUser(Objects.equals(c.getUser1(), userEntity.getId()) ?
                         userRepository.findById(c.getUser2()).get().getUsername() :
                         userRepository.findById(c.getUser1()).get().getUsername());

@@ -9,6 +9,7 @@ import { EventService } from '../../service/event.service';
 import { FindOther } from '../../model/findOther';
 import { routes } from '../../app.routes';
 
+
 @Component({
   selector: 'app-side-bar',
   imports: [FormsModule, RouterLink],
@@ -77,14 +78,28 @@ export class SideBarComponent implements AfterViewInit {
     this.user = this.appService.getUser();
     this.webSocketService.getMessage().subscribe(message => {
       this.user.update(user => {
+        console.log(message);
         if (user) {
-          user.conversations.map(conv => {
-            if (conv.conversationId === message.conversationId) {
-              conv.lastMessage = message.content
-              conv.otherUserId === message.senderId ? conv.isLastMessageSender = false : conv.isLastMessageSender = true;
-              conv.state = message.state;
+          let conversation = user.conversations.find(c => c.conversationId === message.conversationId)
+
+          if (conversation) {
+            conversation.lastMessage = message.content
+            conversation.otherUserId === message.senderId ? conversation.isLastMessageSender = false : conversation.isLastMessageSender = true;
+            conversation.state = message.state;
+          } else if (message?.senderId === user.id || message?.receiverId === user.id) {
+            console.log(message);
+            if (message?.conversationId) {
+              this.appService.fetchNewConversation(message.conversationId).subscribe({
+                next: value => {
+                  console.log(value);
+                  user.conversations.push(value);
+                },
+                error: err => {
+                  console.error(err);
+                }
+              })
             }
-          })
+          }
         }
         return user;
       })

@@ -33,12 +33,7 @@ public class MessageController {
     public ReadMessageDto readMessage(ReadMessageDto dto) {
         return messageService.readMessage(dto.getMessageId());
     }
-
-
-    @GetMapping
-    public List<Message> getAllMessages() {
-        return messageService.getAllMessages();
-    }
+    
 
     @GetMapping("/{id}")
     public Message getMessageById(@PathVariable Long id) {

@@ -52,7 +52,13 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
   ngOnInit(): void {
     this.user = this.appService.getUser();
     this.websocket.getMessage().subscribe(message => {
-      this.messages.push(message);
+      const conversationId = +this.activatedRoute.snapshot.paramMap.get('id')!;
+      console.log(conversationId);
+      console.log(message.conversationId);
+      if (conversationId === message.conversationId) {
+        this.messages.push(message);
+      }
+
     })
     this.activatedRoute.params.subscribe(param => {
       this.appService.getConversationMessages(param['id'])?.subscribe({

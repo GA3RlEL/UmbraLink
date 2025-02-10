@@ -2,6 +2,7 @@ export interface Message {
   messageId: number;
   content: string;
   senderId: number | null;
+  receiverId: number | null;
   sentTime: Date;
   conversationId: number;
   state: State;

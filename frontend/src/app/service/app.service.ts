@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { User } from '../model/user';
-import { Conversation, Message, MessageToSend } from '../model/conversation';
+import { Conversation } from '../model/conversation';
 import { FindOther } from '../model/findOther';
+import { SideBarConversation } from '../model/user';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +29,21 @@ export class AppService {
     }
   }
 
+  fetchNewConversation(conversationId: number): Observable<SideBarConversation> {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      return this.http.get<SideBarConversation>(this.BASEURL + `/conversation/${conversationId}/metadata`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
+    }
+    console.error("Auth token was not found");
+    return new Observable<SideBarConversation>(observer => {
+      observer.error("Auth token was not found");
+    });
+  }
+
   getConversationMessages(id: string) {
     const token = localStorage.getItem("authToken");
     if (token) {
@@ -37,10 +54,10 @@ export class AppService {
           }
         }
       )
-    } else {
-      console.error("Token was not found");
-      return null;
     }
+    console.error("Token was not found");
+    return null;
+
   }
 
   setUser(user: User) {

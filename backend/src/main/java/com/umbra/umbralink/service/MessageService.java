@@ -8,7 +8,6 @@ import com.umbra.umbralink.dto.conversationData.ReadMessageDto;
 import com.umbra.umbralink.model.Message;
 
 public interface MessageService {
-    List<Message> getAllMessages();
 
     Message getMessageById(Long id);
 

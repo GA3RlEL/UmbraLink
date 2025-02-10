@@ -31,12 +31,6 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<Message> getAllMessages() {
-        return messageRepository.findAll();
-    }
-
-
-    @Override
     public Message getMessageById(Long id) {
         return messageRepository.findById(id)
                 .orElseThrow(() -> new MessageNotFoundException("User with id " + id + " not found"));
@@ -80,6 +74,7 @@ public class MessageServiceImpl implements MessageService {
         returnDto.setSentTime(message.getCreatedAt());
         returnDto.setConversationId(message.getConversation().getId());
         returnDto.setState(savedMessage.getState());
+        returnDto.setReceiverId(savedMessage.getReceiver().getId());
         return returnDto;
 
     }

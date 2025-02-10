@@ -5,10 +5,10 @@ export interface User {
   username: string;
   email: string;
   status: Status;
-  conversations: Conversation[];
+  conversations: SideBarConversation[];
 }
 
-export interface Conversation {
+export interface SideBarConversation {
   otherUser: string;
   lastMessage: string;
   conversationId: number;

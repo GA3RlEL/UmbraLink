@@ -43,7 +43,7 @@ public class SecurityConfiguration {
             req.requestMatchers("/topic").permitAll();
             req.requestMatchers("/register", "/login").permitAll();
             req.requestMatchers("/messages/**").hasRole("USER");
-            req.requestMatchers("/user/**", "/conversation/**").authenticated();
+            req.requestMatchers("/user/**", "/conversation/**", "/conversation/**/**").authenticated();
             req.anyRequest().authenticated();
         });
 
