@@ -1,8 +1,6 @@
-package com.umbra.umbralink.controller;
+package com.umbra.umbralink.image;
 
 import com.umbra.umbralink.cloudinary.CloudinaryService;
-import com.umbra.umbralink.model.Image;
-import com.umbra.umbralink.service.ImageService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -1,4 +1,4 @@
-package com.umbra.umbralink.model;
+package com.umbra.umbralink.helper;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;

@@ -1,12 +1,9 @@
-package com.umbra.umbralink.controller;
+package com.umbra.umbralink.conversation;
 
 import com.umbra.umbralink.dto.ConversationDto;
 import com.umbra.umbralink.dto.conversationData.ConversationDataDto;
-import com.umbra.umbralink.model.Conversation;
-import com.umbra.umbralink.service.ConversationService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController

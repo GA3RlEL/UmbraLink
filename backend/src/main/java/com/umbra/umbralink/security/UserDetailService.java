@@ -8,8 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.umbra.umbralink.model.UserEntity;
-import com.umbra.umbralink.repository.UserRepository;
+import com.umbra.umbralink.user.UserEntity;
+import com.umbra.umbralink.user.UserRepository;
 
 @Service
 public class UserDetailService implements UserDetailsService {

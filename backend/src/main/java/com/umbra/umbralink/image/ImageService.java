@@ -1,11 +1,8 @@
-package com.umbra.umbralink.service;
+package com.umbra.umbralink.image;
 
 import com.umbra.umbralink.cloudinary.CloudinaryService;
-import com.umbra.umbralink.model.Image;
-import com.umbra.umbralink.model.UserEntity;
-import com.umbra.umbralink.repository.ImageRepository;
-import com.umbra.umbralink.repository.UserRepository;
-import com.umbra.umbralink.security.UserDetailService;
+import com.umbra.umbralink.user.UserEntity;
+import com.umbra.umbralink.user.UserRepository;
 import com.umbra.umbralink.security.jwt.JwtService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.umbra.umbralink.controller;
+package com.umbra.umbralink.auth;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

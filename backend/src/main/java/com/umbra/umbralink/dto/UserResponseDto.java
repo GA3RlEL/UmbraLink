@@ -1,11 +1,8 @@
 package com.umbra.umbralink.dto;
 
-import com.umbra.umbralink.model.Conversation;
-import com.umbra.umbralink.model.Message;
-import com.umbra.umbralink.model.enums.UserStatus;
+import com.umbra.umbralink.enums.UserStatus;
 import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data

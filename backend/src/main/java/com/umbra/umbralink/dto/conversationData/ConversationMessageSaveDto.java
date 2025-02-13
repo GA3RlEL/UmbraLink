@@ -1,12 +1,8 @@
 package com.umbra.umbralink.dto.conversationData;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.umbra.umbralink.model.enums.MessageType;
+import com.umbra.umbralink.enums.MessageType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor

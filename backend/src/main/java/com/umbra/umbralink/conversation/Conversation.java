@@ -1,6 +1,8 @@
-package com.umbra.umbralink.model;
+package com.umbra.umbralink.conversation;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.umbra.umbralink.helper.BaseModel;
+import com.umbra.umbralink.message.Message;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

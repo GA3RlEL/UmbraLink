@@ -1,6 +1,4 @@
-package com.umbra.umbralink.controller;
-
-import java.util.List;
+package com.umbra.umbralink.message;
 
 import com.umbra.umbralink.dto.conversationData.ConversationMessageDto;
 import com.umbra.umbralink.dto.conversationData.ConversationMessageSaveDto;
@@ -8,9 +6,6 @@ import com.umbra.umbralink.dto.conversationData.ReadMessageDto;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
-
-import com.umbra.umbralink.model.Message;
-import com.umbra.umbralink.service.MessageService;
 
 @RestController
 @RequestMapping("/messages")

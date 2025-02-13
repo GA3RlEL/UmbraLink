@@ -1,6 +1,6 @@
 package com.umbra.umbralink.dto.conversationData;
 
-import com.umbra.umbralink.model.enums.MessageState;
+import com.umbra.umbralink.enums.MessageState;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

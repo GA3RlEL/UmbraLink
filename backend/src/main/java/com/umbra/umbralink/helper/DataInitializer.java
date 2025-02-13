@@ -1,15 +1,12 @@
 package com.umbra.umbralink.helper;
 
-import com.umbra.umbralink.model.Conversation;
-import com.umbra.umbralink.model.Message;
-import com.umbra.umbralink.model.UserEntity;
-import com.umbra.umbralink.model.enums.MessageState;
-import com.umbra.umbralink.model.enums.MessageType;
-import com.umbra.umbralink.repository.ConversationRepository;
-import com.umbra.umbralink.repository.MessageRepository;
-import com.umbra.umbralink.repository.UserRepository;
+import com.umbra.umbralink.conversation.Conversation;
+import com.umbra.umbralink.message.Message;
+import com.umbra.umbralink.user.UserEntity;
+import com.umbra.umbralink.conversation.ConversationRepository;
+import com.umbra.umbralink.message.MessageRepository;
+import com.umbra.umbralink.user.UserRepository;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.cglib.core.Local;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 

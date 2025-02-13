@@ -1,6 +1,5 @@
-package com.umbra.umbralink.repository;
+package com.umbra.umbralink.image;
 
-import com.umbra.umbralink.model.Image;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

@@ -1,6 +1,7 @@
-package com.umbra.umbralink.model;
+package com.umbra.umbralink.image;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.umbra.umbralink.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

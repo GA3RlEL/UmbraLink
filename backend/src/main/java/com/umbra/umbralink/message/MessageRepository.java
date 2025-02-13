@@ -1,8 +1,6 @@
-package com.umbra.umbralink.repository;
+package com.umbra.umbralink.message;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.umbra.umbralink.model.Message;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
 

@@ -1,11 +1,8 @@
-package com.umbra.umbralink.repository;
+package com.umbra.umbralink.conversation;
 
-import com.umbra.umbralink.model.Conversation;
-import com.umbra.umbralink.model.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface ConversationRepository extends JpaRepository<Conversation, Integer> {

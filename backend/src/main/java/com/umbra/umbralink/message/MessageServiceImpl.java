@@ -1,21 +1,18 @@
-package com.umbra.umbralink.service;
+package com.umbra.umbralink.message;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.umbra.umbralink.dto.conversationData.ConversationMessageDto;
 import com.umbra.umbralink.dto.conversationData.ConversationMessageSaveDto;
 import com.umbra.umbralink.dto.conversationData.ReadMessageDto;
-import com.umbra.umbralink.model.Conversation;
-import com.umbra.umbralink.model.UserEntity;
-import com.umbra.umbralink.model.enums.MessageState;
-import com.umbra.umbralink.repository.ConversationRepository;
-import com.umbra.umbralink.repository.UserRepository;
+import com.umbra.umbralink.conversation.Conversation;
+import com.umbra.umbralink.user.UserEntity;
+import com.umbra.umbralink.enums.MessageState;
+import com.umbra.umbralink.conversation.ConversationRepository;
+import com.umbra.umbralink.user.UserRepository;
 import org.springframework.stereotype.Service;
 
 import com.umbra.umbralink.error.MessageNotFoundException;
-import com.umbra.umbralink.model.Message;
-import com.umbra.umbralink.repository.MessageRepository;
 
 @Service
 public class MessageServiceImpl implements MessageService {

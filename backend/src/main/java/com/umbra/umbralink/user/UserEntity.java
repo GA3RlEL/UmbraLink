@@ -1,13 +1,12 @@
-package com.umbra.umbralink.model;
+package com.umbra.umbralink.user;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.umbra.umbralink.model.enums.UserStatus;
+import com.umbra.umbralink.helper.BaseModel;
+import com.umbra.umbralink.image.Image;
+import com.umbra.umbralink.message.Message;
+import com.umbra.umbralink.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

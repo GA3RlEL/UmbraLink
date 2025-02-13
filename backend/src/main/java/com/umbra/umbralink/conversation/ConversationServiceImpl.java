@@ -1,21 +1,17 @@
-package com.umbra.umbralink.service;
+package com.umbra.umbralink.conversation;
 
 import com.umbra.umbralink.dto.ConversationDto;
 import com.umbra.umbralink.dto.conversationData.ConversationDataDto;
 import com.umbra.umbralink.dto.conversationData.ConversationMessageDto;
-import com.umbra.umbralink.dto.conversationData.ConversationMessageSaveDto;
-import com.umbra.umbralink.model.Conversation;
-import com.umbra.umbralink.model.Message;
-import com.umbra.umbralink.model.UserEntity;
-import com.umbra.umbralink.repository.ConversationRepository;
-import com.umbra.umbralink.repository.UserRepository;
+import com.umbra.umbralink.message.Message;
+import com.umbra.umbralink.user.UserEntity;
+import com.umbra.umbralink.user.UserRepository;
 import com.umbra.umbralink.security.jwt.JwtService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;

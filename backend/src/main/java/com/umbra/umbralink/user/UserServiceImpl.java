@@ -1,4 +1,4 @@
-package com.umbra.umbralink.service;
+package com.umbra.umbralink.user;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,16 +8,13 @@ import java.util.Optional;
 import com.umbra.umbralink.dto.*;
 import com.umbra.umbralink.dto.auth.RegisterRequestDto;
 import com.umbra.umbralink.dto.findUsers.FindUsersDto;
-import com.umbra.umbralink.model.Conversation;
-import com.umbra.umbralink.model.enums.UserStatus;
-import com.umbra.umbralink.repository.ConversationRepository;
+import com.umbra.umbralink.conversation.Conversation;
+import com.umbra.umbralink.enums.UserStatus;
+import com.umbra.umbralink.conversation.ConversationRepository;
 import com.umbra.umbralink.security.jwt.JwtService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import com.umbra.umbralink.model.UserEntity;
-import com.umbra.umbralink.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService {

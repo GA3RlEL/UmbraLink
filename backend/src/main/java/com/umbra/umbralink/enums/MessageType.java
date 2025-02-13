@@ -1,4 +1,4 @@
-package com.umbra.umbralink.model.enums;
+package com.umbra.umbralink.enums;
 
 public enum MessageType {
     VIDEO,

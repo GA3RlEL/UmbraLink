@@ -1,4 +1,4 @@
-package com.umbra.umbralink.controller;
+package com.umbra.umbralink.auth;
 
 import com.umbra.umbralink.dto.auth.AuthResponseDto;
 import com.umbra.umbralink.security.UserDetailService;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.umbra.umbralink.dto.auth.RegisterRequestDto;
-import com.umbra.umbralink.model.UserEntity;
-import com.umbra.umbralink.service.UserService;
+import com.umbra.umbralink.user.UserEntity;
+import com.umbra.umbralink.user.UserService;
 
 @RestController
 public class RegisterController {

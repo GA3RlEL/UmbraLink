@@ -1,7 +1,7 @@
 package com.umbra.umbralink.dto;
 
-import com.umbra.umbralink.model.enums.MessageState;
-import com.umbra.umbralink.model.enums.UserStatus;
+import com.umbra.umbralink.enums.MessageState;
+import com.umbra.umbralink.enums.UserStatus;
 import lombok.Data;
 
 @Data

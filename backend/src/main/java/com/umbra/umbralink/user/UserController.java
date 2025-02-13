@@ -1,11 +1,8 @@
-package com.umbra.umbralink.controller;
+package com.umbra.umbralink.user;
 
 import com.umbra.umbralink.dto.UserResponseDto;
 import com.umbra.umbralink.dto.findUsers.FindUsersDto;
-import com.umbra.umbralink.model.UserEntity;
-import com.umbra.umbralink.service.ConversationService;
-import com.umbra.umbralink.service.UserService;
-import org.springframework.messaging.handler.annotation.SendTo;
+import com.umbra.umbralink.conversation.ConversationService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

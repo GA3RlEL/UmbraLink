@@ -1,4 +1,4 @@
-package com.umbra.umbralink.service;
+package com.umbra.umbralink.user;
 
 import java.util.List;
 
@@ -6,8 +6,7 @@ import com.umbra.umbralink.dto.auth.RegisterRequestDto;
 import com.umbra.umbralink.dto.UserResponseDto;
 import com.umbra.umbralink.dto.UserStatusDto;
 import com.umbra.umbralink.dto.findUsers.FindUsersDto;
-import com.umbra.umbralink.model.UserEntity;
-import com.umbra.umbralink.model.enums.UserStatus;
+import com.umbra.umbralink.enums.UserStatus;
 
 public interface UserService {
     UserEntity findById(Long id);

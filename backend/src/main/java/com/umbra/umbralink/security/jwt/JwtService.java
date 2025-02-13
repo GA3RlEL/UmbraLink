@@ -5,9 +5,8 @@ import java.util.*;
 
 import javax.crypto.SecretKey;
 
-import com.umbra.umbralink.model.UserEntity;
-import com.umbra.umbralink.repository.UserRepository;
-import com.umbra.umbralink.service.UserService;
+import com.umbra.umbralink.user.UserEntity;
+import com.umbra.umbralink.user.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;

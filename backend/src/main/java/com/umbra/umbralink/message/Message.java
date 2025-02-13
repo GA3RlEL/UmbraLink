@@ -1,9 +1,11 @@
-package com.umbra.umbralink.model;
+package com.umbra.umbralink.message;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.umbra.umbralink.model.enums.MessageType;
-import com.umbra.umbralink.model.enums.MessageState;
+import com.umbra.umbralink.conversation.Conversation;
+import com.umbra.umbralink.helper.BaseModel;
+import com.umbra.umbralink.enums.MessageType;
+import com.umbra.umbralink.enums.MessageState;
+import com.umbra.umbralink.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

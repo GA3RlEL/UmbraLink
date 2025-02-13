@@ -1,9 +1,9 @@
 package com.umbra.umbralink.websocket;
 
 import com.umbra.umbralink.dto.UserStatusDto;
-import com.umbra.umbralink.model.enums.UserStatus;
+import com.umbra.umbralink.enums.UserStatus;
 import com.umbra.umbralink.security.jwt.JwtService;
-import com.umbra.umbralink.service.UserService;
+import com.umbra.umbralink.user.UserService;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;

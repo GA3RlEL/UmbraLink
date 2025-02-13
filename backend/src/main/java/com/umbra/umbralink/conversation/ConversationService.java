@@ -1,12 +1,7 @@
-package com.umbra.umbralink.service;
+package com.umbra.umbralink.conversation;
 
 import com.umbra.umbralink.dto.ConversationDto;
 import com.umbra.umbralink.dto.conversationData.ConversationDataDto;
-import com.umbra.umbralink.dto.conversationData.ConversationMessageSaveDto;
-import com.umbra.umbralink.model.Conversation;
-
-import java.util.List;
-import java.util.Optional;
 
 public interface ConversationService {
 
