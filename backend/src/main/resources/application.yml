@@ -1,0 +1,19 @@
+# Conversion to YAML from Properties formar report
+# Warnings:
+# - The yaml file had comments which are lost in the refactoring!
+spring:
+  application:
+    name: umbralink
+  datasource:
+    url: jdbc:postgresql://localhost:5432/umbralink
+    username: umbralink
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+server:
+  servlet:
+    contextPath: /api/v1

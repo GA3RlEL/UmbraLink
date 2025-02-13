@@ -36,5 +36,8 @@ public class UserEntity extends BaseModel {
     @JsonManagedReference
     private List<Message> receivedMessages;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private Image profileImage;
 
 }

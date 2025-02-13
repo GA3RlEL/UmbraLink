@@ -5,6 +5,7 @@ export interface User {
   username: string;
   email: string;
   status: Status;
+  imageUrl: string;
   conversations: SideBarConversation[];
 }
 
@@ -16,6 +17,7 @@ export interface SideBarConversation {
   isLastMessageSender: boolean;
   state: State;
   status: Status;
+  imageUrl: string;
 }
 
 export enum Status {

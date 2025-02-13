@@ -13,4 +13,5 @@ public class ConversationDto {
     private MessageState state;
     private Boolean isLastMessageSender;
     private UserStatus status;
+    private String imageUrl;
 }

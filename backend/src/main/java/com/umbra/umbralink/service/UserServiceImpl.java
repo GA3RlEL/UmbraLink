@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import com.umbra.umbralink.dto.*;
+import com.umbra.umbralink.dto.auth.RegisterRequestDto;
 import com.umbra.umbralink.dto.findUsers.FindUsersDto;
 import com.umbra.umbralink.model.Conversation;
 import com.umbra.umbralink.model.enums.UserStatus;
 import com.umbra.umbralink.repository.ConversationRepository;
 import com.umbra.umbralink.security.jwt.JwtService;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -72,6 +71,12 @@ public class UserServiceImpl implements UserService {
             userResponseDto.setUsername(userEntity.getUsername());
             userResponseDto.setEmail(userEntity.getEmail());
             userResponseDto.setStatus(userEntity.getStatus());
+            if(userEntity.getProfileImage()!=null){
+                userResponseDto.setImageUrl(userEntity.getProfileImage().getUrl());
+            }else{
+                userResponseDto.setImageUrl("");
+            }
+
             List<ConversationDto> conversationDtos = conversations.stream().map(c -> {
                 ConversationDto dto = new ConversationDto();
 
@@ -84,16 +89,19 @@ public class UserServiceImpl implements UserService {
                     dto.setState(null);
                     dto.setIsLastMessageSender(false);
                 }
+                UserEntity otherUser = Objects.equals(c.getUser1(),userEntity.getId()) ?
+                        userRepository.findById(c.getUser2()).get() : userRepository.findById(c.getUser1()).get();
                 dto.setConversationId(c.getId());
-                dto.setOtherUser(Objects.equals(c.getUser1(), userEntity.getId()) ?
-                        userRepository.findById(c.getUser2()).get().getUsername() :
-                        userRepository.findById(c.getUser1()).get().getUsername());
-                dto.setOtherUserId(Objects.equals(c.getUser1(), userEntity.getId()) ?
-                        userRepository.findById(c.getUser2()).get().getId() :
-                        userRepository.findById(c.getUser1()).get().getId());
-                dto.setStatus(Objects.equals(c.getUser1(), userEntity.getId()) ?
-                        userRepository.findById(c.getUser2()).get().getStatus() :
-                        userRepository.findById(c.getUser1()).get().getStatus());
+                dto.setOtherUser(otherUser.getUsername());
+                dto.setOtherUserId(otherUser.getId());
+                dto.setStatus(otherUser.getStatus());
+                if (otherUser.getProfileImage() != null) {
+                    dto.setImageUrl(otherUser.getProfileImage().getUrl());
+                } else {
+                    dto.setImageUrl("");
+                }
+
+
                 return dto;
             }).toList();
             userResponseDto.setConversations(conversationDtos);
@@ -132,6 +140,11 @@ public class UserServiceImpl implements UserService {
             FindUsersDto findUser = new FindUsersDto();
             findUser.setId(user.getId());
             findUser.setUsername(user.getUsername());
+            if(user.getProfileImage()!=null){
+                findUser.setImageUrl(user.getProfileImage().getUrl());
+            }else{
+                findUser.setImageUrl(null);
+            }
             dto.add(findUser);
         });
         return dto;

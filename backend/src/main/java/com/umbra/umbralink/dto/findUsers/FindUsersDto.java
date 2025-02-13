@@ -6,5 +6,5 @@ import lombok.Data;
 public class FindUsersDto {
     private Long id;
     private String username;
-//    private String photo;
+    private String imageUrl;
 }

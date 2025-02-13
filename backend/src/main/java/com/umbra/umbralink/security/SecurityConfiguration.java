@@ -41,7 +41,7 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests((req) -> {
             req.requestMatchers("/ws").permitAll();
             req.requestMatchers("/topic").permitAll();
-            req.requestMatchers("/register", "/login").permitAll();
+            req.requestMatchers("/register", "/login","/image").permitAll();
             req.requestMatchers("/messages/**").hasRole("USER");
             req.requestMatchers("/user/**", "/conversation/**", "/conversation/**/**").authenticated();
             req.anyRequest().authenticated();

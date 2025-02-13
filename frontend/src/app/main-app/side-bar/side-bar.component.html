@@ -1,7 +1,11 @@
 <div class="top-bar">
   <div class="user">
     <div class="profile-picture">
-      <img class="avatar" src="user.jpg" alt="profile pictore" />
+      <img
+        class="avatar"
+        [src]="user()?.imageUrl ? user()?.imageUrl : 'no-avatar.jpg'"
+        alt="profile pictore"
+      />
       <div [style.background-color]="dotColor" class="dot profile-dot"></div>
     </div>
     <div class="user-info">
@@ -45,7 +49,11 @@
     <button class="users-found">
       @for (user of findUsers; track $index) {
       <div (click)="showChat(user.id)" class="user-found">
-        <img class="avatar" src="user.jpg" alt="profile pictore" />
+        <img
+          class="avatar"
+          [src]="user.imageUrl ? user.imageUrl : 'no-avatar.jpg'"
+          alt="profile pictore"
+        />
         {{ user.username }}
       </div>
 
@@ -64,7 +72,11 @@
     class="conversation"
   >
     <div class="conversation-picture-container">
-      <img class="avatar" src="profile.jpg" alt="profile picture" />
+      <img
+        class="avatar"
+        [src]="conv.imageUrl ? conv?.imageUrl : 'no-avatar.jpg'"
+        alt="profile picture"
+      />
       <div
         [style.background-color]="setDotColor(conv.status)"
         class="dot profile-dot"

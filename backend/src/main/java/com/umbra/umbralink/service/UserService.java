@@ -2,7 +2,7 @@ package com.umbra.umbralink.service;
 
 import java.util.List;
 
-import com.umbra.umbralink.dto.RegisterRequestDto;
+import com.umbra.umbralink.dto.auth.RegisterRequestDto;
 import com.umbra.umbralink.dto.UserResponseDto;
 import com.umbra.umbralink.dto.UserStatusDto;
 import com.umbra.umbralink.dto.findUsers.FindUsersDto;

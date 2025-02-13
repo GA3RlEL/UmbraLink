@@ -15,5 +15,6 @@ public class UserResponseDto {
     private String email;
     private UserStatus status;
     private List<ConversationDto> conversations;
+    private String imageUrl;
 }
 
