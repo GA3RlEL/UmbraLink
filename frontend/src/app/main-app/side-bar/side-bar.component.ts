@@ -128,6 +128,25 @@ export class SideBarComponent implements AfterViewInit {
         return user;
       })
     })
+
+    this.webSocketService.getPhotoUpdate().subscribe(update => {
+
+      if (update.userId === this.user()?.id) {
+        this.user.update(user => {
+          if (user) {
+            user.imageUrl = update.imageUrl
+          }
+          return user;
+        })
+      } else {
+        const conversation = this.user()?.conversations.find(conv => conv.otherUserId === update.userId)
+        if (conversation) {
+          conversation.imageUrl = update.imageUrl
+        } else {
+          return;
+        }
+      }
+    })
   }
 
   get State() {

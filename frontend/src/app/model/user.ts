@@ -30,3 +30,8 @@ export interface StatusInterface {
   status: Status
 }
 
+export interface UpdatePhotoInteface {
+  userId: number;
+  imageUrl: string;
+}
+

@@ -19,7 +19,7 @@ public class CloudinaryService {
     public String saveImage(MultipartFile file){
         try{
             Map result =  cloudinary.uploader().upload(file.getBytes(),new HashMap<>());
-            return (String) result.get("url");
+            return result.get("secure_url") + ";"+result.get("public_id");
         }catch (Exception e){
             throw new RuntimeException("Upload filed: " + e.getMessage());
         }

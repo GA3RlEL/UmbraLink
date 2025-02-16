@@ -19,7 +19,7 @@ public class Image {
 
     private String publicId;
 
-    private String url;
+    private String url = null;
 
     @OneToOne
     @JoinColumn(name = "user_profile_id")
