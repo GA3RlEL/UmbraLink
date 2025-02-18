@@ -7,6 +7,7 @@ import { MainAppComponent } from './main-app/main-app.component';
 import { ConversationComponent } from './main-app/conversation/conversation.component';
 import { authGuard } from './guard/auth.guard';
 import { loginPageGuard } from './guard/login-page.guard';
+import { ErrorPageComponent } from './main-app/error-page/error-page.component';
 
 export const routes: Routes = [
   {
@@ -25,7 +26,8 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: '', component: MainAppComponent, title: "UmbraLink | App" },
-      { path: ':id', component: ConversationComponent, title: "UmbraLink | " }
+      { path: 'error', component: ErrorPageComponent, title: "UmbraLink | Error" },
+      { path: ':id', component: ConversationComponent, title: "UmbraLink | " },
     ]
   }
 ];

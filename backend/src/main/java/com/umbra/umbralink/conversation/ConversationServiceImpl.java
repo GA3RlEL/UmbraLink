@@ -3,6 +3,7 @@ package com.umbra.umbralink.conversation;
 import com.umbra.umbralink.dto.ConversationDto;
 import com.umbra.umbralink.dto.conversationData.ConversationDataDto;
 import com.umbra.umbralink.dto.conversationData.ConversationMessageDto;
+import com.umbra.umbralink.error.UnauthorizedConversationAccessException;
 import com.umbra.umbralink.message.Message;
 import com.umbra.umbralink.user.UserEntity;
 import com.umbra.umbralink.user.UserRepository;
@@ -39,6 +40,11 @@ public class ConversationServiceImpl implements ConversationService {
 
         Conversation conversation = conversationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("There is no conversation with ID: " + id));
+
+        // validation
+        if(!Objects.equals(conversation.getUser1(),senderId) && !Objects.equals(conversation.getUser2(), senderId)){
+            throw new UnauthorizedConversationAccessException("You are not participant of this conversation!");
+        }
 
         Long receiverId = Objects.equals(conversation.getUser1(), senderId) ? conversation.getUser2() : conversation.getUser1();
 
