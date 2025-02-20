@@ -96,6 +96,12 @@
         {{ conv.isLastMessageSender ? "You: " : ""
         }}{{ conv.lastMessage.substring(0, 10) }}
         {{ conv.lastMessage.length > 10 ? "..." : "" }}
+        @if(conv.lastMessageTimestamp){
+        <span>{{
+          createDate(conv.lastMessageTimestamp).getTime() | date
+        }}</span>
+        }
+
         <span
           [style]="
             conv.state === State.SENT && !conv.isLastMessageSender

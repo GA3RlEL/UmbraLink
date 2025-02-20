@@ -3,7 +3,7 @@ export interface Message {
   content: string;
   senderId: number | null;
   receiverId: number | null;
-  sentTime: Date;
+  sentTime: string;
   conversationId: number;
   state: State;
 }

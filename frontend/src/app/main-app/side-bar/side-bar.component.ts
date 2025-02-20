@@ -7,12 +7,12 @@ import { WebsocketService } from '../../service/websocket.service';
 import { State } from '../../model/conversation';
 import { EventService } from '../../service/event.service';
 import { FindOther } from '../../model/findOther';
-import { routes } from '../../app.routes';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-side-bar',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, DatePipe],
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.css'
 })
@@ -20,14 +20,26 @@ export class SideBarComponent implements AfterViewInit {
 
   dotColor: "red" | "yellow" | "green" | "transparent" = "green";
   user = signal<User | null>(null);
-  // findUsers: FindOther[] = [{ id: 1, username: "test" }, { id: 1, username: "test" }, { id: 1, username: "test" }];
   findUsers: FindOther[] = [];
   userText = '';
+  actuallDate = new Date();
 
   constructor(private appService: AppService, private webSocketService: WebsocketService, private eventService: EventService, private router: Router) { }
 
   emitRead() {
     this.eventService.emitReadMessages();
+  }
+
+  get math() {
+    return Math;
+  }
+
+  createDate(date: string) {
+    return new Date(date);
+  }
+
+  get date() {
+    return new Date;
   }
 
   showChat(id: number) {
@@ -86,6 +98,7 @@ export class SideBarComponent implements AfterViewInit {
             conversation.lastMessage = message.content
             conversation.otherUserId === message.senderId ? conversation.isLastMessageSender = false : conversation.isLastMessageSender = true;
             conversation.state = message.state;
+            conversation.lastMessageTimestamp = message.sentTime;
           } else if (message?.senderId === user.id || message?.receiverId === user.id) {
             console.log(message);
             if (message?.conversationId) {

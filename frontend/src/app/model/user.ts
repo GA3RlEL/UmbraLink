@@ -15,6 +15,7 @@ export interface SideBarConversation {
   conversationId: number;
   otherUserId: number;
   isLastMessageSender: boolean;
+  lastMessageTimestamp: string;
   state: State;
   status: Status;
   imageUrl: string;

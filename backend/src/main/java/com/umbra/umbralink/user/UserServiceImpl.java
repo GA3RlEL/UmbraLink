@@ -11,6 +11,7 @@ import com.umbra.umbralink.dto.findUsers.FindUsersDto;
 import com.umbra.umbralink.conversation.Conversation;
 import com.umbra.umbralink.enums.UserStatus;
 import com.umbra.umbralink.conversation.ConversationRepository;
+import com.umbra.umbralink.message.Message;
 import com.umbra.umbralink.security.jwt.JwtService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -78,13 +79,16 @@ public class UserServiceImpl implements UserService {
                 ConversationDto dto = new ConversationDto();
 
                 if(!c.getMessages().isEmpty()){
-                    dto.setLastMessage(c.getMessages().getLast().getContent());
-                    dto.setState(c.getMessages().getLast().getState());
-                    dto.setIsLastMessageSender(Objects.equals(c.getMessages().getLast().getSender().getId(), userEntity.getId()));
+                    Message lastMessage = c.getMessages().getLast();
+                    dto.setLastMessage(lastMessage.getContent());
+                    dto.setState(lastMessage.getState());
+                    dto.setIsLastMessageSender(Objects.equals(lastMessage.getSender().getId(), userEntity.getId()));
+                    dto.setLastMessageTimestamp(lastMessage.getCreatedAt());
                 }else{
                     dto.setLastMessage("");
                     dto.setState(null);
                     dto.setIsLastMessageSender(false);
+                    dto.setLastMessageTimestamp(null);
                 }
                 UserEntity otherUser = Objects.equals(c.getUser1(),userEntity.getId()) ?
                         userRepository.findById(c.getUser2()).get() : userRepository.findById(c.getUser1()).get();
