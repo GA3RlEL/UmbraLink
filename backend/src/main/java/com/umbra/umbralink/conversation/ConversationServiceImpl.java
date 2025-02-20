@@ -3,6 +3,7 @@ package com.umbra.umbralink.conversation;
 import com.umbra.umbralink.dto.ConversationDto;
 import com.umbra.umbralink.dto.conversationData.ConversationDataDto;
 import com.umbra.umbralink.dto.conversationData.ConversationMessageDto;
+import com.umbra.umbralink.error.NotFoundError;
 import com.umbra.umbralink.error.UnauthorizedConversationAccessException;
 import com.umbra.umbralink.message.Message;
 import com.umbra.umbralink.user.UserEntity;
@@ -36,10 +37,10 @@ public class ConversationServiceImpl implements ConversationService {
         Long senderId = jwtService.extractId(token.substring(7));
 
         UserEntity sender = userRepository.findById(senderId)
-                .orElseThrow(() -> new UsernameNotFoundException("User with ID: " + senderId + " was not found"));
+                .orElseThrow(() -> new NotFoundError("User with ID: " + senderId + " was not found"));
 
         Conversation conversation = conversationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("There is no conversation with ID: " + id));
+                .orElseThrow(() -> new NotFoundError("Conversation does not exist"));
 
         // validation
         if(!Objects.equals(conversation.getUser1(),senderId) && !Objects.equals(conversation.getUser2(), senderId)){

@@ -17,8 +17,7 @@ public class GlobalExceptionHandler {
     error.setErrorCode(HttpStatus.NOT_FOUND.value());
     error.setMessage(ex.getMessage());
     error.setTimestamp(new Date(System.currentTimeMillis()));
-
-    return new ResponseEntity<ErrorObject>(error, HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
   }
 
   @ExceptionHandler(UnauthorizedConversationAccessException.class)
@@ -26,6 +25,22 @@ public class GlobalExceptionHandler {
     ErrorObject errorObject = new ErrorObject();
     errorObject.setErrorCode(HttpStatus.UNAUTHORIZED.value());
     errorObject.setMessage(ex.getMessage());
-   return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.UNAUTHORIZED);
+   return new ResponseEntity<>(errorObject, HttpStatus.UNAUTHORIZED);
+  }
+
+  @ExceptionHandler(CloudinaryError.class)
+  public ResponseEntity<ErrorObject> handleCloudinaryError(CloudinaryError ex){
+    ErrorObject error = new ErrorObject();
+    error.setErrorCode(HttpStatus.BAD_REQUEST.value());
+    error.setMessage(ex.getMessage());
+    return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(NotFoundError.class)
+  public ResponseEntity<ErrorObject> handleNotFoundError(NotFoundError ex){
+    ErrorObject error = new ErrorObject();
+    error.setErrorCode(HttpStatus.NOT_FOUND.value());
+    error.setMessage(ex.getMessage());
+    return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
   }
 }

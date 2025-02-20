@@ -1,6 +1,7 @@
 package com.umbra.umbralink.cloudinary;
 
 import com.cloudinary.Cloudinary;
+import com.umbra.umbralink.error.CloudinaryError;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +22,7 @@ public class CloudinaryService {
             Map result =  cloudinary.uploader().upload(file.getBytes(),new HashMap<>());
             return result.get("secure_url") + ";"+result.get("public_id");
         }catch (Exception e){
-            throw new RuntimeException("Upload filed: " + e.getMessage());
+            throw new CloudinaryError("Upload filed: " + e.getMessage());
         }
     }
 
@@ -29,10 +30,10 @@ public class CloudinaryService {
         try{
             Map result = cloudinary.uploader().destroy(publicId,new HashMap<>());
             if(!"ok".equals(result.get("result"))){
-                throw new RuntimeException("Failed to delete image from Cloudinary");
+                throw new CloudinaryError("Failed to delete image from Cloudinary");
             }
         } catch (Exception e) {
-            throw new RuntimeException("Error occur during deletion of image: " + e.getMessage());
+            throw new CloudinaryError("Error occur during deletion of image: " + e.getMessage());
         }
     }
 }
