@@ -4,6 +4,7 @@ export interface Message {
   senderId: number | null;
   receiverId: number | null;
   sentTime: string;
+  updateTime: string;
   conversationId: number;
   state: State;
 }

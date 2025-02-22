@@ -16,6 +16,9 @@ public class ConversationMessageDto {
     private Long senderId;
     private Long receiverId;
     private String content;
+    private LocalDateTime updateTime;
     private LocalDateTime sentTime;
     private MessageState state;
+
+
 }

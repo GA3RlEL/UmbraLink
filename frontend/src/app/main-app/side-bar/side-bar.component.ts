@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, signal } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Status, User } from '../../model/user';
 import { Router, RouterLink } from '@angular/router';
@@ -8,6 +8,8 @@ import { State } from '../../model/conversation';
 import { EventService } from '../../service/event.service';
 import { FindOther } from '../../model/findOther';
 import { DatePipe } from '@angular/common';
+import { MONTHS } from '../../shared/helper/constat';
+import { interval, Subscription } from 'rxjs';
 
 
 @Component({
@@ -16,13 +18,14 @@ import { DatePipe } from '@angular/common';
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.css'
 })
-export class SideBarComponent implements AfterViewInit {
+export class SideBarComponent implements AfterViewInit, OnDestroy {
 
-  dotColor: "red" | "yellow" | "green" | "transparent" = "green";
+  dotColor: "green" | "transparent" = "green";
   user = signal<User | null>(null);
   findUsers: FindOther[] = [];
   userText = '';
-  actuallDate = new Date();
+
+  timer: any;
 
   constructor(private appService: AppService, private webSocketService: WebsocketService, private eventService: EventService, private router: Router) { }
 
@@ -40,6 +43,40 @@ export class SideBarComponent implements AfterViewInit {
 
   get date() {
     return new Date;
+  }
+
+  forceUpdate() {
+    if (this.user()) {
+      this.user = this.user
+    }
+
+  }
+
+
+  showCorrectDate(date: string) {
+    const currentTime = new Date();
+    const databaseDate = new Date(date);
+    const timeDiff = currentTime.getTime() - databaseDate.getTime();
+
+    const seconds = Math.floor(timeDiff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+
+    if (days >= 1) {
+      return `| ${databaseDate.getDate()} ${MONTHS[databaseDate.getMonth()]}`;
+    }
+
+    if (hours >= 1) {
+      return `| ${hours} hours ago`;
+    }
+
+    if (minutes >= 1) {
+      return `| ${minutes} minutes ago`;
+    }
+
+    return `| just sent`;
   }
 
   showChat(id: number) {
@@ -160,6 +197,15 @@ export class SideBarComponent implements AfterViewInit {
         }
       }
     })
+
+
+    this.timer = setInterval(() => {
+      this.forceUpdate();
+    }, 60000);
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.timer);
   }
 
   get State() {
