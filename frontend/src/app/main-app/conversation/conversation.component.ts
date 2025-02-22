@@ -8,6 +8,7 @@ import { Message, MessageToSend, ReadMessage, State } from '../../model/conversa
 import { User } from '../../model/user';
 import { Title } from '@angular/platform-browser';
 import { EventService } from '../../service/event.service';
+import { DateService } from '../../service/date.service';
 
 @Component({
   selector: 'app-conversation',
@@ -30,7 +31,7 @@ import { EventService } from '../../service/event.service';
 })
 
 
-export class ConversationComponent implements OnInit, AfterViewChecked {
+export class ConversationComponent implements OnInit, AfterViewChecked, OnDestroy {
   user = signal<User | null>(null)
   message: string = "";
   isLastMessage!: boolean;
@@ -40,13 +41,26 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
   @ViewChild("conversationElement", { static: true }) conversationElement!: ElementRef<HTMLDivElement>
   maxLenght: number = 100;
 
-  constructor(private websocket: WebsocketService, private appService: AppService, private activatedRoute: ActivatedRoute, private title: Title, private eventService: EventService) { }
+  timer: any;
+
+  constructor(private websocket: WebsocketService, private appService: AppService, private activatedRoute: ActivatedRoute, private title: Title, private eventService: EventService, private dateService: DateService) { }
+
+  get dateS() {
+    return this.dateService;
+  }
+
   ngAfterViewChecked(): void {
     this.scrollToBottom();
   }
   scrollToBottom() {
     const scroll = this.conversationElement.nativeElement.scrollHeight
     this.conversationElement.nativeElement.scrollTo({ top: scroll })
+  }
+
+  forceUpdate() {
+    if (this.user()?.conversations) {
+      this.user()!.conversations = this.user()!.conversations;
+    }
   }
 
   ngOnInit(): void {
@@ -84,7 +98,15 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
       this.checkIfUneadMessages(this.messages);
     })
 
+    this.timer = setInterval(() => {
+      this.forceUpdate();
+    }, 60000);
   }
+
+  ngOnDestroy(): void {
+    clearInterval(this.timer);
+  }
+
   checkIfUneadMessages(messages: Message[]) {
     const yourMessages = messages.filter(mess => mess.senderId !== this.user()?.id)
 

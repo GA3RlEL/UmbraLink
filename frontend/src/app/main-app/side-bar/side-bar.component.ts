@@ -8,8 +8,7 @@ import { State } from '../../model/conversation';
 import { EventService } from '../../service/event.service';
 import { FindOther } from '../../model/findOther';
 import { DatePipe } from '@angular/common';
-import { MONTHS } from '../../shared/helper/constat';
-import { interval, Subscription } from 'rxjs';
+import { DateService } from '../../service/date.service';
 
 
 @Component({
@@ -27,7 +26,7 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
 
   timer: any;
 
-  constructor(private appService: AppService, private webSocketService: WebsocketService, private eventService: EventService, private router: Router) { }
+  constructor(private appService: AppService, private webSocketService: WebsocketService, private eventService: EventService, private router: Router, private dateService: DateService) { }
 
   emitRead() {
     this.eventService.emitReadMessages();
@@ -35,6 +34,10 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
 
   get math() {
     return Math;
+  }
+
+  get dateS() {
+    return this.dateService;
   }
 
   createDate(date: string) {
@@ -50,33 +53,6 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
       this.user = this.user
     }
 
-  }
-
-
-  showCorrectDate(date: string) {
-    const currentTime = new Date();
-    const databaseDate = new Date(date);
-    const timeDiff = currentTime.getTime() - databaseDate.getTime();
-
-    const seconds = Math.floor(timeDiff / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
-
-
-    if (days >= 1) {
-      return `| ${databaseDate.getDate()} ${MONTHS[databaseDate.getMonth()]}`;
-    }
-
-    if (hours >= 1) {
-      return `| ${hours} hours ago`;
-    }
-
-    if (minutes >= 1) {
-      return `| ${minutes} minutes ago`;
-    }
-
-    return `| just sent`;
   }
 
   showChat(id: number) {
