@@ -12,6 +12,7 @@ public class ConversationDto {
     private Long otherUserId;
     private String lastMessage;
     private LocalDateTime lastMessageTimestamp;
+    private LocalDateTime lastMessageUpdateTimestamp;
     private Long conversationId;
     private MessageState state;
     private Boolean isLastMessageSender;

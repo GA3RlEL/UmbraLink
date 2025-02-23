@@ -30,6 +30,7 @@ export interface MessageToSend {
 export interface ReadMessage {
   messageId: number;
   conversationId: number;
+  updateTime: string;
   state: State;
 }
 

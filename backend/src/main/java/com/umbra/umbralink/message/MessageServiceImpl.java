@@ -78,21 +78,19 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public ReadMessageDto readMessage(Long messageId) {
-        Optional<Message> oMessage = messageRepository.findById(messageId);
-        if (oMessage.isPresent()) {
-            Message message = oMessage.get();
+        Message message =
+                messageRepository.findById(messageId).orElseThrow(()->new MessageNotFoundException("Message was not " +
+                        "found"));
+
             message.setState(MessageState.SEEN);
-
             Message savedMessage = messageRepository.save(message);
-
             ReadMessageDto returnDto = new ReadMessageDto();
             returnDto.setState(savedMessage.getState());
             returnDto.setConversationId(savedMessage.getConversation().getId());
             returnDto.setMessageId(savedMessage.getId());
+            returnDto.setUpdateTime(savedMessage.getUpdatedAt());
             return returnDto;
-        } else {
-            throw new MessageNotFoundException("Message with ID: " + messageId + " does not exist in database");
-        }
+
     }
 
 }

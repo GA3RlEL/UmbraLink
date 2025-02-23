@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MONTHS } from '../shared/helper/constat';
+import { MONTHS } from '../shared/helper/consts';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +31,6 @@ export class DateService {
       return `| ${minutes} minutes ago`;
     }
 
-    return `| just sent`;
+    return `| now`;
   }
 }

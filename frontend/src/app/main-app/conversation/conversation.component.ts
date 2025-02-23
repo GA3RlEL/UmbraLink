@@ -9,6 +9,7 @@ import { User } from '../../model/user';
 import { Title } from '@angular/platform-browser';
 import { EventService } from '../../service/event.service';
 import { DateService } from '../../service/date.service';
+import { INTERVALTIME } from '../../shared/helper/consts';
 
 @Component({
   selector: 'app-conversation',
@@ -49,6 +50,7 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
     return this.dateService;
   }
 
+
   ngAfterViewChecked(): void {
     this.scrollToBottom();
   }
@@ -58,8 +60,8 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
   }
 
   forceUpdate() {
-    if (this.user()?.conversations) {
-      this.user()!.conversations = this.user()!.conversations;
+    if (this.messages) {
+      this.messages = [...this.messages];
     }
   }
 
@@ -100,7 +102,7 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
 
     this.timer = setInterval(() => {
       this.forceUpdate();
-    }, 60000);
+    }, INTERVALTIME);
   }
 
   ngOnDestroy(): void {
@@ -117,7 +119,8 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
       let readPayload: ReadMessage = {
         messageId: message.messageId,
         conversationId: message.conversationId,
-        state: message.state
+        state: message.state,
+        updateTime: ''
       }
       this.websocket.sendMessage("/app/readMessage", readPayload)
     })
@@ -128,6 +131,8 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
     let foundIndex = this.messages.findIndex(mess => mess.messageId === message.messageId)
     if (foundIndex !== -1) {
       this.messages[foundIndex].state = message.state;
+      this.messages[foundIndex].updateTime = message.updateTime;
+      this.forceUpdate();
     }
   }
 

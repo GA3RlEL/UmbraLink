@@ -9,11 +9,12 @@ import { EventService } from '../../service/event.service';
 import { FindOther } from '../../model/findOther';
 import { DatePipe } from '@angular/common';
 import { DateService } from '../../service/date.service';
+import { INTERVALTIME } from '../../shared/helper/consts';
 
 
 @Component({
   selector: 'app-side-bar',
-  imports: [FormsModule, RouterLink, DatePipe],
+  imports: [FormsModule, RouterLink],
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.css'
 })
@@ -113,7 +114,6 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
             conversation.state = message.state;
             conversation.lastMessageTimestamp = message.sentTime;
           } else if (message?.senderId === user.id || message?.receiverId === user.id) {
-            console.log(message);
             if (message?.conversationId) {
               this.appService.fetchNewConversation(message.conversationId).subscribe({
                 next: value => {
@@ -147,6 +147,7 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
           user.conversations.map(conv => {
             if (message.conversationId === conv.conversationId) {
               conv.state = message.state;
+              conv.lastMessageUpdateTimestamp = message.updateTime
             }
           })
 
@@ -177,7 +178,7 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
 
     this.timer = setInterval(() => {
       this.forceUpdate();
-    }, 60000);
+    }, INTERVALTIME);
   }
 
   ngOnDestroy(): void {
