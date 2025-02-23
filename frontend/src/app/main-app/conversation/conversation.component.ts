@@ -41,6 +41,7 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
   receiverId: number | null = null;
   @ViewChild("conversationElement", { static: true }) conversationElement!: ElementRef<HTMLDivElement>
   maxLenght: number = 100;
+  conversationUserPhotoUrl: string | null = null;
 
   timer: any;
 
@@ -81,6 +82,7 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
         next: value => {
           console.log(value);
           this.messages = value.messages;
+          this.conversationUserPhotoUrl = value.photoUrl;
           this.checkIfUneadMessages(this.messages);
           this.conversationId = value.conversationId;
           this.receiverId = value.receiverId;
@@ -103,7 +105,10 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
     this.timer = setInterval(() => {
       this.forceUpdate();
     }, INTERVALTIME);
+
   }
+
+
 
   ngOnDestroy(): void {
     clearInterval(this.timer);

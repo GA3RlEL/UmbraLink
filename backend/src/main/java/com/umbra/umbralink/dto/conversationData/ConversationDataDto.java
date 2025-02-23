@@ -12,4 +12,5 @@ public class ConversationDataDto {
     private Long conversationId;
     private Long receiverId;
     private String receiverName;
+    private String photoUrl;
 }

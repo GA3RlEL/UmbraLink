@@ -68,7 +68,8 @@ public class ConversationServiceImpl implements ConversationService {
                 messages,
                 conversation.getId(),
                 receiverId,
-                receiver.getUsername()
+                receiver.getUsername(),
+                receiver.getProfileImage() != null ? receiver.getProfileImage().getUrl() :""
         );
     }
 

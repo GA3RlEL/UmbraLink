@@ -14,6 +14,7 @@ export interface Conversation {
   conversationId: number;
   receiverId: number;
   receiverName: string;
+  photoUrl: string;
 }
 
 

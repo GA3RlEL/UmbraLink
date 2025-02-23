@@ -24,7 +24,13 @@
   <div class="sender-field">
     <div class="message-container">
       @if(isLastMessageFromSender($index)) {
-      <img class="avatar" src="profile.jpg" alt="profile picture" />
+      <img
+        class="avatar"
+        [src]="
+          conversationUserPhotoUrl ? conversationUserPhotoUrl : 'no-avatar.jpg'
+        "
+        alt="profile picture"
+      />
       }@else {
       <p class="avatar no-photo">xx</p>
       }
