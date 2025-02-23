@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, signal } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Status, User } from '../../model/user';
 import { Router, RouterLink } from '@angular/router';
@@ -8,23 +8,26 @@ import { State } from '../../model/conversation';
 import { EventService } from '../../service/event.service';
 import { FindOther } from '../../model/findOther';
 import { DatePipe } from '@angular/common';
+import { DateService } from '../../service/date.service';
+import { INTERVALTIME } from '../../shared/helper/consts';
 
 
 @Component({
   selector: 'app-side-bar',
-  imports: [FormsModule, RouterLink, DatePipe],
+  imports: [FormsModule, RouterLink],
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.css'
 })
-export class SideBarComponent implements AfterViewInit {
+export class SideBarComponent implements AfterViewInit, OnDestroy {
 
-  dotColor: "red" | "yellow" | "green" | "transparent" = "green";
+  dotColor: "green" | "transparent" = "green";
   user = signal<User | null>(null);
   findUsers: FindOther[] = [];
   userText = '';
-  actuallDate = new Date();
 
-  constructor(private appService: AppService, private webSocketService: WebsocketService, private eventService: EventService, private router: Router) { }
+  timer: any;
+
+  constructor(private appService: AppService, private webSocketService: WebsocketService, private eventService: EventService, private router: Router, private dateService: DateService) { }
 
   emitRead() {
     this.eventService.emitReadMessages();
@@ -34,12 +37,23 @@ export class SideBarComponent implements AfterViewInit {
     return Math;
   }
 
+  get dateS() {
+    return this.dateService;
+  }
+
   createDate(date: string) {
     return new Date(date);
   }
 
   get date() {
     return new Date;
+  }
+
+  forceUpdate() {
+    if (this.user()) {
+      this.user = this.user
+    }
+
   }
 
   showChat(id: number) {
@@ -100,7 +114,6 @@ export class SideBarComponent implements AfterViewInit {
             conversation.state = message.state;
             conversation.lastMessageTimestamp = message.sentTime;
           } else if (message?.senderId === user.id || message?.receiverId === user.id) {
-            console.log(message);
             if (message?.conversationId) {
               this.appService.fetchNewConversation(message.conversationId).subscribe({
                 next: value => {
@@ -134,6 +147,7 @@ export class SideBarComponent implements AfterViewInit {
           user.conversations.map(conv => {
             if (message.conversationId === conv.conversationId) {
               conv.state = message.state;
+              conv.lastMessageUpdateTimestamp = message.updateTime
             }
           })
 
@@ -160,6 +174,15 @@ export class SideBarComponent implements AfterViewInit {
         }
       }
     })
+
+
+    this.timer = setInterval(() => {
+      this.forceUpdate();
+    }, INTERVALTIME);
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.timer);
   }
 
   get State() {

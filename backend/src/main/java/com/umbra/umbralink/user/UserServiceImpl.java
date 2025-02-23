@@ -84,11 +84,13 @@ public class UserServiceImpl implements UserService {
                     dto.setState(lastMessage.getState());
                     dto.setIsLastMessageSender(Objects.equals(lastMessage.getSender().getId(), userEntity.getId()));
                     dto.setLastMessageTimestamp(lastMessage.getCreatedAt());
+                    dto.setLastMessageUpdateTimestamp(lastMessage.getUpdatedAt());
                 }else{
                     dto.setLastMessage("");
                     dto.setState(null);
                     dto.setIsLastMessageSender(false);
                     dto.setLastMessageTimestamp(null);
+                    dto.setLastMessageUpdateTimestamp(null);
                 }
                 UserEntity otherUser = Objects.equals(c.getUser1(),userEntity.getId()) ?
                         userRepository.findById(c.getUser2()).get() : userRepository.findById(c.getUser1()).get();

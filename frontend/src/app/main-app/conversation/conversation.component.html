@@ -11,6 +11,11 @@
         <p>{{ message.content }}</p>
         @if(messages.length -1 === $index){
         {{ message.state }}
+        {{
+          message.updateTime
+            ? dateS.showCorrectDate(message.updateTime)
+            : dateS.showCorrectDate(message.sentTime)
+        }}
         }
       </div>
     </div>

@@ -98,7 +98,9 @@
         {{ conv.lastMessage.length > 10 ? "..." : "" }}
         @if(conv.lastMessageTimestamp){
         <span>{{
-          createDate(conv.lastMessageTimestamp).getTime() | date
+          conv.lastMessageUpdateTimestamp
+            ? dateS.showCorrectDate(conv.lastMessageUpdateTimestamp)
+            : dateS.showCorrectDate(conv.lastMessageTimestamp)
         }}</span>
         }
 

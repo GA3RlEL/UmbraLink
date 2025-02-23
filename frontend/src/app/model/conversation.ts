@@ -4,6 +4,7 @@ export interface Message {
   senderId: number | null;
   receiverId: number | null;
   sentTime: string;
+  updateTime: string;
   conversationId: number;
   state: State;
 }
@@ -29,6 +30,7 @@ export interface MessageToSend {
 export interface ReadMessage {
   messageId: number;
   conversationId: number;
+  updateTime: string;
   state: State;
 }
 

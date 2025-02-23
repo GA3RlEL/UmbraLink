@@ -59,6 +59,7 @@ public class ConversationServiceImpl implements ConversationService {
                         m.getSender().getId(),
                         m.getReceiver().getId(),
                         m.getContent(),
+                        m.getUpdatedAt(),
                         m.getCreatedAt(),
                         m.getState()
                 )).toList();
