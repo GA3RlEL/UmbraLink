@@ -8,6 +8,7 @@ import { ConversationComponent } from './main-app/conversation/conversation.comp
 import { authGuard } from './guard/auth.guard';
 import { loginPageGuard } from './guard/login-page.guard';
 import { ErrorPageComponent } from './main-app/error-page/error-page.component';
+import { SettingsComponent } from './main-app/settings/settings.component';
 
 export const routes: Routes = [
   {
@@ -27,7 +28,9 @@ export const routes: Routes = [
     children: [
       { path: '', component: MainAppComponent, title: "UmbraLink | App" },
       { path: 'error', component: ErrorPageComponent, title: "UmbraLink | Error" },
+      { path: 'settings', component: SettingsComponent, title: "UmbraLink | Settings" },
       { path: ':id', component: ConversationComponent, title: "UmbraLink | " },
+
     ]
   }
 ];

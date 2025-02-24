@@ -1,0 +1,91 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #1a1a1a;
+  border-radius: 5px;
+  border: 1px solid #222;
+  margin: 1rem;
+  margin-right: 2rem;
+  padding: 1rem;
+  gap: 6rem;
+}
+
+.profile-info {
+  display: flex;
+  gap: 6rem;
+  align-items: center;
+  width: 80%;
+}
+
+.left-panel {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.profile-info h3 {
+  font-size: 1.5rem;
+}
+
+.profile-info button {
+  background-color: #222;
+  color: white;
+  border: 1px solid #222;
+  padding: 2rem 3rem;
+}
+
+.avatar {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 9999px;
+}
+
+.edit-profile {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  font-size: 1.25rem;
+  /* background-color: #666; */
+  padding: 2rem 4rem;
+  border-radius: 5px;
+  width: 80%;
+  position: relative;
+  z-index: 10;
+}
+
+.edit-profile button {
+  background-color: #222;
+  border: none;
+  color: white;
+  padding: 1.5rem;
+}
+
+button {
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.edit-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-container p {
+  font-size: 1.5rem;
+}
+
+.edit-profile-blur {
+  position: absolute;
+  left: 0;
+  top: 0;
+  content: "";
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  z-index: 1;
+  border-radius: 5px;
+  backdrop-filter: blur(2px);
+}

@@ -1,0 +1,23 @@
+<div class="profile-info">
+  <div class="left-panel">
+    <img class="avatar" [src]="user()?.imageUrl" />
+    <h3>{{ user()?.username }}</h3>
+  </div>
+
+  <button (click)="changeIsOpen()" type="button">Edit your profile</button>
+</div>
+<div class="edit-profile">
+  <div class="edit-container">
+    <p>Email: {{ user()?.email }}</p>
+  </div>
+  <div class="edit-container">
+    <p>Username: {{ user()?.username }}</p>
+    <button type="button">Change username</button>
+  </div>
+  <div class="edit-container">
+    <p>Password: ***********</p>
+    <button type="button">Change password</button>
+  </div>
+
+  <div @openClose *ngIf="isOpen" class="edit-profile-blur"></div>
+</div>
