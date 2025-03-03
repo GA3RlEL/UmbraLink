@@ -6,6 +6,7 @@ import com.umbra.umbralink.dto.auth.RegisterRequestDto;
 import com.umbra.umbralink.dto.UserResponseDto;
 import com.umbra.umbralink.dto.UserStatusDto;
 import com.umbra.umbralink.dto.findUsers.FindUsersDto;
+import com.umbra.umbralink.dto.updateUser.UpdateUsernameDto;
 import com.umbra.umbralink.enums.UserStatus;
 
 public interface UserService {
@@ -18,4 +19,6 @@ public interface UserService {
     UserStatusDto changeUserStatus(Long userId, UserStatus userStatus);
 
     List<FindUsersDto> findUsers(String data);
+
+    UpdateUsernameDto updateUsername(String newUsername, String token);
 }

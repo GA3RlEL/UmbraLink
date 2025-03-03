@@ -9,6 +9,7 @@ import com.umbra.umbralink.dto.*;
 import com.umbra.umbralink.dto.auth.RegisterRequestDto;
 import com.umbra.umbralink.dto.findUsers.FindUsersDto;
 import com.umbra.umbralink.conversation.Conversation;
+import com.umbra.umbralink.dto.updateUser.UpdateUsernameDto;
 import com.umbra.umbralink.enums.UserStatus;
 import com.umbra.umbralink.conversation.ConversationRepository;
 import com.umbra.umbralink.message.Message;
@@ -150,6 +151,20 @@ public class UserServiceImpl implements UserService {
             }
             dto.add(findUser);
         });
+        return dto;
+    }
+
+    @Override
+    public UpdateUsernameDto updateUsername(String newUsername, String token) {
+        Long id = jwtService.extractId(token.substring(7));
+        UserEntity user = userRepository.findById(id).orElseThrow(()->new UsernameNotFoundException("User was not " +
+                "found"));
+        user.setUsername(newUsername);
+        UserEntity savedUser = userRepository.save(user);
+        UpdateUsernameDto dto = new UpdateUsernameDto();
+        dto.setId(savedUser.getId());
+        dto.setNewUsername(savedUser.getUsername());
+
         return dto;
     }
 

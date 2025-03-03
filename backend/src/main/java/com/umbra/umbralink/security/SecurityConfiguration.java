@@ -43,7 +43,7 @@ public class SecurityConfiguration {
             req.requestMatchers("/topic").permitAll();
             req.requestMatchers("/register", "/login","/image").permitAll();
             req.requestMatchers("/messages/**").hasRole("USER");
-            req.requestMatchers("/user/**", "/conversation/**", "/conversation/**/**").authenticated();
+            req.requestMatchers("/user/**","/user/**", "/conversation/**", "/conversation/**").authenticated();
             req.anyRequest().authenticated();
         });
 
@@ -77,8 +77,8 @@ public class SecurityConfiguration {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfig = new CorsConfiguration();
         corsConfig.setAllowedOrigins(List.of("http://localhost:4200"));
-        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        corsConfig.setAllowedHeaders(Arrays.asList("*"));
+        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        corsConfig.setAllowedHeaders(List.of("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfig);

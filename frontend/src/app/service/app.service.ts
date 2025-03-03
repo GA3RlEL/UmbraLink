@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { User } from '../model/user';
+import { UpdateUsernameInterface, User } from '../model/user';
 import { Conversation } from '../model/conversation';
 import { FindOther } from '../model/findOther';
 import { SideBarConversation } from '../model/user';
@@ -97,5 +97,19 @@ export class AppService {
 
     return null;
 
+  }
+
+  updateUsername(newUsername: string) {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      console.log("dupa");
+      return this.http.patch<UpdateUsernameInterface>(this.BASEURL + "/user/update/username", { newUsername: newUsername }, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
+    }
+
+    return null;
   }
 }

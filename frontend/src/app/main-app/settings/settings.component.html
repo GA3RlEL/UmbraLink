@@ -11,12 +11,42 @@
     <p>Email: {{ user()?.email }}</p>
   </div>
   <div class="edit-container">
-    <p>Username: {{ user()?.username }}</p>
-    <button type="button">Change username</button>
+    <div>
+      <span>Username: </span>
+      @if (!isEditUsername) {
+      <span>{{ user()?.username }}</span>
+      }@else {
+      <input class="change-input" type="text" [(ngModel)]="username" />
+      }
+    </div>
+
+    <div class="buttons">
+      @if (username.length>0) {
+      <button type="button" (click)="updateUsername()">Update</button>
+      }
+      <button type="button" (click)="editUsername()">
+        {{ isEditUsername ? "Cancel" : "Change username" }}
+      </button>
+    </div>
   </div>
   <div class="edit-container">
-    <p>Password: ***********</p>
-    <button type="button">Change password</button>
+    <div>
+      <span>Password: </span>
+      @if (!isEditPassword) {
+      <span> *********</span>
+      }@else {
+      <input class="change-input" type="password" [(ngModel)]="password" />
+      }
+    </div>
+
+    <div class="buttons">
+      @if (password.length>0) {
+      <button type="button" (click)="editPassword()">Update</button>
+      }
+      <button type="button" (click)="editPassword()">
+        {{ isEditPassword ? "Cancel" : "Change password" }}
+      </button>
+    </div>
   </div>
 
   <div @openClose *ngIf="isOpen" class="edit-profile-blur"></div>

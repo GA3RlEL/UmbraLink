@@ -73,8 +73,17 @@ button {
   align-items: center;
 }
 
+.edit-container span,
 .edit-container p {
   font-size: 1.5rem;
+}
+
+.change-input {
+  padding: 1rem 2rem;
+  background-color: #222;
+  border: 1px solid white;
+  margin-left: 1rem;
+  color: white;
 }
 
 .edit-profile-blur {
@@ -88,4 +97,9 @@ button {
   z-index: 1;
   border-radius: 5px;
   backdrop-filter: blur(2px);
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
 }
