@@ -5,6 +5,7 @@ import { Conversation } from '../model/conversation';
 import { FindOther } from '../model/findOther';
 import { SideBarConversation } from '../model/user';
 import { Observable } from 'rxjs';
+import { tokenResponse } from '../model/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -102,7 +103,6 @@ export class AppService {
   updateUsername(newUsername: string) {
     const token = localStorage.getItem('authToken');
     if (token) {
-      console.log("dupa");
       return this.http.patch<UpdateUsernameInterface>(this.BASEURL + "/user/update/username", { newUsername: newUsername }, {
         headers: {
           "Authorization": `Bearer ${token}`
@@ -110,6 +110,21 @@ export class AppService {
       })
     }
 
+    return null;
+  }
+
+  updatePassword(oldPassword: string, newPassword: string) {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      return this.http.patch<tokenResponse>(this.BASEURL + "/user/update/password", {
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+      }, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
+    }
     return null;
   }
 }

@@ -43,4 +43,12 @@ public class GlobalExceptionHandler {
     error.setMessage(ex.getMessage());
     return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
   }
+
+  @ExceptionHandler(GeneralError.class)
+  public ResponseEntity<ErrorObject> handleGeneralError(GeneralError ex){
+    ErrorObject error = new ErrorObject();
+    error.setErrorCode(HttpStatus.BAD_REQUEST.value());
+    error.setMessage(ex.getMessage());
+    return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
+  }
 }

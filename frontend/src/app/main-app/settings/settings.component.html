@@ -35,13 +35,33 @@
       @if (!isEditPassword) {
       <span> *********</span>
       }@else {
-      <input class="change-input" type="password" [(ngModel)]="password" />
+      <form
+        class="new-password-form"
+        (submit)="updatePassword()"
+        [formGroup]="newPasswordGroup"
+      >
+        <label for="oldPassword">Old Password</label>
+        <input
+          id="oldPassword"
+          class="change-input"
+          type="password"
+          formControlName="oldPassword"
+        />
+        <label for="newPassword">New Password</label>
+        <input
+          id="newPassword"
+          class="change-input"
+          type="password"
+          formControlName="newPassword"
+        />
+      </form>
+
       }
     </div>
 
     <div class="buttons">
-      @if (password.length>0) {
-      <button type="button" (click)="editPassword()">Update</button>
+      @if (true) {
+      <button type="button" (click)="updatePassword()">Update</button>
       }
       <button type="button" (click)="editPassword()">
         {{ isEditPassword ? "Cancel" : "Change password" }}

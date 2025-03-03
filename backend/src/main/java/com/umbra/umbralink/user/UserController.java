@@ -1,8 +1,10 @@
 package com.umbra.umbralink.user;
 
 import com.umbra.umbralink.dto.UserResponseDto;
+import com.umbra.umbralink.dto.auth.AuthResponseDto;
 import com.umbra.umbralink.dto.findUsers.FindUsersDto;
 import com.umbra.umbralink.conversation.ConversationService;
+import com.umbra.umbralink.dto.updateUser.UpdatePasswordPayloadDto;
 import com.umbra.umbralink.dto.updateUser.UpdateUsernameDto;
 import com.umbra.umbralink.dto.updateUser.UpdateUsernamePayloadDto;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -46,9 +48,14 @@ public class UserController {
     public UpdateUsernameDto updateUsername(@RequestHeader("Authorization")String token,
                                             @RequestBody UpdateUsernamePayloadDto payload){
         UpdateUsernameDto dto = userService.updateUsername(payload.newUsername(),token);
-
         messagingTemplate.convertAndSend("/updateUsername",dto);
         return dto;
+    }
+
+    @PatchMapping("/update/password")
+    public AuthResponseDto updatePassword(@RequestHeader("Authorization") String token,
+                                          @RequestBody UpdatePasswordPayloadDto payload){
+        return userService.updatePassword(token, payload);
     }
 
 

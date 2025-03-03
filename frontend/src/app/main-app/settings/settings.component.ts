@@ -3,11 +3,11 @@ import { User } from '../../model/user';
 import { AppService } from '../../service/app.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { NgIf } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-settings',
-  imports: [NgIf, FormsModule],
+  imports: [NgIf, FormsModule, ReactiveFormsModule],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css',
   animations: [
@@ -27,7 +27,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
   isEditUsername = false;
   isEditPassword = false;
   username: string = ''
-  password = '';
+  newPasswordGroup: FormGroup = new FormGroup({
+    oldPassword: new FormControl('', [Validators.required]),
+    newPassword: new FormControl('', [Validators.required]),
+  })
 
   constructor(private appService: AppService) { }
 
@@ -51,13 +54,32 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   editPassword() {
     this.isEditPassword = !this.isEditPassword;
-    this.password = '';
+    this.newPasswordGroup.reset();
   }
 
   updateUsername() {
-    console.log("dupa");
     this.appService.updateUsername(this.username)?.subscribe();
     this.editUsername();
+  }
+
+  updatePassword() {
+    if (this.newPasswordGroup.valid) {
+      const oldPassword = this.newPasswordGroup.controls['oldPassword'].value;
+      const newPassword = this.newPasswordGroup.controls['newPassword'].value;
+      this.appService.updatePassword(oldPassword, newPassword)?.subscribe(
+        {
+          next: value => {
+            if (localStorage.getItem('authToken')) {
+              localStorage.setItem('authToken', value.token);
+            }
+            this.editPassword();
+          },
+          error: err => {
+            console.error(err)
+          }
+        }
+      )
+    }
   }
 
 }
