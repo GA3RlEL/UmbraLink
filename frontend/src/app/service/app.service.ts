@@ -127,4 +127,16 @@ export class AppService {
     }
     return null;
   }
+
+  saveAvatar(formData: FormData) {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      return this.http.post(this.BASEURL + "/image/save", formData, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
+    }
+    return null;
+  }
 }
