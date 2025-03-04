@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CompatClient, Stomp } from '@stomp/stompjs';
 import { Subject } from 'rxjs';
 import { Message, ReadMessage } from '../model/conversation';
-import { StatusInterface, UpdatePhotoInteface } from '../model/user';
+import { StatusInterface, UpdatePhotoInteface, UpdateUsernameInterface } from '../model/user';
 import { JsonPipe } from '@angular/common';
 
 @Injectable({
@@ -16,6 +16,7 @@ export class WebsocketService {
   private readMessageSubject: Subject<ReadMessage> = new Subject<ReadMessage>();
   private statusSubject: Subject<StatusInterface> = new Subject<StatusInterface>();
   private updatePhotoSubject: Subject<UpdatePhotoInteface> = new Subject<UpdatePhotoInteface>
+  private updateUsernameSubject: Subject<UpdateUsernameInterface> = new Subject<UpdateUsernameInterface>
   constructor() {
   }
 
@@ -28,6 +29,7 @@ export class WebsocketService {
         this.subscribeToReadMessage();
         this.subscribeToStatus();
         this.subscribeToUpdatePhoto();
+        this.subscribeToUpdateUsername();
       });
     }
 
@@ -67,6 +69,19 @@ export class WebsocketService {
         this.updatePhotoSubject.next(parsedMessage);
       })
     }
+  }
+
+  subscribeToUpdateUsername() {
+    if (this.stompClient) {
+      this.stompClient.subscribe("/updateUsername", (status) => {
+        const parsedValue = JSON.parse(status.body);
+        this.updateUsernameSubject.next(parsedValue);
+      })
+    }
+  }
+
+  getUpdatedUsername(): Subject<UpdateUsernameInterface> {
+    return this.updateUsernameSubject;
   }
 
 

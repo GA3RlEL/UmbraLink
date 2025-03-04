@@ -179,6 +179,25 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
     this.timer = setInterval(() => {
       this.forceUpdate();
     }, INTERVALTIME);
+
+    this.webSocketService.getUpdatedUsername().subscribe(value => {
+      console.log(value);
+      this.user.update(user => {
+        if (user != null) {
+          if (user.id === value.id) {
+            user.username = value.newUsername
+          } else {
+            const conversation = user.conversations.find(conv => conv.otherUserId === value.id);
+
+            if (conversation) {
+              conversation.otherUser = value.newUsername
+            }
+          }
+
+        }
+        return user;
+      })
+    })
   }
 
   ngOnDestroy(): void {

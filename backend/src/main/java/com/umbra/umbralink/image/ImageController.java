@@ -15,7 +15,7 @@ public class ImageController {
         this.imageService = imageService;
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public Image saveImage(@RequestParam("file") MultipartFile file, @RequestHeader("Authorization") String token){
         return imageService.saveImage(file, token);
     }

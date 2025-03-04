@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { User } from '../model/user';
+import { UpdateUsernameInterface, User } from '../model/user';
 import { Conversation } from '../model/conversation';
 import { FindOther } from '../model/findOther';
 import { SideBarConversation } from '../model/user';
 import { Observable } from 'rxjs';
+import { tokenResponse } from '../model/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -97,5 +98,45 @@ export class AppService {
 
     return null;
 
+  }
+
+  updateUsername(newUsername: string) {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      return this.http.patch<UpdateUsernameInterface>(this.BASEURL + "/user/update/username", { newUsername: newUsername }, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
+    }
+
+    return null;
+  }
+
+  updatePassword(oldPassword: string, newPassword: string) {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      return this.http.patch<tokenResponse>(this.BASEURL + "/user/update/password", {
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+      }, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
+    }
+    return null;
+  }
+
+  saveAvatar(formData: FormData) {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      return this.http.post(this.BASEURL + "/image/save", formData, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
+    }
+    return null;
   }
 }

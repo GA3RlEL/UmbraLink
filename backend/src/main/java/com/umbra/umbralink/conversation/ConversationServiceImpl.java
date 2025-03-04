@@ -73,7 +73,7 @@ public class ConversationServiceImpl implements ConversationService {
         );
     }
 
-
+ 
     @Override
     public Long getOrCreateConversation(Long user1, Long user2) {
         Optional<Conversation> conversation = conversationRepository.findConversation(user1,user2);

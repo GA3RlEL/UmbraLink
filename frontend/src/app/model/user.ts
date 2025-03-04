@@ -37,3 +37,8 @@ export interface UpdatePhotoInteface {
   imageUrl: string;
 }
 
+export interface UpdateUsernameInterface {
+  id: number;
+  newUsername: string;
+}
+
