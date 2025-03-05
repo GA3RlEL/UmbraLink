@@ -1,9 +1,32 @@
 <nav>
-  <div class="left">
+  <div class="hamburger" (click)="showMenu()">
+    <div
+      [class]="
+        isHamburgerOpen
+          ? 'top-bar active hamburger-pipe'
+          : 'hamburger-pipe top-bar'
+      "
+    ></div>
+    <div
+      [class]="
+        isHamburgerOpen
+          ? 'middle-bar active hamburger-pipe'
+          : 'hamburger-pipe middle-bar'
+      "
+    ></div>
+    <div
+      [class]="
+        isHamburgerOpen
+          ? 'bottom-bar active hamburger-pipe'
+          : 'hamburger-pipe bottom-bar'
+      "
+    ></div>
+  </div>
+  <div class="left desktop">
     <img class="logo_img" src="/logo.png" />
     <h2>Umbra<span class="text_normal">Link</span></h2>
   </div>
-  <div class="middle">
+  <div class="middle desktop">
     <ul>
       <li class="nav-element">
         <a class="nav-link" [routerLink]="['/']">Home</a>
@@ -19,7 +42,38 @@
       </li>
     </ul>
   </div>
-  <div class="right">
+  <div class="right desktop">
     <a [routerLink]="['/login']" class="btn">Login</a>
+  </div>
+  <div
+    (click)="showMenu()"
+    [class]="isHamburgerOpen ? 'mobile-blur active' : 'mobile-blur'"
+  ></div>
+  <div
+    [class]="isHamburgerOpen ? 'mobile-container active' : 'mobile-container '"
+  >
+    <div class="left">
+      <img class="logo_img" src="/logo.png" />
+      <h2>Umbra<span class="text_normal">Link</span></h2>
+    </div>
+    <div class="middle">
+      <ul>
+        <li class="nav-element">
+          <a (click)="showMenu()" class="nav-link" [routerLink]="['/']">Home</a>
+        </li>
+        <li class="nav-element">
+          <a (click)="showMenu()" class="nav-link" href="#">About us</a>
+        </li>
+        <li class="nav-element">
+          <a (click)="showMenu()" class="nav-link" href="#">Support</a>
+        </li>
+        <li class="nav-element">
+          <a (click)="showMenu()" class="nav-link" href="#">Blog</a>
+        </li>
+      </ul>
+    </div>
+    <div class="right">
+      <a (click)="showMenu()" [routerLink]="['/login']" class="btn">Login</a>
+    </div>
   </div>
 </nav>

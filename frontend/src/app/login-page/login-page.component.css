@@ -134,3 +134,22 @@ form {
 input.ng-invalid.ng-touched.ng-dirty {
   border: 1px solid red;
 }
+
+@media all and (max-width: 480px) {
+  .login {
+    grid-template-rows: 70fr 30fr;
+    grid-template-columns: 1fr;
+    gap: 0;
+    /* padding: 2rem 2rem; */
+  }
+
+  .right {
+    border-left: none;
+    border-top: 1px white solid;
+    width: 100%;
+  }
+
+  .container {
+    margin-top: 2rem;
+  }
+}
