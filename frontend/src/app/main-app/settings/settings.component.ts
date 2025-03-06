@@ -4,6 +4,7 @@ import { AppService } from '../../service/app.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { NgIf, NumberFormatStyle } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings',
@@ -35,7 +36,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   file!: Blob;
   photo: string | null | ArrayBuffer | undefined = '';
 
-  constructor(private appService: AppService) { }
+  constructor(private appService: AppService, private activeRouter: ActivatedRoute, private router: Router) { }
 
   ngOnDestroy(): void {
     this.isEditUsername = false;
@@ -48,6 +49,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   changeIsOpen() {
     this.isOpen = !this.isOpen;
+  }
+
+  back() {
+    this.router.navigate(['.'], { relativeTo: this.activeRouter.parent })
   }
 
   readFile(event: any) {

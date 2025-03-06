@@ -3,4 +3,11 @@
   grid-template-columns: auto auto 1fr;
   height: 100vh;
   background-color: black;
+  position: relative;
+}
+
+@media all and (max-width: 750px) {
+  :host {
+    grid-template-columns: auto 1fr;
+  }
 }

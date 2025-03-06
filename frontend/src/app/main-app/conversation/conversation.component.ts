@@ -3,13 +3,14 @@ import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, signal, Vie
 import { FormsModule } from '@angular/forms';
 import { WebsocketService } from '../../service/websocket.service';
 import { AppService } from '../../service/app.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Message, MessageToSend, ReadMessage, State } from '../../model/conversation';
 import { User } from '../../model/user';
 import { Title } from '@angular/platform-browser';
 import { EventService } from '../../service/event.service';
 import { DateService } from '../../service/date.service';
 import { INTERVALTIME } from '../../shared/helper/consts';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-conversation',
@@ -38,6 +39,7 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
   isLastMessage!: boolean;
   messages: Message[] = [];
   conversationId: number | null = null;
+  receiverName: String | null = null;
   receiverId: number | null = null;
   @ViewChild("conversationElement", { static: true }) conversationElement!: ElementRef<HTMLDivElement>
   maxLenght: number = 100;
@@ -45,7 +47,7 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
 
   timer: any;
 
-  constructor(private websocket: WebsocketService, private appService: AppService, private activatedRoute: ActivatedRoute, private title: Title, private eventService: EventService, private dateService: DateService) { }
+  constructor(private websocket: WebsocketService, private appService: AppService, private activatedRoute: ActivatedRoute, private title: Title, private eventService: EventService, private dateService: DateService, private router: Router) { }
 
   get dateS() {
     return this.dateService;
@@ -87,6 +89,7 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
           this.conversationId = value.conversationId;
           this.receiverId = value.receiverId;
           this.title.setTitle("Umbralink | " + value.receiverName)
+          this.receiverName = value.receiverName
           console.log(this.messages);
         }, error: error => {
           console.error(error)
@@ -112,6 +115,10 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
 
   ngOnDestroy(): void {
     clearInterval(this.timer);
+  }
+
+  back() {
+    this.router.navigate(['.'], { relativeTo: this.activatedRoute.parent })
   }
 
   checkIfUneadMessages(messages: Message[]) {

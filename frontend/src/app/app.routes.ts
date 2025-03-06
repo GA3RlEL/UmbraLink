@@ -9,6 +9,7 @@ import { authGuard } from './guard/auth.guard';
 import { loginPageGuard } from './guard/login-page.guard';
 import { ErrorPageComponent } from './main-app/error-page/error-page.component';
 import { SettingsComponent } from './main-app/settings/settings.component';
+import { SideBarComponent } from './main-app/side-bar/side-bar.component';
 
 export const routes: Routes = [
   {
@@ -30,7 +31,17 @@ export const routes: Routes = [
       { path: 'error', component: ErrorPageComponent, title: "UmbraLink | Error" },
       { path: 'settings', component: SettingsComponent, title: "UmbraLink | Settings" },
       { path: ':id', component: ConversationComponent, title: "UmbraLink | " },
-
+    ]
+  },
+  {
+    path: 'app-mobile',
+    component: AppLayoutComponent,
+    canActivate: [authGuard],
+    children: [
+      { path: '', component: SideBarComponent, title: "UmbraLink | App" },
+      { path: 'error', component: ErrorPageComponent, title: "UmbraLink | Error" },
+      { path: 'settings', component: SettingsComponent, title: "UmbraLink | Settings" },
+      { path: ':id', component: ConversationComponent, title: "UmbraLink | " },
     ]
   }
 ];

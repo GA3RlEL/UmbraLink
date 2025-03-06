@@ -1,3 +1,31 @@
+<div class="user-details">
+  <button (click)="back()" class="back-btn">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="ionicon icon"
+      viewBox="0 0 512 512"
+    >
+      <path
+        fill="none"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="48"
+        d="M244 400L100 256l144-144M120 256h292"
+      />
+    </svg>
+  </button>
+
+  <div class="user-details-info">
+    <img
+      class="avatar"
+      [src]="
+        conversationUserPhotoUrl ? conversationUserPhotoUrl : 'no-avatar.jpg'
+      "
+    />
+    <h3>{{ receiverName }}</h3>
+  </div>
+</div>
 <div
   (click)="checkIfUneadMessages(messages)"
   #conversationElement

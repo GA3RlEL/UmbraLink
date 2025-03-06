@@ -1,15 +1,37 @@
 :host {
   display: grid;
-  grid-template-rows: 1fr auto;
-  gap: 5rem;
+  grid-template-rows: auto 1fr auto;
   overflow-y: hidden;
   background-color: #1a1a1a;
   border-radius: 5px;
   border: 1px solid #222;
   margin: 1rem;
   margin-right: 2rem;
-
   padding: 1rem;
+}
+
+.icon {
+  width: 3rem;
+  height: 3rem;
+}
+
+.back-btn {
+  border: none;
+  background-color: transparent;
+  color: white;
+  cursor: pointer;
+}
+
+.user-details {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.user-details-info {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
 }
 
 .conversation {
@@ -37,6 +59,7 @@ input {
   justify-content: center;
   justify-self: center;
   margin-bottom: 2rem;
+  margin-top: 5rem;
 }
 
 .message {
@@ -119,4 +142,11 @@ input {
   top: 50%;
   transform: translateY(-50%);
   color: black;
+}
+
+@media all and (max-width: 750px) {
+  :host {
+    margin: 0;
+    margin-right: 0;
+  }
 }

@@ -1,2 +1,6 @@
+@if (!isMobile) {
 <app-side-bar></app-side-bar>
 <router-outlet></router-outlet>
+}@else {
+<router-outlet></router-outlet>
+}
