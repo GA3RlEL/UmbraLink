@@ -65,7 +65,10 @@
     <h3>{{ user()?.username }}</h3>
   </div>
 
-  <button (click)="changeIsOpen()" type="button">Edit your profile</button>
+  <div class="right-panel">
+    <button (click)="changeIsOpen()" type="button">Edit your profile</button>
+    <button type="button" (click)="logout()">Logout</button>
+  </div>
 </div>
 <div class="edit-profile">
   <div class="edit-container">

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { loginRequest, registerRequest, tokenResponse } from '../model/auth';
 import { Router } from '@angular/router';
+import { ErrorService } from './error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   private BASEURL: string = "http://localhost:8080/api/v1"
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private errorService: ErrorService) { }
 
   login(loginRequest: loginRequest) {
     this.http.post<tokenResponse>(this.BASEURL + "/login", loginRequest).subscribe({
@@ -19,7 +20,8 @@ export class AuthService {
         this.router.navigate(['/app'])
       },
       error: (err) => {
-        console.error(err)
+        console.log(err);
+        this.errorService.addError({ errorCode: err.error.errorCode, errorMessage: err.error.message })
       },
     })
   }

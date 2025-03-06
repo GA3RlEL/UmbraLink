@@ -1,5 +1,7 @@
 package com.umbra.umbralink.auth;
 
+import com.umbra.umbralink.error.AuthError;
+import com.umbra.umbralink.error.GeneralError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,15 +34,18 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDto> login(@RequestBody LoginRequestDto loginRequest) {
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-        if (authentication.isAuthenticated()) {
-            UserDetails userDetails = userDetailService.loadUserByUsername(loginRequest.getEmail());
-            return new ResponseEntity<>(new AuthResponseDto(jwtService.generateToken(userDetails)), HttpStatus.OK);
-        } else {
-            throw new UsernameNotFoundException(loginRequest.getEmail());
+        try{
+            Authentication authentication = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+            if (authentication.isAuthenticated()) {
+                UserDetails userDetails = userDetailService.loadUserByUsername(loginRequest.getEmail());
+                return new ResponseEntity<>(new AuthResponseDto(jwtService.generateToken(userDetails)), HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            throw new AuthError("Wrong email or username");
         }
 
+        return null;
     }
 
 }

@@ -28,6 +28,13 @@
   align-items: center;
 }
 
+.right-panel {
+  display: flex;
+
+  gap: 2rem;
+  align-items: center;
+}
+
 .profile-info h3 {
   font-size: 1.5rem;
 }
@@ -254,6 +261,20 @@ button {
   z-index: -1;
 }
 
+@media all and (max-width: 1000px) {
+  .profile-info {
+    gap: 2rem;
+    width: 90%;
+  }
+
+  .profile-info button {
+    padding: 1rem 2rem;
+  }
+
+  .edit-profile {
+    width: 90%;
+  }
+}
 @media all and (max-width: 750px) {
   .edit-profile {
     padding: 0;

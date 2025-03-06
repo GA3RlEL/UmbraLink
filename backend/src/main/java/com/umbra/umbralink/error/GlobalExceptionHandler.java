@@ -51,4 +51,12 @@ public class GlobalExceptionHandler {
     error.setMessage(ex.getMessage());
     return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
   }
-}
+
+  @ExceptionHandler(AuthError.class)
+  public ResponseEntity<ErrorObject> handleAuthException(AuthError ex){
+    ErrorObject error = new ErrorObject();
+    error.setErrorCode(HttpStatus.UNAUTHORIZED.value());
+    error.setMessage(ex.getMessage());
+    return new ResponseEntity<>(error,HttpStatus.UNAUTHORIZED);
+  }
+  }

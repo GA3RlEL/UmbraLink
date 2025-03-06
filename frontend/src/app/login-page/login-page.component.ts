@@ -35,6 +35,8 @@ export class LoginPageComponent {
     password: new FormControl('', [Validators.required]),
   })
 
+  error = ''
+
   constructor(private auth: AuthService) { }
 
 

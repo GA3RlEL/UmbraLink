@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { User } from '../../model/user';
 import { AppService } from '../../service/app.service';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { NgIf, NumberFormatStyle } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { WebsocketService } from '../../service/websocket.service';
 
 @Component({
   selector: 'app-settings',
@@ -36,7 +37,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
   file!: Blob;
   photo: string | null | ArrayBuffer | undefined = '';
 
-  constructor(private appService: AppService, private activeRouter: ActivatedRoute, private router: Router) { }
+  constructor(private appService: AppService, private activeRouter: ActivatedRoute, private router: Router, private websocketService: WebsocketService
+  ) { }
 
   ngOnDestroy(): void {
     this.isEditUsername = false;
@@ -49,6 +51,14 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   changeIsOpen() {
     this.isOpen = !this.isOpen;
+  }
+
+  logout() {
+    if (localStorage.getItem('authToken')) {
+      localStorage.removeItem('authToken')
+    }
+    this.websocketService.disconnect();
+    this.router.navigate(["/"])
   }
 
   back() {

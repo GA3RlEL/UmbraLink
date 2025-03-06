@@ -1,0 +1,21 @@
+:host {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.error {
+  background-color: #f03e3e;
+  padding: 2rem 3rem;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+p {
+  font-size: 1.5rem;
+}

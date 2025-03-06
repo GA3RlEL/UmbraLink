@@ -1,0 +1,7 @@
+@for (error of errors(); track $index) {
+<div @error class="error">
+  <h2>{{ error.errorCode }}</h2>
+  <p>{{ error.errorMessage }}</p>
+</div>
+
+}
