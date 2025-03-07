@@ -1,0 +1,41 @@
+services:
+  umbralink_frontend:
+    container_name: umbralink_frontend
+    image: ga3riel/umbralink_frontend
+    ports:
+      - 4200:80
+
+  umbralink_db:
+    container_name: umbralink_db
+    image: postgres:17
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_DB=${POSTGRES_DB}
+    env_file:
+      - .env
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+  
+  umbralink_app:
+    container_name: umbralink_app
+    image: ga3riel/umbralink_app
+    build: .
+    ports:
+      - 8080:8080
+    environment:
+      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
+      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
+      - CLOUDINARY_SECRET_KEY=${CLOUDINARY_SECRET_KEY}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - SECRET_KEY=${SECRET_KEY}
+      - DB_USERNAME=${DB_USERNAME}
+    env_file:
+      - .env
+    depends_on:
+      - umbralink_db
+
+volumes:
+  pgdata: {}
