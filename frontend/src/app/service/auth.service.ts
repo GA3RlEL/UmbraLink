@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { loginRequest, registerRequest, tokenResponse } from '../model/auth';
 import { Router } from '@angular/router';
 import { ErrorService } from './error.service';
+import { v4 as uuidv4 } from 'uuid'
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class AuthService {
       },
       error: (err) => {
         console.log(err);
-        this.errorService.addError({ errorCode: err.error.errorCode, errorMessage: err.error.message })
+        this.errorService.addError({ id: uuidv4(), errorCode: err.error.errorCode, errorMessage: err.error.message })
       },
     })
   }

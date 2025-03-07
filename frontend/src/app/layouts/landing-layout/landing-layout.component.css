@@ -5,3 +5,12 @@
   position: relative;
   overflow: hidden;
 }
+
+.errors {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}

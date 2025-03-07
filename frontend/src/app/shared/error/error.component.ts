@@ -1,33 +1,52 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { ErrorService } from '../../service/error.service';
 import { ErrorInt } from '../../model/error';
-import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-error',
   imports: [],
   templateUrl: './error.component.html',
   styleUrl: './error.component.css',
-  animations: [
-    trigger('error', [
-      transition(':enter', [
-        style({ transform: 'translateX(200%)' }),
-        animate('0.2s ease-in', style({ transform: 'translateX(0%)' }))
-      ]),
-      transition(':leave', [
-        style({ opacity: 0, position: 'absolute' })
-      ])
-    ])
-  ]
 })
-export class ErrorComponent implements OnInit {
-  errors = signal<ErrorInt[]>([])
+export class ErrorComponent {
+  @Input({ required: true }) error!: ErrorInt
+  timer: ReturnType<typeof setTimeout> | null = null;
+  value = 100
+  errorService = inject(ErrorService)
 
-  constructor(private errorService: ErrorService) { }
-
-  ngOnInit(): void {
-    this.errors = this.errorService.getErrors();
+  constructor() {
+    this.setTimer();
   }
+
+  setTimer() {
+    this.timer = setInterval(() => {
+      if (this.value > 0) {
+        this.value -= 1;
+      } else {
+        this.removeError();
+      }
+    }, 30);
+  }
+
+  stopInterval() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
+  }
+
+
+  removeError() {
+    if (this.timer) {
+      clearInterval(this.timer)
+      if (this.error) {
+        this.errorService.removeError(this.error.id);
+      }
+    }
+
+  }
+
+
+
 
 
 

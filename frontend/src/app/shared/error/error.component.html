@@ -1,7 +1,5 @@
-@for (error of errors(); track $index) {
-<div @error class="error">
+<div (mouseenter)="stopInterval()" (mouseleave)="setTimer()" #errorElement>
+  <progress max="100" [value]="value"></progress>
   <h2>{{ error.errorCode }}</h2>
   <p>{{ error.errorMessage }}</p>
 </div>
-
-}

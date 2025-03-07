@@ -118,4 +118,8 @@ export class WebsocketService {
       })
     }
   }
+
+  getStompClient() {
+    return this.stompClient;
+  }
 }

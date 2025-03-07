@@ -1,15 +1,18 @@
 import { Injectable, signal, Signal } from '@angular/core';
-import { Subject } from 'rxjs';
 import { ErrorInt } from '../model/error';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ErrorService {
-  private errors = signal<ErrorInt[]>([{ errorCode: 401, errorMessage: "XD" }])
+  private errors = signal<ErrorInt[]>([])
 
-  addError(message: ErrorInt) {
-    this.errors().push(message)
+  addError(error: ErrorInt) {
+    this.errors().push(error)
+  }
+
+  removeError(errorId: String) {
+    this.errors.set(this.errors().filter(err => err.id != errorId));
   }
 
   getErrors() {

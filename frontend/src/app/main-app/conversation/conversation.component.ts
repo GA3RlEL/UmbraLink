@@ -109,6 +109,12 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
       this.forceUpdate();
     }, INTERVALTIME);
 
+    this.websocket.getUpdatedUsername().subscribe(value => {
+      if (this.receiverId === value.id) {
+        this.receiverName = value.newUsername
+      }
+    })
+
   }
 
 

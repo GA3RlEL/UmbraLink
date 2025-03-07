@@ -1,4 +1,5 @@
 export interface ErrorInt {
-  errorCode: number
-  errorMessage: string
+  id: string;
+  errorCode: number;
+  errorMessage: string;
 }

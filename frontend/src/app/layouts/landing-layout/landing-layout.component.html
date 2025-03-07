@@ -1,2 +1,6 @@
 <app-nav-bar></app-nav-bar> <router-outlet></router-outlet>
-<app-error></app-error>
+<div class="errors">
+  @for (error of errors(); track error.id) {
+  <app-error @error [error]="error" (click)="remove(error.id)"></app-error>
+  }
+</div>

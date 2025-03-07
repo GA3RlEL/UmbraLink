@@ -36,6 +36,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
         this.router.navigate(['app']);
       }
     });
+
   }
 
   checkSize() {
