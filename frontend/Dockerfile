@@ -7,14 +7,15 @@ COPY package*.json ./
 RUN npm ci
 
 RUN npm install -g @angular/cli
-
 COPY . .
 
 RUN npm run build --configuration=production
 
-FROM nginx:latest
+FROM nginx:stable
+
+COPY nginx.conf /etc/nginx/nginx.conf
 
 COPY --from=build /app/dist/frontend/browser /usr/share/nginx/html
 
-
 EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
