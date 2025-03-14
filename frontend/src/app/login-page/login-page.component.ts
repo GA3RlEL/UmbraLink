@@ -1,10 +1,11 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CssSelector } from '@angular/compiler';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../service/auth.service';
 import { loginRequest, registerRequest } from '../model/auth';
 import { Router } from '@angular/router';
+import { HealthCheckService } from '../service/health-check.service';
 
 @Component({
   selector: 'app-login-page',
@@ -25,6 +26,7 @@ import { Router } from '@angular/router';
 })
 export class LoginPageComponent {
   isLoginForm = true;
+  private healthCheck = inject(HealthCheckService)
   loginFrom = new FormGroup({
     email: new FormControl('', [Validators.email, Validators.required]),
     password: new FormControl('', [Validators.required])
@@ -51,7 +53,10 @@ export class LoginPageComponent {
       email: this.loginFrom.value['email']!,
       password: this.loginFrom.value['password']!
     }
+
     this.auth.login(loginData);
+
+
   }
 
   submitRegisterForm() {
@@ -61,6 +66,8 @@ export class LoginPageComponent {
       username: this.registerForm.value['userName']!
     }
     this.auth.register(registerData);
+
+
   }
 
 }

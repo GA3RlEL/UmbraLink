@@ -113,6 +113,7 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
             conversation.otherUserId === message.senderId ? conversation.isLastMessageSender = false : conversation.isLastMessageSender = true;
             conversation.state = message.state;
             conversation.lastMessageTimestamp = message.sentTime;
+            conversation.lastMessageUpdateTimestamp = message.updateTime;
           } else if (message?.senderId === user.id || message?.receiverId === user.id) {
             if (message?.conversationId) {
               this.appService.fetchNewConversation(message.conversationId).subscribe({

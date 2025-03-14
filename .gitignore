@@ -2,3 +2,4 @@
 .vscode/
 .env
 postgres-data
+backend/env.yaml

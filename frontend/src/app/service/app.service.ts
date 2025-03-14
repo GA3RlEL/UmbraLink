@@ -6,12 +6,12 @@ import { FindOther } from '../model/findOther';
 import { SideBarConversation } from '../model/user';
 import { Observable } from 'rxjs';
 import { tokenResponse } from '../model/auth';
+import { BASEURL } from '../shared/helper/consts';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
-  private BASEURL: string = "http://localhost:8080/api/v1"
   private user = signal<User | null>(null);
 
   constructor(private http: HttpClient) {
@@ -19,7 +19,7 @@ export class AppService {
   getUserDetails() {
     const token = localStorage.getItem("authToken");
     if (token) {
-      return this.http.get<User>(this.BASEURL + "/user/me", {
+      return this.http.get<User>(BASEURL + "/user/me", {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -33,7 +33,7 @@ export class AppService {
   fetchNewConversation(conversationId: number): Observable<SideBarConversation> {
     const token = localStorage.getItem("authToken");
     if (token) {
-      return this.http.get<SideBarConversation>(this.BASEURL + `/conversation/${conversationId}/metadata`, {
+      return this.http.get<SideBarConversation>(BASEURL + `/conversation/${conversationId}/metadata`, {
         headers: {
           "Authorization": `Bearer ${token}`
         }
@@ -48,7 +48,7 @@ export class AppService {
   getConversationMessages(id: string) {
     const token = localStorage.getItem("authToken");
     if (token) {
-      return this.http.get<Conversation>(this.BASEURL + `/conversation/${id}`,
+      return this.http.get<Conversation>(BASEURL + `/conversation/${id}`,
         {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -72,7 +72,7 @@ export class AppService {
   findUsers(data: string) {
     const token = localStorage.getItem('authToken');
     if (token) {
-      return this.http.get<FindOther[]>(this.BASEURL + "/user/findOther", {
+      return this.http.get<FindOther[]>(BASEURL + "/user/findOther", {
         params: {
           'data': data
         },
@@ -89,7 +89,7 @@ export class AppService {
   getConversationId(user: number, user2: number) {
     const token = localStorage.getItem('authToken');
     if (token) {
-      return this.http.post(this.BASEURL + "/conversation/findConversation", { user1: user, user2: user2 }, {
+      return this.http.post(BASEURL + "/conversation/findConversation", { user1: user, user2: user2 }, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -103,7 +103,7 @@ export class AppService {
   updateUsername(newUsername: string) {
     const token = localStorage.getItem('authToken');
     if (token) {
-      return this.http.patch<UpdateUsernameInterface>(this.BASEURL + "/user/update/username", { newUsername: newUsername }, {
+      return this.http.patch<UpdateUsernameInterface>(BASEURL + "/user/update/username", { newUsername: newUsername }, {
         headers: {
           "Authorization": `Bearer ${token}`
         }
@@ -116,7 +116,7 @@ export class AppService {
   updatePassword(oldPassword: string, newPassword: string) {
     const token = localStorage.getItem('authToken');
     if (token) {
-      return this.http.patch<tokenResponse>(this.BASEURL + "/user/update/password", {
+      return this.http.patch<tokenResponse>(BASEURL + "/user/update/password", {
         oldPassword: oldPassword,
         newPassword: newPassword,
       }, {
@@ -131,7 +131,7 @@ export class AppService {
   saveAvatar(formData: FormData) {
     const token = localStorage.getItem('authToken');
     if (token) {
-      return this.http.post(this.BASEURL + "/image/save", formData, {
+      return this.http.post(BASEURL + "/image/save", formData, {
         headers: {
           "Authorization": `Bearer ${token}`
         }

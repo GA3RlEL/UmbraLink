@@ -17,7 +17,10 @@
 <div class="profile-info">
   <div class="left-panel">
     <div class="image">
-      <img class="avatar" [src]="user()?.imageUrl" />
+      <img
+        class="avatar"
+        [src]="user()?.imageUrl ? user()?.imageUrl : 'no-avatar.jpg'"
+      />
       <input
         accept="jpg"
         (change)="readFile($event)"
