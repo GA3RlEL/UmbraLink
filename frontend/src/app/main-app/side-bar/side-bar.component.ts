@@ -83,10 +83,8 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
     }
 
     if (value.length > 2 && value) {
-      console.log(target.value);
       this.appService.findUsers(value)?.subscribe(value => {
         this.findUsers = value
-        console.log(this.findUsers);
       });
     }
   }
@@ -104,7 +102,6 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
     this.user = this.appService.getUser();
     this.webSocketService.getMessage().subscribe(message => {
       this.user.update(user => {
-        console.log(message);
         if (user) {
           let conversation = user.conversations.find(c => c.conversationId === message.conversationId)
 
@@ -118,7 +115,6 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
             if (message?.conversationId) {
               this.appService.fetchNewConversation(message.conversationId).subscribe({
                 next: value => {
-                  console.log(value);
                   user.conversations.push(value);
                 },
                 error: err => {
@@ -182,7 +178,6 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
     }, INTERVALTIME);
 
     this.webSocketService.getUpdatedUsername().subscribe(value => {
-      console.log(value);
       this.user.update(user => {
         if (user != null) {
           if (user.id === value.id) {

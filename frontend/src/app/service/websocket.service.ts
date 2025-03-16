@@ -3,7 +3,6 @@ import { CompatClient, Stomp } from '@stomp/stompjs';
 import { Subject } from 'rxjs';
 import { Message, ReadMessage } from '../model/conversation';
 import { StatusInterface, UpdatePhotoInteface, UpdateUsernameInterface } from '../model/user';
-import { JsonPipe } from '@angular/common';
 import { WSURL } from '../shared/helper/consts';
 
 @Injectable({
@@ -23,6 +22,7 @@ export class WebsocketService {
   connect(headers: any): void {
     if (!this.stompClient?.connected) {
       this.stompClient = Stomp.client(WSURL);
+      this.stompClient.debug = () => { };
       this.stompClient.connect(headers, () => {
         this.isConnected = true
         this.subscribeToTopic();
@@ -38,7 +38,6 @@ export class WebsocketService {
   subscribeToTopic() {
     if (this.stompClient) {
       this.stompClient.subscribe('/topic', (message) => {
-        console.log(message);
         const parsedMessage: Message = JSON.parse(message.body);
         this.messageSubject.next(parsedMessage);
       });
@@ -104,7 +103,6 @@ export class WebsocketService {
 
   sendMessage(destination: string, message: any): void {
     if (this.stompClient && this.stompClient.connected && this.isConnected) {
-      console.log(message);
       this.stompClient.send(destination, {}, JSON.stringify(message));
     }
   }
@@ -113,7 +111,6 @@ export class WebsocketService {
   disconnect(): void {
     if (this.stompClient) {
       this.stompClient.disconnect(() => {
-        console.log("Disconnected from websocket");
         this.isConnected = false;
       })
     }

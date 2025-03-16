@@ -72,8 +72,6 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
     this.user = this.appService.getUser();
     this.websocket.getMessage().subscribe(message => {
       const conversationId = +this.activatedRoute.snapshot.paramMap.get('id')!;
-      console.log(conversationId);
-      console.log(message.conversationId);
       if (conversationId === message.conversationId) {
         this.messages.push(message);
       }
@@ -82,7 +80,6 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
     this.activatedRoute.params.subscribe(param => {
       this.appService.getConversationMessages(param['id'])?.subscribe({
         next: value => {
-          console.log(value);
           this.messages = value.messages;
           this.conversationUserPhotoUrl = value.photoUrl;
           this.checkIfUneadMessages(this.messages);
@@ -90,7 +87,6 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
           this.receiverId = value.receiverId;
           this.title.setTitle("Umbralink | " + value.receiverName)
           this.receiverName = value.receiverName
-          console.log(this.messages);
         }, error: error => {
           console.error(error)
         },
@@ -166,7 +162,6 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
         messageType: "TEXT",
       }
       this.websocket.sendMessage("/app/topic", message);
-      console.log(message);
       this.message = '';
     }
 

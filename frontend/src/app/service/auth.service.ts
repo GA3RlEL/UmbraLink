@@ -23,7 +23,6 @@ export class AuthService {
         this.router.navigate(['/app'])
       },
       error: (err) => {
-        console.log(err);
         this.errorService.addError({ id: uuidv4(), errorCode: err.error.errorCode, errorMessage: err.error.message })
       },
     })

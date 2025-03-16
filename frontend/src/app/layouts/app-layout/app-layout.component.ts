@@ -50,7 +50,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
     this.appService.getUserDetails()?.subscribe({
       next: (user) => {
         this.appService.setUser(user);
-        console.log(user);
+        // console.log(user);
       },
       error: (err) => {
         console.error(err);
