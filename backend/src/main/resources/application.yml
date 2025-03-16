@@ -17,3 +17,4 @@ spring:
 server:
   servlet:
     contextPath: /api/v1
+  forward-headers-strategy: native

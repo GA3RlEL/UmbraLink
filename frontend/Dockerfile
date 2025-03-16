@@ -9,7 +9,7 @@ RUN npm ci
 RUN npm install -g @angular/cli
 COPY . .
 
-RUN npm run build --configuration=production
+RUN ng build --configuration=production
 
 FROM nginx:stable
 

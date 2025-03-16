@@ -4,12 +4,12 @@ import { Subject } from 'rxjs';
 import { Message, ReadMessage } from '../model/conversation';
 import { StatusInterface, UpdatePhotoInteface, UpdateUsernameInterface } from '../model/user';
 import { JsonPipe } from '@angular/common';
+import { WSURL } from '../shared/helper/consts';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebsocketService {
-  private readonly WS_URL = 'ws://localhost:8080/api/v1/ws'
   private stompClient: CompatClient | null = null;
   private isConnected = false;
   private messageSubject: Subject<Message> = new Subject<Message>();
@@ -22,7 +22,7 @@ export class WebsocketService {
 
   connect(headers: any): void {
     if (!this.stompClient?.connected) {
-      this.stompClient = Stomp.client(this.WS_URL);
+      this.stompClient = Stomp.client(WSURL);
       this.stompClient.connect(headers, () => {
         this.isConnected = true
         this.subscribeToTopic();
