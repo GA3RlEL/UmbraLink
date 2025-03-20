@@ -4,6 +4,7 @@ import com.umbra.umbralink.cloudinary.CloudinaryService;
 import com.umbra.umbralink.user.UserEntity;
 import com.umbra.umbralink.user.UserRepository;
 import com.umbra.umbralink.security.jwt.JwtService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;

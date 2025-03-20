@@ -131,6 +131,12 @@ form {
   font-weight: normal;
 }
 
+.warm-up-alert {
+  font-size: 1.25rem;
+  text-align: center;
+  font-weight: bold;
+}
+
 input.ng-invalid.ng-touched.ng-dirty {
   border: 1px solid red;
 }

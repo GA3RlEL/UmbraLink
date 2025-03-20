@@ -30,13 +30,18 @@
           />
         </div>
 
+        <span class="warm-up-alert"
+          >The login process may take up to 2 minutes due to backend warming up,
+          be patient!</span
+        >
+
         <a><p>Forgot your password?</p></a>
 
         <input
-          [disabled]="loginFrom.invalid"
+          [disabled]="loginFrom.invalid || isAuthReq"
           type="submit"
           class="btn-submit"
-          value="Sign In"
+          [value]="isAuthReq ? 'Authenticating...' : 'Sign In'"
         />
       </form>
       }@else {
@@ -76,11 +81,16 @@
           />
         </div>
 
+        <span class="warm-up-alert"
+          >The login process may take up to 2 minutes due to backend warming up,
+          be patient!</span
+        >
+
         <input
           [disabled]="registerForm.invalid"
           type="submit"
           class="btn-submit"
-          value="Sign In"
+          [value]="isAuthReq ? 'Registering...' : 'Sign Up'"
         />
       </form>
       }
@@ -90,15 +100,26 @@
       <div @changeVisibility class="right-container">
         <h2>Hello, Friend</h2>
         <p>Join the UmbraLink community: Your chat journey begins here.</p>
-        <button (click)="changeForm()" class="btn-signup">Sign up</button>
+        <button
+          [disabled]="isAuthReq"
+          (click)="changeForm()"
+          class="btn-signup"
+        >
+          Sign up
+        </button>
       </div>
 
       }@else{
       <div @changeVisibility class="right-container">
         <h2>Have an account?</h2>
         <p>Log in to UmbraLink: Continue your chat journey.</p>
-
-        <button (click)="changeForm()" class="btn-signup">Sign in</button>
+        <button
+          [disabled]="isAuthReq"
+          (click)="changeForm()"
+          class="btn-signup"
+        >
+          Sign in
+        </button>
       </div>
 
       }

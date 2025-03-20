@@ -1,7 +1,7 @@
 :host {
   display: grid;
   grid-template-columns: auto auto 1fr;
-  height: 100vh;
+  height: 100dvh;
   background-color: black;
   position: relative;
 }

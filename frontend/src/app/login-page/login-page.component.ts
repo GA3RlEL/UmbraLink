@@ -1,11 +1,8 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { CssSelector } from '@angular/compiler';
-import { Component, inject } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { Component, OnInit, Signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../service/auth.service';
 import { loginRequest, registerRequest } from '../model/auth';
-import { Router } from '@angular/router';
-import { HealthCheckService } from '../service/health-check.service';
 
 @Component({
   selector: 'app-login-page',
@@ -24,9 +21,9 @@ import { HealthCheckService } from '../service/health-check.service';
     ])
   ]
 })
-export class LoginPageComponent {
+export class LoginPageComponent implements OnInit {
+  isAuthReq: boolean = false;
   isLoginForm = true;
-  private healthCheck = inject(HealthCheckService)
   loginFrom = new FormGroup({
     email: new FormControl('', [Validators.email, Validators.required]),
     password: new FormControl('', [Validators.required])
@@ -40,6 +37,11 @@ export class LoginPageComponent {
   error = ''
 
   constructor(private auth: AuthService) { }
+  ngOnInit(): void {
+    this.auth.getIsAuthSubjec().subscribe(value => { console.log(value); this.isAuthReq = value });
+  }
+
+
 
 
   changeForm() {
@@ -53,9 +55,7 @@ export class LoginPageComponent {
       email: this.loginFrom.value['email']!,
       password: this.loginFrom.value['password']!
     }
-
     this.auth.login(loginData);
-
 
   }
 
