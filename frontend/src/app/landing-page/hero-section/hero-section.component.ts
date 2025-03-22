@@ -1,22 +1,21 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SphereComponent } from "../../shared/sphere/sphere.component";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-hero-section',
-  imports: [SphereComponent],
+  imports: [SphereComponent, RouterLink],
   templateUrl: './hero-section.component.html',
   styleUrl: './hero-section.component.css'
 })
 export class HeroSectionComponent implements AfterViewInit {
   @ViewChild('title', { static: true }) title!: ElementRef<HTMLDivElement>;
   @ViewChild('phrase', { static: true }) phrase!: ElementRef<HTMLHeadingElement>
-  // @ViewChild('images', { static: true }) images!: ElementRef<HTMLDivElement>
   @ViewChild('buttons', { static: true }) buttons!: ElementRef<HTMLDivElement>
   order = [1, 4, 8, 3, 0, 5, 2, 7, 6]
 
   ngAfterViewInit(): void {
     const spans = this.title.nativeElement.querySelectorAll('span');
-    // const images = this.images.nativeElement.querySelectorAll("div");
     this.fade_in(spans, this.order, this.phrase, this.buttons)
   }
 
@@ -34,16 +33,6 @@ export class HeroSectionComponent implements AfterViewInit {
     setTimeout(() => {
       buttons.nativeElement.style.opacity = '1';
     }, order.length * 200);
-
-    // setTimeout(() => {
-    //   images.forEach((img, index) => {
-    //     setTimeout(() => {
-    //       img.style.opacity = '1';
-    //     }, index * 500);
-    //   })
-    // }, 500);
-
-
   }
 
 

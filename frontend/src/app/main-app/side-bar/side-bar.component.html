@@ -76,8 +76,8 @@
   <hr />
 </div>
 <div class="bottom-bar">
-  @for (conv of user()?.conversations; track $index) { @if
-  (conv.lastMessage!=="") {
+  @if ((user()?.conversations?.length ?? 0) > 0) { @for (conv of
+  user()?.conversations; track $index) { @if (conv.lastMessage!=="") {
   <a
     (click)="emitRead()"
     [routerLink]="[conv.conversationId]"
@@ -127,5 +127,5 @@
       </p>
     </div>
   </a>
-  } }
+  } } }
 </div>

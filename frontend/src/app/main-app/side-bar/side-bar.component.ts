@@ -61,7 +61,8 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
     if (user) {
       this.appService.getConversationId(user()!.id, id)?.subscribe({
         next: value => {
-          this.router.navigate([`/app/${value}`])
+          console.log(`${this.router.url.includes("app") ? "app" : "app-mobile"}/${value}`);
+          this.router.navigate([`${this.router.url.includes("app-mobile") ? "app-mobile" : "app"}/${value}`])
         },
         error: err => {
           console.error(err);
