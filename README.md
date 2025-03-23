@@ -92,5 +92,10 @@ Start the back-end server
 ```
 
 
+# Try it on your own
+If you want to try this app go to this url https://umbralink-frontend-1093767679330.europe-west1.run.app
+💡 Because backend is hosted on GCloud it can take some time to warm up the backend
+
+
 
 
