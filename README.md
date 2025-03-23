@@ -8,7 +8,7 @@ Umbralink is an chat application built in Angular in Front-End side and Spring B
 
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file
+To run this project, you will need the following environment variables
 
 `CLOUDINARY_API_KEY`
 
