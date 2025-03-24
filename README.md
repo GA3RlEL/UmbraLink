@@ -3,8 +3,10 @@
 
 Umbralink is an chat application built in Angular in Front-End side and Spring Boot in Back-End side.
 
+## Technologies
 
-
+HTML | CSS | TypeScript |  Angular | WebSocket <br/> <br/>
+Spring Boot | Spring Web | Spring Security
 
 ## Environment Variables
 
