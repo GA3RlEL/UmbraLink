@@ -7,11 +7,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.TimeZone;
+
 @SpringBootApplication
 @EnableJpaAuditing
 public class UmbralinkApplication {
 
     public static void main(String[] args) {
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Warsaw"));
         SpringApplication.run(UmbralinkApplication.class, args);
     }
 

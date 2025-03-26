@@ -4,6 +4,9 @@ import com.umbra.umbralink.enums.MessageType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 public class ConversationMessageSaveDto {
@@ -11,6 +14,6 @@ public class ConversationMessageSaveDto {
     private Long senderId;
     private int conversationId;
     private Long receiverId;
-    private String sentTime;
+    private LocalDateTime sentTime;
     private MessageType messageType;
 }

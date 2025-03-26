@@ -62,6 +62,7 @@ public class MessageServiceImpl implements MessageService {
             message.setSender(sender.get());
             message.setReceiver(receiver.get());
             message.setContent(dto.getContent());
+            message.setCreatedAt(dto.getSentTime());
         }
         Message savedMessage = messageRepository.save(message);
         ConversationMessageDto returnDto = new ConversationMessageDto();
