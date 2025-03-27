@@ -22,7 +22,7 @@
         [src]="user()?.imageUrl ? user()?.imageUrl : 'no-avatar.jpg'"
       />
       <input
-        accept="jpg"
+        accept="image/png, image/jpeg, image/jpg"
         (change)="readFile($event)"
         class="input-file"
         type="file"
