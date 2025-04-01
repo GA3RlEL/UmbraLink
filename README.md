@@ -9,7 +9,7 @@ Wrong display of date on production ✅ fixed
 
 ## Features TBD
 - Restoring password
-- Reconnecting to websocket
+- Reconnecting to websocket ✅
 - Sending photos to chat
 
 ## Technologies
