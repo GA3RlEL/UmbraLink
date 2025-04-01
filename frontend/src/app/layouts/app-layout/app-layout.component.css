@@ -6,6 +6,12 @@
   position: relative;
 }
 
+.error {
+  position: absolute;
+  left: 50%;
+  top: 2%;
+}
+
 @media all and (max-width: 750px) {
   :host {
     grid-template-columns: auto 1fr;

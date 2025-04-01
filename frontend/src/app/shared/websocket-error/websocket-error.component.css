@@ -1,0 +1,31 @@
+:host {
+  overflow: hidden;
+}
+
+.error {
+  background-color: #f03e3e;
+  padding: 2rem 3rem;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.2rem;
+  text-align: center;
+}
+
+p {
+  font-size: 1.25rem;
+}
+
+button {
+  padding: 1rem 1.25rem;
+  border: 1px solid black;
+  background-color: #f03e3e;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: white;
+}

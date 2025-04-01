@@ -77,20 +77,11 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
       }
 
     })
-    this.activatedRoute.params.subscribe(param => {
-      this.appService.getConversationMessages(param['id'])?.subscribe({
-        next: value => {
-          this.messages = value.messages;
-          this.conversationUserPhotoUrl = value.photoUrl;
-          this.checkIfUneadMessages(this.messages);
-          this.conversationId = value.conversationId;
-          this.receiverId = value.receiverId;
-          this.title.setTitle("Umbralink | " + value.receiverName)
-          this.receiverName = value.receiverName
-        }, error: error => {
-          console.error(error)
-        },
-      })
+
+    this.fetchMessages();
+
+    this.websocket.getReFetchMessages().subscribe(() => {
+      this.fetchMessages();
     })
 
     this.websocket.getReadMessages().subscribe(message => {
@@ -111,6 +102,24 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
       }
     })
 
+  }
+
+  fetchMessages() {
+    this.activatedRoute.params.subscribe(param => {
+      this.appService.getConversationMessages(param['id'])?.subscribe({
+        next: value => {
+          this.messages = value.messages;
+          this.conversationUserPhotoUrl = value.photoUrl;
+          this.checkIfUneadMessages(this.messages);
+          this.conversationId = value.conversationId;
+          this.receiverId = value.receiverId;
+          this.title.setTitle("Umbralink | " + value.receiverName)
+          this.receiverName = value.receiverName
+        }, error: error => {
+          console.error(error)
+        },
+      })
+    })
   }
 
 
