@@ -63,4 +63,20 @@ public class ImageService {
 
         return userRepository.save(user).getProfileImage();
     }
+
+    public Image saveImageToConversation(MultipartFile file, String token){
+        Long userId = jwtService.extractId(token.substring(7));
+        UserEntity user = userRepository.findById(userId).orElseThrow(()->new UsernameNotFoundException("User not " +
+                        "found"));
+
+        String[] photoData = cloudinaryService.saveImage(file).split(";");
+        String photoUrl = photoData[0];
+        String publicId = photoData[1];
+
+        Image image = new Image();
+        image.setPhotoMessageUser(user);
+        image.setUrl(photoUrl);
+        image.setPublicId(publicId);
+        return image;
+    }
 }

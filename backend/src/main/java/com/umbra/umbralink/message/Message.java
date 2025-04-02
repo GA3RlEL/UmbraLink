@@ -1,10 +1,12 @@
 package com.umbra.umbralink.message;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.umbra.umbralink.conversation.Conversation;
 import com.umbra.umbralink.helper.BaseModel;
 import com.umbra.umbralink.enums.MessageType;
 import com.umbra.umbralink.enums.MessageState;
+import com.umbra.umbralink.image.Image;
 import com.umbra.umbralink.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -39,5 +41,9 @@ public class Message extends BaseModel {
     @JoinColumn(name = "receiver_id")
     @JsonBackReference
     private UserEntity receiver;
+
+    @OneToOne(mappedBy = "message", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Image image;
 
 }

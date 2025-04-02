@@ -95,6 +95,7 @@ public class UserServiceImpl implements UserService {
                     dto.setIsLastMessageSender(Objects.equals(lastMessage.getSender().getId(), userEntity.getId()));
                     dto.setLastMessageTimestamp(lastMessage.getCreatedAt());
                     dto.setLastMessageUpdateTimestamp(lastMessage.getUpdatedAt());
+                    dto.setLastMessageType(lastMessage.getType());
                 }else{
                     dto.setLastMessage("");
                     dto.setState(null);

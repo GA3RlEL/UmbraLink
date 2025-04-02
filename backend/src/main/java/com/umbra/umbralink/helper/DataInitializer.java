@@ -1,6 +1,7 @@
 package com.umbra.umbralink.helper;
 
 import com.umbra.umbralink.conversation.Conversation;
+import com.umbra.umbralink.enums.MessageType;
 import com.umbra.umbralink.message.Message;
 import com.umbra.umbralink.user.UserEntity;
 import com.umbra.umbralink.conversation.ConversationRepository;
@@ -63,6 +64,7 @@ public class DataInitializer implements CommandLineRunner {
             message1.setConversation(conversation);
             message1.setContent("Hi");
             message1.setCreatedAt(LocalDateTime.now().minusDays(3));
+            message1.setType(MessageType.TEXT);
 
             Message message2 = new Message();
             message2.setSender(user2);
@@ -70,6 +72,7 @@ public class DataInitializer implements CommandLineRunner {
             message2.setConversation(conversation);
             message2.setContent("Hello");
             message2.setCreatedAt(LocalDateTime.now().minusDays(2));
+            message2.setType(MessageType.TEXT);
 
             Message message3 = new Message();
             message3.setSender(user1);
@@ -77,6 +80,7 @@ public class DataInitializer implements CommandLineRunner {
             message3.setConversation(conversation);
             message3.setContent("How are you?");
             message3.setCreatedAt(LocalDateTime.now().minusHours(5));
+            message3.setType(MessageType.TEXT);
 
             Message message4 = new Message();
             message4.setSender(user3);
@@ -84,6 +88,7 @@ public class DataInitializer implements CommandLineRunner {
             message4.setConversation(conversation2);
             message4.setContent("Hello from user3");
             message4.setCreatedAt(LocalDateTime.now().minusDays(1));
+            message4.setType(MessageType.TEXT);
 
             messageRepository.saveAll(List.of(message1, message2, message3, message4));
 

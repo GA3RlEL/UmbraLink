@@ -4,7 +4,7 @@ import { Status, User } from '../../model/user';
 import { Router, RouterLink } from '@angular/router';
 import { AppService } from '../../service/app.service';
 import { WebsocketService } from '../../service/websocket.service';
-import { State } from '../../model/conversation';
+import { MessageType, State } from '../../model/conversation';
 import { EventService } from '../../service/event.service';
 import { FindOther } from '../../model/findOther';
 import { DatePipe } from '@angular/common';
@@ -35,6 +35,10 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
 
   get math() {
     return Math;
+  }
+
+  get messageType() {
+    return MessageType;
   }
 
   get dateS() {
@@ -112,6 +116,7 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
             conversation.state = message.state;
             conversation.lastMessageTimestamp = message.sentTime;
             conversation.lastMessageUpdateTimestamp = message.updateTime;
+            conversation.lastMessageType = message.type;
           } else if (message?.senderId === user.id || message?.receiverId === user.id) {
             if (message?.conversationId) {
               this.appService.fetchNewConversation(message.conversationId).subscribe({

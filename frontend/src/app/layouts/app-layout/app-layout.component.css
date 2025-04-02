@@ -10,10 +10,18 @@
   position: absolute;
   left: 50%;
   top: 2%;
+  z-index: 999;
 }
 
 @media all and (max-width: 750px) {
   :host {
     grid-template-columns: auto 1fr;
+  }
+
+  .error {
+    left: 50%;
+    top: auto;
+    bottom: 2%;
+    transform: translate(-50%, -2%);
   }
 }

@@ -1,6 +1,7 @@
 package com.umbra.umbralink.image;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.umbra.umbralink.message.Message;
 import com.umbra.umbralink.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,5 +25,15 @@ public class Image {
     @OneToOne
     @JoinColumn(name = "user_profile_id")
     @JsonBackReference
-    private UserEntity user;
+    private UserEntity user = null;
+
+    @ManyToOne
+    @JoinColumn(name = "user_photo_message_id")
+    @JsonBackReference
+    private UserEntity photoMessageUser = null;
+
+    @OneToOne
+    @JoinColumn(name = "message_id")
+    @JsonBackReference
+    private Message message = null;
 }

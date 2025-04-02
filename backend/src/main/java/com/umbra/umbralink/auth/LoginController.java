@@ -2,6 +2,7 @@ package com.umbra.umbralink.auth;
 
 import com.umbra.umbralink.error.AuthError;
 import com.umbra.umbralink.error.GeneralError;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

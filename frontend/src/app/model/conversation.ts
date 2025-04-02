@@ -1,5 +1,6 @@
 export interface Message {
   messageId: number;
+  photoUrl: string | null;
   content: string;
   senderId: number | null;
   receiverId: number | null;
@@ -7,6 +8,7 @@ export interface Message {
   updateTime: string;
   conversationId: number;
   state: State;
+  type: MessageType;
 }
 
 export interface Conversation {
@@ -38,4 +40,9 @@ export interface ReadMessage {
 export enum State {
   SENT = "SENT",
   SEEN = "SEEN"
+}
+
+export enum MessageType {
+  TEXT = "TEXT",
+  PHOTO = "PHOTO"
 }

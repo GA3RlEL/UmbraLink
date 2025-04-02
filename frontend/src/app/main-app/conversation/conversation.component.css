@@ -62,14 +62,131 @@ input {
   margin-top: 5rem;
 }
 
+.send-message-form {
+  z-index: 1000;
+  position: relative;
+}
+
 .message {
   width: 80%;
   position: relative;
 }
 
-.send {
+.image {
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.send,
+.photo {
   width: 2rem;
   height: 2rem;
+}
+
+.input-file {
+  opacity: 0%;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.photo {
+  color: black;
+  cursor: pointer;
+}
+
+.photo-to-send {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  position: absolute;
+  bottom: 150%;
+  z-index: 5;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.photo-to-send > img,
+.photo-chat {
+  aspect-ratio: 1 / 1;
+  width: 150px;
+  height: auto;
+  object-fit: cover;
+}
+
+button {
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  padding: 0.5rem;
+  color: white;
+}
+
+.svg {
+  width: 3rem;
+  height: 3rem;
+  transform: rotate(45deg);
+}
+
+.send-photo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.buttons {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(150px * sqrt(2));
+  height: calc(150px * sqrt(2));
+  background-color: rgba(0, 0, 0, 0.3);
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.btn-cancel {
+  width: 100%;
+  height: 50%;
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  border-bottom: 1px solid white;
+  transition: all 0.3s ease-in;
+}
+
+.btn-send {
+  width: 100%;
+  height: 50%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-top: 1px solid white;
+  transition: all 0.3s ease-in;
+}
+
+.btn-send:hover {
+  background-color: rgba(18, 184, 134, 0.6);
+}
+
+.btn-cancel:hover {
+  background-color: rgba(250, 82, 82, 0.6);
 }
 
 .avatar {
@@ -142,6 +259,13 @@ input {
   top: 50%;
   transform: translateY(-50%);
   color: black;
+}
+
+app-throbber {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @media all and (max-width: 750px) {

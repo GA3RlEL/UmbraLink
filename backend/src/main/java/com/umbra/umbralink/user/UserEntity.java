@@ -2,6 +2,7 @@ package com.umbra.umbralink.user;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.umbra.umbralink.helper.BaseModel;
 import com.umbra.umbralink.image.Image;
@@ -38,5 +39,9 @@ public class UserEntity extends BaseModel {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private Image profileImage;
+
+    @OneToMany(mappedBy = "photoMessageUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Image> photoMessageUser;
 
 }

@@ -1,4 +1,4 @@
-import { State } from "./conversation";
+import { MessageType, State } from "./conversation";
 
 export interface User {
   id: number;
@@ -12,6 +12,7 @@ export interface User {
 export interface SideBarConversation {
   otherUser: string;
   lastMessage: string;
+  lastMessageType: MessageType;
   conversationId: number;
   otherUserId: number;
   isLastMessageSender: boolean;

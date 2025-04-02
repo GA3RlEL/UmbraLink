@@ -113,6 +113,20 @@ export class AppService {
     return null;
   }
 
+  sendPhotoMessage(form: FormData) {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      return this.http.post(BASEURL + "/messages/addPhotoMessage",
+        form,
+        {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        })
+    }
+    return null;
+  }
+
   updatePassword(oldPassword: string, newPassword: string) {
     const token = localStorage.getItem('authToken');
     if (token) {

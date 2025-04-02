@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { User } from '../../model/user';
 import { AppService } from '../../service/app.service';
 import { animate, style, transition, trigger } from '@angular/animations';
@@ -36,6 +36,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   })
   file!: Blob;
   photo: string | null | ArrayBuffer | undefined = '';
+  @ViewChild("selectPhotoInput", { static: true }) selectPhotoInput!: ElementRef<HTMLInputElement>
 
   constructor(private appService: AppService, private activeRouter: ActivatedRoute, private router: Router, private websocketService: WebsocketService
   ) { }
@@ -81,6 +82,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
   onCancel() {
     this.photo = null;
     this.file = new Blob();
+    this.selectPhotoInput.nativeElement.value = '';
+
   }
 
   saveAvatar() {

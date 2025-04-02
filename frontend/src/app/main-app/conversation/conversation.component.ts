@@ -10,11 +10,11 @@ import { Title } from '@angular/platform-browser';
 import { EventService } from '../../service/event.service';
 import { DateService } from '../../service/date.service';
 import { INTERVALTIME } from '../../shared/helper/consts';
-import { Location } from '@angular/common';
+import { ThrobberComponent } from "../../shared/throbber/throbber.component";
 
 @Component({
   selector: 'app-conversation',
-  imports: [FormsModule],
+  imports: [FormsModule, ThrobberComponent],
   templateUrl: './conversation.component.html',
   styleUrl: './conversation.component.css',
   animations: [
@@ -42,8 +42,13 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
   receiverName: String | null = null;
   receiverId: number | null = null;
   @ViewChild("conversationElement", { static: true }) conversationElement!: ElementRef<HTMLDivElement>
+  @ViewChild("uploadPhotoElement", { static: true }) uploadPhotoElement!: ElementRef<HTMLInputElement>
   maxLenght: number = 100;
   conversationUserPhotoUrl: string | null = null;
+
+  sendPhoto: string | null = null;
+  sendFile: Blob | null = null;
+  isSendingPhoto = false;
 
   timer: any;
 
@@ -68,11 +73,34 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
     }
   }
 
+  clearPhoto() {
+    this.sendPhoto = null;
+    this.sendFile = null;
+    this.uploadPhotoElement.nativeElement.value = ''
+  }
+
+  selectPhoto(event: Event) {
+    const input = event.target as HTMLInputElement
+
+
+    if (input.files && input.files.length > 0) {
+      this.sendFile = input.files[0]
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        this.sendPhoto = e.target.result;
+      }
+
+      reader.readAsDataURL(this.sendFile)
+    }
+  }
+
   ngOnInit(): void {
     this.user = this.appService.getUser();
     this.websocket.getMessage().subscribe(message => {
       const conversationId = +this.activatedRoute.snapshot.paramMap.get('id')!;
       if (conversationId === message.conversationId) {
+        console.log(message);
         this.messages.push(message);
       }
 
@@ -173,8 +201,32 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
       this.websocket.sendMessage("/app/topic", message);
       this.message = '';
     }
+  }
+
+  sendImage() {
+    if (this.user !== null && this.user !== undefined && this.user()?.id !== null && this.conversationId !== null && this.receiverId !== null && this.sendFile != null && this.sendPhoto != null) {
+      this.isSendingPhoto = true;
+      const formData = new FormData();
+      formData.append('file', this.sendFile)
+      const message: MessageToSend = {
+        content: this.message,
+        senderId: this.user()!.id,
+        conversationId: this.conversationId,
+        receiverId: this.receiverId,
+        sentTime: new Date(),
+        messageType: "PHOTO",
+      }
+      formData.append('data', JSON.stringify(message));
+      this.appService.sendPhotoMessage(formData)?.subscribe({
+        complete: () => {
+          this.clearPhoto();
+          this.scrollToBottom();
+          this.isSendingPhoto = false;
+        }
+      });
 
 
+    }
   }
 
   isLastMessageFromSender(messageIndex: number): boolean {

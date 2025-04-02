@@ -77,7 +77,8 @@
 </div>
 <div class="bottom-bar">
   @if ((user()?.conversations?.length ?? 0) > 0) { @for (conv of
-  user()?.conversations; track $index) { @if (conv.lastMessage!=="") {
+  user()?.conversations; track $index) { @if
+  (conv.lastMessageType===messageType.PHOTO || conv.lastMessage!=='') {
   <a
     (click)="emitRead()"
     [routerLink]="[conv.conversationId]"
@@ -106,7 +107,11 @@
         "
       >
         {{ conv.isLastMessageSender ? "You: " : ""
-        }}{{ conv.lastMessage.substring(0, 10) }}
+        }}{{
+          conv.lastMessageType === messageType.PHOTO
+            ? "Sent a photo"
+            : conv.lastMessage.substring(0, 10)
+        }}
         {{ conv.lastMessage.length > 10 ? "..." : "" }}
         @if(conv.lastMessageTimestamp){
         <span>{{

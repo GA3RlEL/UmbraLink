@@ -61,7 +61,9 @@ public class ConversationServiceImpl implements ConversationService {
                         m.getContent(),
                         m.getUpdatedAt(),
                         m.getCreatedAt(),
-                        m.getState()
+                        m.getState(),
+                        m.getImage() !=null ? m.getImage().getUrl() : null,
+                        m.getType()
                 )).toList();
 
         return new ConversationDataDto(
