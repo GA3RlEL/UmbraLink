@@ -15,8 +15,8 @@ Disconnecting from websocket after resizing to mobile 🟡
 
 ## Technologies
 
-HTML | CSS | TypeScript |  Angular | WebSocket <br/> <br/>
-Spring Boot | Spring Web | Spring Security
+HTML | CSS | TypeScript |  Angular | WebSocket  <br/> <br/>
+Spring Boot | Spring Web | Spring Security | JWT | Docker
 
 ## Environment Variables
 
