@@ -4,7 +4,6 @@ import com.umbra.umbralink.cloudinary.CloudinaryService;
 import com.umbra.umbralink.user.UserEntity;
 import com.umbra.umbralink.user.UserRepository;
 import com.umbra.umbralink.security.jwt.JwtService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,8 @@ public class ImageService {
     private final UserRepository userRepository;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-    public ImageService(ImageRepository imageRepository, CloudinaryService cloudinaryService, JwtService jwtService, UserRepository userRepository, SimpMessagingTemplate simpMessagingTemplate) {
+    public ImageService(ImageRepository imageRepository, CloudinaryService cloudinaryService, JwtService jwtService,
+            UserRepository userRepository, SimpMessagingTemplate simpMessagingTemplate) {
         this.imageRepository = imageRepository;
         this.cloudinaryService = cloudinaryService;
         this.jwtService = jwtService;
@@ -29,10 +29,9 @@ public class ImageService {
         this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
-
     public Image saveImage(MultipartFile file, String token) {
         Long userId = jwtService.extractId(token.substring(7));
-        UserEntity user = userRepository.findById(userId).orElseThrow(()->new UsernameNotFoundException("User not " +
+        UserEntity user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not " +
                 "found"));
 
         if (user.getProfileImage() != null) {
@@ -43,7 +42,6 @@ public class ImageService {
             user.setProfileImage(null);
             userRepository.save(user);
         }
-
 
         String[] photoData = cloudinaryService.saveImage(file).split(";");
         String photoUrl = photoData[0];
@@ -56,7 +54,7 @@ public class ImageService {
 
         user.setProfileImage(image);
 
-        Map<String,Object> message = new HashMap<>();
+        Map<String, Object> message = new HashMap<>();
         message.put("userId", user.getId());
         message.put("imageUrl", photoUrl);
         simpMessagingTemplate.convertAndSend("/photoUpdate", message);
@@ -64,10 +62,10 @@ public class ImageService {
         return userRepository.save(user).getProfileImage();
     }
 
-    public Image saveImageToConversation(MultipartFile file, String token){
+    public Image saveImageToConversation(MultipartFile file, String token) {
         Long userId = jwtService.extractId(token.substring(7));
-        UserEntity user = userRepository.findById(userId).orElseThrow(()->new UsernameNotFoundException("User not " +
-                        "found"));
+        UserEntity user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not " +
+                "found"));
 
         String[] photoData = cloudinaryService.saveImage(file).split(";");
         String photoUrl = photoData[0];

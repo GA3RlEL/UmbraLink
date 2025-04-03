@@ -1,15 +1,12 @@
 package com.umbra.umbralink.auth;
 
 import com.umbra.umbralink.error.AuthError;
-import com.umbra.umbralink.error.GeneralError;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +24,7 @@ public class LoginController {
     private final AuthenticationManager authenticationManager;
 
     public LoginController(JwtService jwtService, UserDetailService userDetailService,
-                           AuthenticationManager authenticationManager) {
+            AuthenticationManager authenticationManager) {
         this.jwtService = jwtService;
         this.userDetailService = userDetailService;
         this.authenticationManager = authenticationManager;
@@ -35,9 +32,10 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDto> login(@RequestBody LoginRequestDto loginRequest) {
-        try{
+        try {
             Authentication authentication = authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+                    .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
+                            loginRequest.getPassword()));
             if (authentication.isAuthenticated()) {
                 UserDetails userDetails = userDetailService.loadUserByUsername(loginRequest.getEmail());
                 return new ResponseEntity<>(new AuthResponseDto(jwtService.generateToken(userDetails)), HttpStatus.OK);
