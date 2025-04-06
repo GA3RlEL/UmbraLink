@@ -22,17 +22,12 @@ public class UserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<UserEntity> userOptional = userRepository.findByEmail(email);
-        if (userOptional.isPresent()) {
-            UserEntity user = userOptional.get();
+        UserEntity user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
             return User.builder()
                     .username(user.getEmail())
                     .password(user.getPassword())
                     .roles(getRoles(user))
                     .build();
-        } else {
-            throw new UsernameNotFoundException(email);
-        }
     }
 
     private String[] getRoles(UserEntity user) {

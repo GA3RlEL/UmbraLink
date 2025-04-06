@@ -25,4 +25,6 @@ public interface UserService {
     UpdateUsernameDto updateUsername(String newUsername, String token);
 
     AuthResponseDto updatePassword(String token, UpdatePasswordPayloadDto payload);
+
+    boolean updateRestorePassword(String restoreToken, String newPassword);
 }

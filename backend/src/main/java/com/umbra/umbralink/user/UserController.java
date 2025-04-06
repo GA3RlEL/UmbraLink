@@ -13,6 +13,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -56,6 +57,13 @@ public class UserController {
     public AuthResponseDto updatePassword(@RequestHeader("Authorization") String token,
                                           @RequestBody UpdatePasswordPayloadDto payload){
         return userService.updatePassword(token, payload);
+    }
+
+    @PostMapping("/restore/password")
+    public boolean updatePassword(@RequestBody Map<String,String> data){
+        String token = data.get("token");
+        String newPassword = data.get("newPassword");
+        return userService.updateRestorePassword(token,newPassword);
     }
 
 

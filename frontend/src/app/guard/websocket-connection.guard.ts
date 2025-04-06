@@ -7,6 +7,7 @@ import { HealthCheckService } from '../service/health-check.service';
 export const websocketConnectionGuard: CanActivateFn = (route, state) => {
   const healthCheck = inject(HealthCheckService)
 
+
   return healthCheck.checkHealth();
 
 

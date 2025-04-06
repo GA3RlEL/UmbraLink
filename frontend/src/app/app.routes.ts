@@ -11,6 +11,8 @@ import { ErrorPageComponent } from './main-app/error-page/error-page.component';
 import { SettingsComponent } from './main-app/settings/settings.component';
 import { SideBarComponent } from './main-app/side-bar/side-bar.component';
 import { websocketConnectionGuard } from './guard/websocket-connection.guard';
+import { RestorePasswordComponent } from './restore-password/restore-password.component';
+import { ChangePasswordComponent } from './restore-password/change-password/change-password.component';
 
 export const routes: Routes = [
   {
@@ -19,7 +21,16 @@ export const routes: Routes = [
     children:
       [
         { path: '', component: LandingPageComponent, title: "UmbraLink | Home" },
-        { path: 'login', component: LoginPageComponent, title: "UmbraLink | Login", canActivate: [loginPageGuard] }
+        {
+          path: 'restore-password',
+          component: RestorePasswordComponent,
+          title: 'Umbalink | Restore password',
+        },
+        { path: 'restore-password/:token', component: ChangePasswordComponent, title: 'Umbralink | Change password' },
+        {
+          path: 'login', component: LoginPageComponent, title: "UmbraLink | Login", canActivate: [loginPageGuard]
+        }
+
       ]
 
   },

@@ -15,11 +15,12 @@ import com.umbra.umbralink.dto.updateUser.UpdateUsernameDto;
 import com.umbra.umbralink.enums.UserStatus;
 import com.umbra.umbralink.conversation.ConversationRepository;
 import com.umbra.umbralink.error.GeneralError;
+import com.umbra.umbralink.error.NotFoundError;
 import com.umbra.umbralink.message.Message;
+import com.umbra.umbralink.passwordResetToken.PasswordResetToken;
+import com.umbra.umbralink.passwordResetToken.PasswordResetTokenRepository;
 import com.umbra.umbralink.security.UserDetailService;
 import com.umbra.umbralink.security.jwt.JwtService;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,13 +34,15 @@ public class UserServiceImpl implements UserService {
     private final JwtService jwtService;
     private final ConversationRepository conversationRepository;
     private final UserDetailService userDetailService;
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, ConversationRepository conversationRepository, UserDetailService userDetailService) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, ConversationRepository conversationRepository, UserDetailService userDetailService, PasswordResetTokenRepository passwordResetTokenRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.conversationRepository = conversationRepository;
         this.userDetailService = userDetailService;
+        this.passwordResetTokenRepository = passwordResetTokenRepository;
     }
 
     @Override
@@ -196,5 +199,20 @@ public class UserServiceImpl implements UserService {
         String jwtToken = jwtService.generateToken(userDetails);
 
         return new AuthResponseDto(jwtToken);
+    }
+
+    @Override
+    public boolean updateRestorePassword(String restoreToken, String newPassword) {
+        PasswordResetToken token = passwordResetTokenRepository.findByToken(restoreToken).orElseThrow(()->new NotFoundError("Token was " +
+                "not found/expired, go to login page and request for new one!"));
+        UserEntity user = token.getUser();
+        String encodedPassword= passwordEncoder.encode(newPassword);
+        user.setPassword(encodedPassword);
+        user.setResetToken(null);
+        userRepository.save(user);
+
+        passwordResetTokenRepository.delete(token);
+
+        return true;
     }
 }

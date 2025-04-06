@@ -8,6 +8,7 @@ import com.umbra.umbralink.helper.BaseModel;
 import com.umbra.umbralink.image.Image;
 import com.umbra.umbralink.message.Message;
 import com.umbra.umbralink.enums.UserStatus;
+import com.umbra.umbralink.passwordResetToken.PasswordResetToken;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -43,5 +44,9 @@ public class UserEntity extends BaseModel {
     @OneToMany(mappedBy = "photoMessageUser", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Image> photoMessageUser;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL ,orphanRemoval = true)
+    @JsonManagedReference
+    private PasswordResetToken resetToken;
 
 }
