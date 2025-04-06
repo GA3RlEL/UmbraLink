@@ -60,7 +60,8 @@ public class PasswordResetTokenServiceImpl implements PasswordResetTokenService{
             token.setToken(tokenStr);
 
             String body = "<p>To reset your password, please click the link below:</p>" +
-                    String.format("<p><a href='%s'>%s</a></p>", frontEndEndpoint+"/restore-password/"+tokenStr,tokenStr) +
+                    String.format("<p><a href=\"%s\">%s</a></p>", frontEndEndpoint+"/restore-password/"+tokenStr,
+                            tokenStr) +
                     "<p>This will redirect you to a page where you can choose a new password for your account.</p>";
 
             emailSenderService.sendEmail(email,"Umbralink password reset request", body);
