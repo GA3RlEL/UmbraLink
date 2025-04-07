@@ -9,7 +9,6 @@ import { authGuard } from './guard/auth.guard';
 import { loginPageGuard } from './guard/login-page.guard';
 import { ErrorPageComponent } from './main-app/error-page/error-page.component';
 import { SettingsComponent } from './main-app/settings/settings.component';
-import { SideBarComponent } from './main-app/side-bar/side-bar.component';
 import { websocketConnectionGuard } from './guard/websocket-connection.guard';
 import { RestorePasswordComponent } from './restore-password/restore-password.component';
 import { ChangePasswordComponent } from './restore-password/change-password/change-password.component';
@@ -40,17 +39,6 @@ export const routes: Routes = [
     canActivate: [authGuard, websocketConnectionGuard],
     children: [
       { path: '', component: MainAppComponent, title: "UmbraLink | App" },
-      { path: 'error', component: ErrorPageComponent, title: "UmbraLink | Error" },
-      { path: 'settings', component: SettingsComponent, title: "UmbraLink | Settings" },
-      { path: ':id', component: ConversationComponent, title: "UmbraLink | " },
-    ]
-  },
-  {
-    path: 'app-mobile',
-    component: AppLayoutComponent,
-    canActivate: [authGuard, websocketConnectionGuard],
-    children: [
-      { path: '', component: SideBarComponent, title: "UmbraLink | App" },
       { path: 'error', component: ErrorPageComponent, title: "UmbraLink | Error" },
       { path: 'settings', component: SettingsComponent, title: "UmbraLink | Settings" },
       { path: ':id', component: ConversationComponent, title: "UmbraLink | " },

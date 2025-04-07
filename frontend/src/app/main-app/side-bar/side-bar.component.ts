@@ -10,6 +10,7 @@ import { FindOther } from '../../model/findOther';
 import { DatePipe } from '@angular/common';
 import { DateService } from '../../service/date.service';
 import { INTERVALTIME } from '../../shared/helper/consts';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -24,6 +25,11 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
   user = signal<User | null>(null);
   findUsers: FindOther[] = [];
   userText = '';
+  private messageSubscribtion!: Subscription;
+  private statusSubscribition!: Subscription;
+  private readMessageSubscribiton!: Subscription;
+  private photoUpdateSubscribtion!: Subscription;
+  private updateUsernameSubscribtion!: Subscription;
 
   timer: any;
 
@@ -65,8 +71,7 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
     if (user) {
       this.appService.getConversationId(user()!.id, id)?.subscribe({
         next: value => {
-          console.log(`${this.router.url.includes("app") ? "app" : "app-mobile"}/${value}`);
-          this.router.navigate([`${this.router.url.includes("app-mobile") ? "app-mobile" : "app"}/${value}`])
+          this.router.navigate([`app/${value}`])
         },
         error: err => {
           console.error(err);
@@ -105,7 +110,7 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.user = this.appService.getUser();
-    this.webSocketService.getMessage().subscribe(message => {
+    this.messageSubscribtion = this.webSocketService.getMessage().subscribe(message => {
       this.user.update(user => {
         if (user) {
           let conversation = user.conversations.find(c => c.conversationId === message.conversationId)
@@ -134,7 +139,7 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
       })
     })
 
-    this.webSocketService.getStatus().subscribe(value => {
+    this.statusSubscribition = this.webSocketService.getStatus().subscribe(value => {
       this.user.update(user => {
         if (user) {
           user.conversations.map(conv => {
@@ -144,7 +149,7 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
       })
     })
 
-    this.webSocketService.getReadMessages().subscribe(message => {
+    this.readMessageSubscribiton = this.webSocketService.getReadMessages().subscribe(message => {
       this.user.update(user => {
         if (user) {
           user.conversations.map(conv => {
@@ -159,7 +164,7 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
       })
     })
 
-    this.webSocketService.getPhotoUpdate().subscribe(update => {
+    this.photoUpdateSubscribtion = this.webSocketService.getPhotoUpdate().subscribe(update => {
 
       if (update.userId === this.user()?.id) {
         this.user.update(user => {
@@ -183,7 +188,7 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
       this.forceUpdate();
     }, INTERVALTIME);
 
-    this.webSocketService.getUpdatedUsername().subscribe(value => {
+    this.updateUsernameSubscribtion = this.webSocketService.getUpdatedUsername().subscribe(value => {
       this.user.update(user => {
         if (user != null) {
           if (user.id === value.id) {
@@ -203,6 +208,11 @@ export class SideBarComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.messageSubscribtion.unsubscribe();
+    this.statusSubscribition.unsubscribe();
+    this.photoUpdateSubscribtion.unsubscribe();
+    this.updateUsernameSubscribtion.unsubscribe();
+    this.readMessageSubscribiton.unsubscribe();
     clearInterval(this.timer);
   }
 

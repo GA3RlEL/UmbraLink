@@ -166,4 +166,8 @@ export class WebsocketService {
   getStompClient() {
     return this.stompClient;
   }
+
+  getIsWebsocketAlreadyConnected() {
+    return this.stompClient?.connected;
+  }
 }

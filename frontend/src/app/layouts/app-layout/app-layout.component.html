@@ -1,10 +1,9 @@
-@if (!isMobile) { @if (!websocketStatus) {
+@if (!websocketStatus) {
 <app-websocket-error @errorShow class="error"></app-websocket-error>
-}
+} @if (!isMobile) {
 <app-side-bar></app-side-bar>
-<router-outlet></router-outlet>
-}@else { @if (!websocketStatus) {
-<app-websocket-error class="error"></app-websocket-error>
-}
+} @if (isMobile && isMainRoute) {
+<app-side-bar></app-side-bar>
+} @else {
 <router-outlet></router-outlet>
 }

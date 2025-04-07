@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class HealthCheckController {
 
     @GetMapping("/ping")
-    public ResponseEntity<HealthCheckResponseDto> getHealth(){
+    public ResponseEntity<HealthCheckResponseDto> getHealth() throws InterruptedException {
+//        Thread.sleep(2000);
         return new ResponseEntity<>(new HealthCheckResponseDto("Pong"), HttpStatus.OK);
     }
 }

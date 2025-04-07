@@ -15,7 +15,11 @@
 
 @media all and (max-width: 750px) {
   :host {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto;
+  }
+
+  :host ::ng-deep router-outlet {
+    display: none;
   }
 
   .error {

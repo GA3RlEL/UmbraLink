@@ -11,6 +11,7 @@ import { EventService } from '../../service/event.service';
 import { DateService } from '../../service/date.service';
 import { INTERVALTIME } from '../../shared/helper/consts';
 import { ThrobberComponent } from "../../shared/throbber/throbber.component";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-conversation',
@@ -51,6 +52,14 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
   isSendingPhoto = false;
 
   timer: any;
+
+  private getMessageSubscribtion!: Subscription
+  private getReFetchMessagesSubscribtion!: Subscription
+  private getReadMessagesSubscribtion!: Subscription
+  private checkIfUnreadMessagesSubscribtion!: Subscription
+  private getUpdatedUsernameSubscribtion!: Subscription
+  private updatePhotoSubscribtion!: Subscription;
+
 
   constructor(private websocket: WebsocketService, private appService: AppService, private activatedRoute: ActivatedRoute, private title: Title, private eventService: EventService, private dateService: DateService, private router: Router) { }
 
@@ -97,10 +106,9 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
 
   ngOnInit(): void {
     this.user = this.appService.getUser();
-    this.websocket.getMessage().subscribe(message => {
+    this.getMessageSubscribtion = this.websocket.getMessage().subscribe(message => {
       const conversationId = +this.activatedRoute.snapshot.paramMap.get('id')!;
       if (conversationId === message.conversationId) {
-        console.log(message);
         this.messages.push(message);
       }
 
@@ -108,15 +116,16 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
 
     this.fetchMessages();
 
-    this.websocket.getReFetchMessages().subscribe(() => {
-      this.fetchMessages();
-    })
+    this.getReFetchMessagesSubscribtion
+      = this.websocket.getReFetchMessages().subscribe(() => {
+        this.fetchMessages();
+      })
 
-    this.websocket.getReadMessages().subscribe(message => {
+    this.getReadMessagesSubscribtion = this.websocket.getReadMessages().subscribe(message => {
       this.changeMessageToRead(message);
     })
 
-    this.eventService.read$.subscribe(e => {
+    this.checkIfUnreadMessagesSubscribtion = this.eventService.read$.subscribe(e => {
       this.checkIfUneadMessages(this.messages);
     })
 
@@ -124,9 +133,15 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
       this.forceUpdate();
     }, INTERVALTIME);
 
-    this.websocket.getUpdatedUsername().subscribe(value => {
+    this.getUpdatedUsernameSubscribtion = this.websocket.getUpdatedUsername().subscribe(value => {
       if (this.receiverId === value.id) {
         this.receiverName = value.newUsername
+      }
+    })
+
+    this.updatePhotoSubscribtion = this.websocket.getPhotoUpdate().subscribe(update => {
+      if (update.userId === this.receiverId) {
+        this.conversationUserPhotoUrl = update.imageUrl;
       }
     })
 
@@ -153,11 +168,17 @@ export class ConversationComponent implements OnInit, AfterViewChecked, OnDestro
 
 
   ngOnDestroy(): void {
+    this.getMessageSubscribtion.unsubscribe();
+    this.getReFetchMessagesSubscribtion.unsubscribe();
+    this.getReadMessagesSubscribtion.unsubscribe();
+    this.checkIfUnreadMessagesSubscribtion.unsubscribe();
+    this.getUpdatedUsernameSubscribtion.unsubscribe();
+    this.updatePhotoSubscribtion.unsubscribe();
     clearInterval(this.timer);
   }
 
   back() {
-    this.router.navigate(['.'], { relativeTo: this.activatedRoute.parent })
+    this.router.navigate(['/app'])
   }
 
   checkIfUneadMessages(messages: Message[]) {
