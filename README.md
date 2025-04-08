@@ -1,92 +1,100 @@
-
 # Umbralink
 
-Umbralink is an chat application built in Angular in Front-End side and Spring Boot in Back-End side.
+Umbralink is a chat application built with Angular on the Front-End side and Spring Boot on the Back-End side.
 
-## 🐞 Actuall bugs
+## 📋 Project Status
 
-- Wrong display of date on production ✅ fixed
-- Disconnecting from websocket after resizing to mobile ✅ fixed
+### ✅ Fixed Bugs
+- Wrong display of date on production
+- Disconnecting from websocket after resizing to mobile view
 
-## Features TBD
-- Restoring password ✅
-- Reconnecting to websocket ✅
-- Sending photos to chat ✅
+### ✅ Implemented Features
+- Restoring password
+- Reconnecting to websocket
+- Sending photos to chat
 
-## Technologies
+## 🛠️ Technologies
 
-HTML | CSS | TypeScript |  Angular | WebSocket  <br/> <br/>
-Spring Boot | Spring Web | Spring Security | JWT | Docker
+### Front-End
+![HTML](https://img.shields.io/badge/-HTML-E34F26?style=flat-square&logo=html5&logoColor=white)
+![CSS](https://img.shields.io/badge/-CSS-1572B6?style=flat-square&logo=css3&logoColor=white)
+![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Angular](https://img.shields.io/badge/-Angular-DD0031?style=flat-square&logo=angular&logoColor=white)
+![WebSocket](https://img.shields.io/badge/-WebSocket-010101?style=flat-square&logo=socket.io&logoColor=white)
 
-## Environment Variables
+### Back-End
+![Spring Boot](https://img.shields.io/badge/-Spring%20Boot-6DB33F?style=flat-square&logo=spring-boot&logoColor=white)
+![Spring Web](https://img.shields.io/badge/-Spring%20Web-6DB33F?style=flat-square&logo=spring&logoColor=white)
+![Spring Security](https://img.shields.io/badge/-Spring%20Security-6DB33F?style=flat-square&logo=spring-security&logoColor=white)
+![JWT](https://img.shields.io/badge/-JWT-000000?style=flat-square&logo=json-web-tokens&logoColor=white)
+![Docker](https://img.shields.io/badge/-Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
 
-To run this project, you will need the following environment variables
+## 🔧 Environment Variables
 
-`CLOUDINARY_API_KEY`
+To run this project, you will need the following environment variables:
 
-`CLOUDINARY_CLOUD_NAME`
+| Variable | Description |
+|---------|------|
+| `CLOUDINARY_API_KEY` | API key for Cloudinary service |
+| `CLOUDINARY_CLOUD_NAME` | Cloudinary cloud name |
+| `CLOUDINARY_SECRET_KEY` | Cloudinary secret key |
+| `DB_USERNAME` | Database username |
+| `DB_PASSWORD` | Database password |
+| `DB_URL` | Database connection URL |
+| `SECRET_KEY` | Secret key used for JWT encryption |
+| `SMTP_EMAIL` | Email address for SMTP server |
+| `SMTP_PASSWORD` | Password for SMTP server |
+| `SMTP_FRONTEND_ENDPOINT` | Frontend URL for links in emails e.g http:localhost:4200 |
 
-`CLOUDINARY_SECRET_KEY`
+## 💻 Run Locally
 
-`DB_PASSWORD`
+### Front-End
 
-`SECRET_KEY`
-
-`DB_USERNAME`
-
-`DB_URL`
-
-
-## Run Locally
-
-#### Run front-end
-
-Clone the project
-
+1. Clone the project
 ```bash
-  git clone https://github.com/GA3RlEL/UmbraLink.git
+git clone https://github.com/GA3RlEL/UmbraLink.git
 ```
 
-Go to the project front-end directory
-
+2. Go to the front-end directory
 ```bash
-  cd frontend
+cd UmbraLink/frontend
 ```
 
-Install dependencies
-
+3. Install dependencies
 ```bash
-  npm install
+npm install
 ```
 
-Start the front-end server
-
+4. Start the front-end server
 ```bash
-  ng serve
+ng serve
 ```
+The application will be available at `http://localhost:4200`.
 
-#### Run back-end
+### Back-End
 
-Return to project root folder
-
+1. Return to the project root folder
 ```bash
 cd ..
 ```
 
-Go to the project back-end directory
-
+2. Go to the back-end directory
 ```bash
-  cd backend
+cd backend
 ```
 
-Install dependencies
-```
-./mvnw clean install #linux/mac
-.\mvnw clean install #windows
+3. Install dependencies
+```bash
+# Linux/macOS
+./mvnw clean install
+
+# Windows
+.\mvnw clean install
 ```
 
-Start the back-end server
+4. Start the back-end server
 
+**Linux/macOS:**
 ```bash
 ./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="\
 -DCLOUDINARY_API_KEY=your_key \
@@ -95,20 +103,19 @@ Start the back-end server
 -DDB_USERNAME=user \
 -DDB_PASSWORD=pass \
 -DDB_URL=jdbc:mysql://localhost:3306/umbralink \
--DSECRET_KEY=supersecretkey"
+-DSECRET_KEY=supersecretkey \
+-DSMTP_PASSWORD=your_smtp_password \
+-DSMTP_FRONTEND_ENDPOINT=your_frontend_url \
+-DSMTP_EMAIL=your_smtp_email"
 ```
 
-💡 Note: On Windows, use the following command instead
+**Windows:**
 ```bash
-./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DCLOUDINARY_API_KEY=your_key -DCLOUDINARY_CLOUD_NAME=your_cloud_name -DCLOUDINARY_SECRET_KEY=your_secret -DDB_USERNAME=user -DDB_PASSWORD=pass -DDB_URL=jdbc:mysql://localhost:3306/umbralink -DSECRET_KEY=supersecretkey"
+./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DCLOUDINARY_API_KEY=your_key -DCLOUDINARY_CLOUD_NAME=your_cloud_name -DCLOUDINARY_SECRET_KEY=your_secret -DDB_USERNAME=user -DDB_PASSWORD=pass -DDB_URL=jdbc:mysql://localhost:3306/umbralink -DSECRET_KEY=supersecretkey -DSMTP_PASSWORD=your_smtp_password -DSMTP_FRONTEND_ENDPOINT=your_frontend_url -DSMTP_EMAIL=your_smtp_email"
 ```
 
+## 🚀 Demo
 
-# Try it on your own
-If you want to try this app go to this url https://umbralink-frontend-1093767679330.europe-west1.run.app
-<br/>
-💡 Because backend is hosted on GCloud it can take some time to warm up the backend
+Try the application online at: [https://umbralink-frontend-1093767679330.europe-west1.run.app](https://umbralink-frontend-1093767679330.europe-west1.run.app)
 
-
-
-
+> 💡 **Note:**  Because backend is hosted on GCloud it can take some time to warm up the backend
